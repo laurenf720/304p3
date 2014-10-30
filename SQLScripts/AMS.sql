@@ -4,18 +4,18 @@
 
 DROP TABLE IF EXISTS returnitem;
 DROP TABLE IF EXISTS returns;
-DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS purchaseitem;
 DROP TABLE IF EXISTS purchase; -- changing name of order table to purchase
 DROP TABLE IF EXISTS hassong;
 DROP TABLE IF EXISTS leadsinger;
 DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS customer;
 
 CREATE TABLE item 
 	(upc 		CHAR(11) NOT NULL,
     title 		CHAR(11) NOT NULL,
-    itype 		CHAR(3) NOT NULL, 	-- type is a keyword so i put 'i' before it
-    category 	CHAR(12) NOT NULL, 	-- based on the length of longest allowed category
+    itype 		VARCHAR(3) NOT NULL, 	-- type is a keyword so i put 'i' before it
+    category 	VARCHAR(12) NOT NULL, 	-- based on the length of longest allowed category
     company 	CHAR(15) NOT NULL,
     iyear 		SMALLINT NOT NULL,
     price		DOUBLE(5,2) NOT NULL, 
@@ -75,6 +75,38 @@ CREATE TABLE returnitem
     PRIMARY KEY (retid, upc),
     FOREIGN KEY (upc) REFERENCES item (upc),
     FOREIGN KEY (retid) REFERENCES returns (retid));
+
+
+-- The following are triggers defined to check domain of item type and item category
+-- If a violation occurs, the insertion or update is aborted
+DELIMITER $$
+
+CREATE TRIGGER `item_check_insert` BEFORE INSERT ON `item`
+FOR EACH ROW
+BEGIN
+    IF NEW.itype != 'CD' AND NEW.itype != 'DVD' THEN
+        SIGNAL sqlstate '45001' set message_text = "violation in item type";
+    END IF;
+    IF NEW.category != 'rock' AND NEW.category != 'pop' AND NEW.category != 'rap' AND NEW.category != 'country' 
+		AND NEW.category != 'classical' AND NEW.category != 'new age' AND NEW.category != 'instrumental' THEN
+        SIGNAL sqlstate '45001' set message_text = "violation in item category";
+	END IF;
+END$$
+
+CREATE TRIGGER `item_check_update` BEFORE UPDATE ON `item`
+FOR EACH ROW
+BEGIN
+    IF NEW.itype != 'CD' AND NEW.itype != 'DVD' THEN
+        SIGNAL sqlstate '45001' set message_text = "violation in item type";
+    END IF;
+    IF NEW.category != 'rock' AND NEW.category != 'pop' AND NEW.category != 'rap' AND NEW.category != 'country' 
+		AND NEW.category != 'classical' AND NEW.category != 'new age' AND NEW.category != 'instrumental' THEN
+        SIGNAL sqlstate '45001' set message_text = "violation in item category";
+	END IF;
+END$$
+
+DELIMITER ; 
+
     
 COMMIT;
     
