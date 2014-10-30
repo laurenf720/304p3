@@ -13,10 +13,10 @@ DROP TABLE IF EXISTS customer;
 
 CREATE TABLE item 
 	(upc 		CHAR(11) NOT NULL,
-    title 		CHAR(11) NOT NULL,
+    title 		VARCHAR(50) NOT NULL,
     itype 		VARCHAR(3) NOT NULL, 	-- type is a keyword so i put 'i' before it
     category 	VARCHAR(12) NOT NULL, 	-- based on the length of longest allowed category
-    company 	CHAR(15) NOT NULL,
+    company 	VARCHAR(50) NOT NULL,
     iyear 		SMALLINT NOT NULL,
     price		DOUBLE(5,2) NOT NULL, 
     stock		SMALLINT,
@@ -24,21 +24,21 @@ CREATE TABLE item
     
 CREATE TABLE leadsinger
 	(upc 	CHAR(11) NOT NULL,
-    lsname 	CHAR(15) NOT NULL,
+    lsname 	VARCHAR(50) NOT NULL,
     PRIMARY KEY (upc, lsname),
     FOREIGN KEY (upc) REFERENCES item (upc));
 
 CREATE TABLE hassong
 	(upc 		CHAR(11) NOT NULL,
-    title 		CHAR(50) NOT NULL, -- how long should we allow song titles? I remember some pretty long ones back in the day
-    PRIMARY KEY (upc, title),
+    songtitle 	VARCHAR(50) NOT NULL, -- how long should we allow song titles? I remember some pretty long ones back in the day
+    PRIMARY KEY (upc, songtitle),
     FOREIGN KEY (upc) REFERENCES item (upc));
 
 CREATE TABLE customer
 	(cid 		CHAR(11) NOT NULL,
-    cpassword	CHAR(30) NULL,
-    cname 		CHAR(15) NOT NULL,
-    address 	CHAR(30) NULL,
+    cpassword	VARCHAR(30) NULL,
+    cname 		VARCHAR(30) NOT NULL,
+    address 	VARCHAR(30) NULL,
     phone		CHAR(11) NULL,
     PRIMARY KEY (cid));
 
@@ -77,7 +77,7 @@ CREATE TABLE returnitem
     FOREIGN KEY (retid) REFERENCES returns (retid));
 
 
--- The following are triggers defined to check domain of item type and item category
+-- The following are triggers defined to check domain of item type, item category, year, price, and stock
 -- If a violation occurs, the insertion or update is aborted
 DELIMITER $$
 
@@ -85,11 +85,14 @@ CREATE TRIGGER `item_check_insert` BEFORE INSERT ON `item`
 FOR EACH ROW
 BEGIN
     IF NEW.itype != 'CD' AND NEW.itype != 'DVD' THEN
-        SIGNAL sqlstate '45001' set message_text = "violation in item type";
+        SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in item type";
     END IF;
     IF NEW.category != 'rock' AND NEW.category != 'pop' AND NEW.category != 'rap' AND NEW.category != 'country' 
 		AND NEW.category != 'classical' AND NEW.category != 'new age' AND NEW.category != 'instrumental' THEN
-        SIGNAL sqlstate '45001' set message_text = "violation in item category";
+        SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in item category";
+	END IF;
+    IF NEW.iyear <= 0 OR NEW.price <=0 OR NEW.stock <=0 THEN
+		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in one of item year price or stock";
 	END IF;
 END$$
 
@@ -97,16 +100,36 @@ CREATE TRIGGER `item_check_update` BEFORE UPDATE ON `item`
 FOR EACH ROW
 BEGIN
     IF NEW.itype != 'CD' AND NEW.itype != 'DVD' THEN
-        SIGNAL sqlstate '45001' set message_text = "violation in item type";
+        SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in item type";
     END IF;
     IF NEW.category != 'rock' AND NEW.category != 'pop' AND NEW.category != 'rap' AND NEW.category != 'country' 
 		AND NEW.category != 'classical' AND NEW.category != 'new age' AND NEW.category != 'instrumental' THEN
-        SIGNAL sqlstate '45001' set message_text = "violation in item category";
+        SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in item category";
+	END IF;
+    IF NEW.iyear <= 0 OR NEW.price <=0 OR NEW.stock <=0 THEN
+		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in one of item year price or stock";
 	END IF;
 END$$
 
 DELIMITER ; 
 
+INSERT INTO item
+VALUES ('1', 'Spice', 'CD', 'pop', 'Virgin', 1996, 10.00, 26);
+
+INSERT INTO item 
+VALUES ('2', 'Sleep Sounds', 'CD', 'instrumental', 'Relaxation Music Relaxing 101', 2012, 9.99, 10);
+
+INSERT INTO item
+VALUES ('3', 'Night Visions', 'CD', 'rock', 'Interscope Records', 2012, 9.99, 30);
+
+INSERT INTO item
+VALUES ('4', 'Recovery (Deluxe Edition)', 'CD', 'rap', 'Aftermath Records', 2010, 14.99, 15);
+
+INSERT INTO item
+VALUES ('5', '1989 (Deluxe Edition)', 'CD', 'country', 'Big Machine Records, LLC.', 2014, 14.99, 35);
+
+INSERT INTO item
+VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics', 2009, 9.99, 14);
     
 COMMIT;
     
