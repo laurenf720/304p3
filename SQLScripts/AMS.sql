@@ -2,6 +2,9 @@
 -- USE AMS;
 -- SELECT database();
 
+DROP TRIGGER IF EXISTS item_check_insert;
+DROP TRIGGER IF EXISTS item_check_update;
+
 DROP TABLE IF EXISTS returnitem;
 DROP TABLE IF EXISTS returns;
 DROP TABLE IF EXISTS purchaseitem;
@@ -91,7 +94,7 @@ BEGIN
 		AND NEW.category != 'classical' AND NEW.category != 'new age' AND NEW.category != 'instrumental' THEN
         SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in item category";
 	END IF;
-    IF NEW.iyear <= 0 OR NEW.price <=0 OR NEW.stock <=0 THEN
+    IF NEW.iyear <= 0 OR NEW.price <0 OR NEW.stock <0 THEN
 		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in one of item year price or stock";
 	END IF;
 END$$
@@ -106,7 +109,7 @@ BEGIN
 		AND NEW.category != 'classical' AND NEW.category != 'new age' AND NEW.category != 'instrumental' THEN
         SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in item category";
 	END IF;
-    IF NEW.iyear <= 0 OR NEW.price <=0 OR NEW.stock <=0 THEN
+    IF NEW.iyear <= 0 OR NEW.price <0 OR NEW.stock <0 THEN
 		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in one of item year price or stock";
 	END IF;
 END$$
