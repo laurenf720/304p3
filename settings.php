@@ -17,8 +17,8 @@
 				?>
 				<div id="dropdown_menu" class="hidden_menu"> 
 					<table id="container">
-						<tr><td><a style="color:black; font-size:13px; font-weight:normal" href="/../304p3/settings.php">SETTINGS</a></td></tr>
-						<tr><td><a style="color:black; font-size:13px; font-weight:normal" href="/../304p3/logout.php">LOGOUT</a></td></tr>
+						<tr><td><a class="sub-menu" href="/../304p3/settings.php">SETTINGS</a></td></tr>
+						<tr><td><a class="sub-menu" href="/../304p3/logout.php">LOGOUT</a></td></tr>
 					</table>					
 				</div>
 			</ul>

@@ -7,11 +7,21 @@
 
 #dropdown_menu {
 	background-color:#FFFFFF;
-	color:black;
 	margin-top:30px;
 	right:8;
 	position:absolute;
 	z-index:100;
+}
+
+a.sub-menu{
+	color:#111673;
+	font-size:13px; 
+	font-weight:normal;
+}
+a.sub-menu:hover{
+	background-color: #111673;
+	color:white;
+	font-style: italic;
 }
 
 body {

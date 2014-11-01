@@ -2,7 +2,7 @@
 	session_start();
 	$error='';
 
-	$connection = new mysqli("127.0.0.1", "root", "photon", "bookbiz");
+	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
