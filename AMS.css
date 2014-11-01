@@ -1,0 +1,88 @@
+#nav_bar {
+	 background-color:#111673; 
+	 padding-top:10px; 
+	 padding-bottom:35px;
+	 border-radius:3px;
+}
+
+#dropdown_menu {
+	background-color:#FFFFFF;
+	color:black;
+	margin-top:30px;
+	right:8;
+	position:absolute;
+	z-index:100;
+}
+
+body {
+	font-family: Arial;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+	float:left;
+	padding-right: 15px;
+	padding-left: 10px;
+}
+
+.hidden_menu { 
+	display:none;
+	color:white;
+	float:right;
+}
+
+.rightpos {
+  right:15;
+  position:absolute;
+}
+a {
+	display: block;
+	color: white;
+	font-weight: bold;
+	padding:5px; 
+}
+
+a:hover {
+	font-style: italic;
+	color: #111673;
+	background-color: white;
+	border-radius:3px;
+	background-size:80px 60px;
+}
+
+.login {
+	border-spacing: 10px;
+	border: 1px solid;
+	border-radius:5px;
+}
+
+input[type=submit] {
+	width:50%;
+	background-color:#0066FF;
+	color:#fff;
+	border:2px solid #4891FE;
+	padding:10px;
+	font-size:16px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[type=submit]:hover {
+	background-color:#4891FE;
+	border:2px solid #0066FF;
+}
+
+input[type="text"], input[type="password"] {
+    height:23px;
+}
+
+span {
+	color:red;
+	font-style: italic;
+	font-size: 12px;
+}

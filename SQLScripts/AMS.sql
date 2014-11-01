@@ -4,6 +4,8 @@
 
 DROP TRIGGER IF EXISTS item_check_insert;
 DROP TRIGGER IF EXISTS item_check_update;
+DROP TRIGGER IF EXISTS employee_check_insert;
+DROP TRIGGER IF EXISTS employee_check_update;
 
 DROP TABLE IF EXISTS returnitem;
 DROP TABLE IF EXISTS returns;
@@ -13,6 +15,7 @@ DROP TABLE IF EXISTS hassong;
 DROP TABLE IF EXISTS leadsinger;
 DROP TABLE IF EXISTS item;
 DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS employee;
 
 CREATE TABLE item 
 	(upc 		CHAR(11) NOT NULL,
@@ -36,6 +39,13 @@ CREATE TABLE hassong
     songtitle 	VARCHAR(50) NOT NULL, -- how long should we allow song titles? I remember some pretty long ones back in the day
     PRIMARY KEY (upc, songtitle),
     FOREIGN KEY (upc) REFERENCES item (upc));
+
+CREATE TABLE employee
+    (eid        VARCHAR(11) NOT NULL,
+    epassword   VARCHAR(30) NOT NULL,
+    etype       VARCHAR(7) NOT NULL, -- either clerk or manager
+    ename       VARCHAR(30) NOT NULL,
+    PRIMARY KEY (eid));
 
 CREATE TABLE customer
 	(cid 		CHAR(11) NOT NULL,
@@ -112,6 +122,22 @@ BEGIN
     IF NEW.iyear <= 0 OR NEW.price <0 OR NEW.stock <0 THEN
 		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in one of item year price or stock";
 	END IF;
+END $$
+    
+CREATE TRIGGER `employee_check_insert` BEFORE INSERT ON `employee`
+FOR EACH ROW
+BEGIN
+	IF NEW.etype != 'manager' AND NEW.etype != 'clerk' THEN
+		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in employee type must be 'clerk' or 'manager'";
+	END IF;
+END$$
+
+CREATE TRIGGER `employee_check_update` BEFORE UPDATE ON `employee`
+FOR EACH ROW
+BEGIN
+	IF NEW.etype != 'manager' AND NEW.etype != 'clerk' THEN
+		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in employee type must be 'clerk' or 'manager'";
+	END IF;
 END$$
 
 DELIMITER ; 
@@ -134,6 +160,9 @@ VALUES ('5', '1989 (Deluxe Edition)', 'CD', 'country', 'Big Machine Records, LLC
 INSERT INTO item
 VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics', 2009, 9.99, 14);
     
+INSERT INTO employee
+VALUES ('a', 'pass', 'manager', 'man1');
+
 COMMIT;
     
     
