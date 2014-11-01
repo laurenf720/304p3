@@ -27,7 +27,7 @@
 		<h1 style="text-align:center">AMS Employees</h1>
 		<div align="center">
 			<form id="loginform" name="loginform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-				<table class="login">
+				<table class="login" style="background-color:white">
 					<thead>
 						<tr>
 							<th colspan=2 style="border-bottom:1px solid">Employee Login Form</th>
