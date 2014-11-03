@@ -14,7 +14,6 @@
     	if (isset($_POST["submit"]) && $_POST["submit"] == "LOGIN"){
     		if (empty($_POST['username']) || empty($_POST['password'])) {
 			$error = "Username or Password is invalid";
-			$_SESSION['logged']=false;
 			session_write_close ();
 			}
 			else {
