@@ -3,6 +3,7 @@
 	$error='';
 
 	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+	
 
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
@@ -20,8 +21,10 @@
 			$error = "The passwords do not match";
 			session_write_close ();
 			}
-			
+			//check if the username is taken			
 			else {
+			
+				$statement=$connection->prepare("insert into customer values(?, ?, ?, ?, ?)");
 				$username=$_POST['username'];
 				$password=$_POST['password'];
 				$cname=$_POST['cname'];
@@ -38,6 +41,22 @@
 				$cname = mysql_real_escape_string($cname);
 				$phone = mysql_real_escape_string($phone);
 				$address = mysql_real_escape_string($address);
+				
+				$result = $connection->query("select cid from customer where cid='$username'");
+				$rows = $result->num_rows;
+				//check if the username has been taken
+				
+				$statement->bind_param("sssss",$username,$password,$cname,$address,$phone);	
+				if($rows != 0){
+					$error = "The username $username has been taken, please try another name";
+					session_write_close();
+				}
+				//register the customer
+				
+				else {
+					$statement->execute();
+				}
+				$statement->close();
 			}
     	}
     }
