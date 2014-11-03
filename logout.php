@@ -20,7 +20,8 @@
 				<li><div class="rightpos"><a href="../304p3/custloginpage.php">Customer Login</a></div></li>
 			</ul>
 		</div>
-
-		<h1>You have successfully logged out!</h1>
+		<div id="wrap">
+			<h1>You have successfully logged out!</h1>
+		</div>
 	</body>
 </html>
