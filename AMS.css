@@ -1,68 +1,119 @@
-#nav_bar {
-	 background-color:#111673; 
-	 padding-top:10px; 
-	 padding-bottom:35px;
-	 border-radius:3px;
-}
-
-#dropdown_menu {
-	background-color:#FFFFFF;
-	margin-top:30px;
-	right:8;
-	position:absolute;
-	z-index:100;
-}
-
-a.sub-menu{
-	color:#111673;
-	font-size:13px; 
-	font-weight:normal;
-}
-a.sub-menu:hover{
-	background-color: #111673;
-	color:white;
-	font-style: italic;
-}
-
-body {
-	font-family: Arial;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-li {
-	float:left;
-	padding-right: 15px;
-	padding-left: 10px;
-}
+/*
+---------------------------------------------------------
+	Main page styling
+---------------------------------------------------------
+*/
 
 .hidden_menu { 
 	display:none;
 	color:white;
-	float:right;
+	margin: 0 0 1em 0;
+	padding: 0;
+	background-color: #CDCDCD;
+	margin-top: -12px;
+	border:1px solid #818181;
+	position:absolute;
+	right:0;
+	top:45;
+	z-index: 999;
 }
+
+a.sub-menu{
+	display: block;
+	padding: 8px 10px;
+	text-decoration: none;
+	color: #111673;
+	font-size: 11px;
+}
+
+a.sub-menu:hover{
+	background-color: #fff;
+	color: #c00;
+	font-style: italic;
+}
+
+#nav {
+	font-size: 13px;
+	width: 100%;
+	float: left;
+	margin: 0 0 1em 0;
+	padding: 0;
+	background-color: #CDCDCD;
+	border-bottom: 1px solid #818181;  
+}
+
+#nav ul {
+  list-style: none;
+  width: 800px;
+  margin: 0 auto;
+  padding: 0; 
+}
+
+#nav li {
+  float: left; 
+}
+
+#nav li a {
+	display: block;
+	padding: 8px 15px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #111673;
+	border-right: 1px solid #818181; 
+}
+   
+#nav li:first-child a {
+	border-left: 1px solid #818181; 
+}
+
+#nav li a:hover {
+	color: #c00;
+	background-color: #fff; 
+}
+
+a:hover{
+	font-style: italic;
+}
+
+#button, #welcomebutton {
+	cursor:pointer;
+}
+
+body, html {
+	margin: 0;
+	padding: 0; 
+}
+
+body {
+	background-color: #EAF9FF; 
+	font-family: Arial;  
+}
+
+h1 {
+	font-size: 1.5em;
+	padding: 1em 8px;
+	color: white;
+	background-color: #1B385D;
+	margin: 0; 
+	border-radius:5px;
+}
+
+#content {
+	padding: 0 50px 50px; 
+} 
+
+#wrap {
+	clear: left;
+	width: 800px;
+	padding: 0;
+	margin: 0 auto;
+	background-color: #fff;
+}     
 
 .rightpos {
   right:15;
   position:absolute;
-}
-a {
-	display: block;
-	color: white;
-	font-weight: bold;
-	padding:5px; 
-}
-
-a:hover {
-	font-style: italic;
-	color: #111673;
-	background-color: white;
-	border-radius:3px;
-	background-size:80px 60px;
+  border-left: 1px solid #818181;
 }
 
 .login {
@@ -88,10 +139,10 @@ input[type=submit]:hover {
 }
 
 input[type="text"], input[type="password"] {
-    height:23px;
+	height:23px;
 }
 
-span {
+span.error {
 	color:red;
 	font-style: italic;
 	font-size: 12px;

@@ -163,6 +163,9 @@ VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics
 INSERT INTO employee
 VALUES ('a', 'pass', 'manager', 'man1');
 
+INSERT INTO customer
+VALUES ('cust1', 'password', 'lauren fung', '123 vancouver', '123 456');
+
 COMMIT;
     
     

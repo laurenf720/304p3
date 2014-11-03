@@ -1,5 +1,5 @@
 var dropMenu = document.getElementById('dropdown_menu'),
-    menuButton = document.getElementById('button'),
+    menuButton = document.getElementById('welcomebutton'),
     dropUL = document.getElementById('container').childNodes;
 
 function hide_menu(evt){
