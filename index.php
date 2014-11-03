@@ -9,7 +9,7 @@
 		<div id="nav">
 			<ul>
 				<?php 
-					if (!isset($_SESSION['logged']) || $_SESSION['logged']==false){
+					if (!isset($_SESSION['logged'])){
 						echo "<li><a href=\"../304p3/emploginpage.php\">Employee Login</a></li>";
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
 						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
