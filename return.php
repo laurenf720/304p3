@@ -7,25 +7,24 @@
 <!--
     A simple stylesheet is provided so you can modify colours, fonts, etc.
 -->
-    <link href="return.css" rel="stylesheet" type="text/css">
+    <link href="AMS.css" rel="stylesheet" type="text/css">
 
-<!--
-    Javascript to submit a title_id as a POST form, used with the "delete" links
--->
-<script>
-function formSubmit(titleId) {
-    'use strict';
-    if (confirm('Are you sure you want to delete this title?')) {
-      // Set the value of a hidden HTML element in this form
-      var form = document.getElementById('delete');
-      form.title_id.value = titleId;
-      // Post this form
-      form.submit();
-    }
-}
-</script>
-</head>
 
+<div id="nav">
+			<ul>
+				<?php 
+					
+						echo "<li><a href=\"../304p3/emploginpage.php\">Employee Login</a></li>";
+						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
+						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
+						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a href=\"../304p3/custloginpage.php\">Customer Login</a></div></li>"; 
+						echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
+						echo "<li><a id=\"button\">Clerk Action 2</a></li>";
+						
+					
+				?>
+			</ul>
+		</div>
 
 
 
@@ -109,7 +108,7 @@ function formSubmit(titleId) {
 						
 						$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
 						// trying copy pasta text
-						echo "<table border='1'><tr><th>UPC</th><th>Title</th><th>Type</th><th>Category</th><th>Company</th><th>Price</th><th>Quantity</th></tr>";
+						echo "<table border='1'><tr><th>UPC</th><th>Title</th><th>Type</th><th>category</th><th>Company</th><th>Price</th><th>Quantity</th></tr>";
 						//echo "<tr><td>" . htmlspecialchars($row['username']) . "</td><td>" . htmlspecialchars($row['time']) . "</td></tr>";
 						while($row=mysqli_fetch_assoc($output))
 						{
@@ -132,7 +131,7 @@ function formSubmit(titleId) {
 						<input type=\"hidden\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"/>
 						<tr><td></td><td><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
 						</table>";
-
+						
 						$result = $connection->query("SELECT * FROM returns WHERE receiptid = '$receipt_id'");
 						$num 	= $result->num_rows;
 						if($num < 1){
@@ -189,7 +188,7 @@ function formSubmit(titleId) {
 				$stmt = $connection->query("UPDATE purchaseitem SET quantity = $diff_quant WHERE receiptid = '$receipt_id' AND upc = '$des_upc'");
 				$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
 				
-				echo "<table border='1'><tr><th>UPC</th><th>Title</th><th>Type</th><th>Category</th><th>Company</th><th>Price</th><th>Quantity</th></tr>";
+				echo "<table border='1'><tr><th>UPC</th><th>Title</th><th>Type</th><th>category</th><th>Company</th><th>Price</th><th>Quantity</th></tr>";
 				//echo "<tr><td>" . htmlspecialchars($row['username']) . "</td><td>" . htmlspecialchars($row['time']) . "</td></tr>";
 				while($row=mysqli_fetch_assoc($output))
 				{
@@ -205,12 +204,10 @@ function formSubmit(titleId) {
 				};
 						
 				echo "<form id=\"return\" name=\"return\" method=\"post\" action=\"<\?php echo htmlspecialchars(\$_SERVER[\"PHP_SELF\"])\;\?>";
-				// <tr><td>Receipt ID</td><td><input type=\"text\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"</td></tr>
 				echo "<table border=0 cellpadding=0 cellspacing=0>
 				<tr><td>Return Item UPC</td><td><input type=\"text\" size=5 name=\"new_return_upc_id\"</td></tr>
 				<tr><td>Quantity</td><td><input type=\"text\" size=5 name=\"new_return_quantity\"</td></tr>
 				<input type=\"hidden\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"/>
-				<input type=\"hidden\" value=\"$car_num\" size=5 name=\"new_next_receipt_id\"/>
 				<tr><td></td><td><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
 				</table>";
 				
