@@ -1,6 +1,6 @@
 -- create database AMS;
--- USE AMS;
--- SELECT database();
+USE AMS;
+SELECT database();
 
 DROP TRIGGER IF EXISTS item_check_insert;
 DROP TRIGGER IF EXISTS item_check_update;
@@ -161,10 +161,18 @@ INSERT INTO item
 VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics', 2009, 9.99, 14);
     
 INSERT INTO employee
-VALUES ('a', 'pass', 'manager', 'man1');
+VALUES ('manager1', 'password', 'manager', 'man1');
 
 INSERT INTO customer
 VALUES ('cust1', 'password', 'lauren fung', '123 vancouver', '123 456');
+
+INSERT INTO employee
+VALUES ('employee1', 'password', 'clerk', 'clerk1');
+
+INSERT INTO purchase
+VALUES ('1', '2014-11-3', 'cust1','123','456','789','1234');
+INSERT INTO purchaseitem
+VALUES ('1','1','4');
 
 COMMIT;
     
