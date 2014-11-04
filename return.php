@@ -8,63 +8,41 @@
     A simple stylesheet is provided so you can modify colours, fonts, etc.
 -->
     <link href="AMS.css" rel="stylesheet" type="text/css">
-</head>
 
-<body>
-	<?php include 'emplogin.php';?>
-	<div id="nav">
-		<ul>
-			<?php 
-				if (!isset($_SESSION['logged'])){
-					echo "<li><a href=\"../304p3/emploginpage.php\">Employee Login</a></li>";
-					echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
-					echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
-					echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a href=\"../304p3/custloginpage.php\">Customer Login</a></div></li>"; 
-				}
-				elseif (isset($_SESSION['logged']) and $_SESSION['logged']== true) {
-					echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
-					echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
-					if ($_SESSION['type'] == 'manager'){
-						echo "<li><a id=\"button\">Manager Action 1</a></li>";
-						echo "<li><a id=\"button\">Manager Action 2</a></li>";
-					}
-					elseif ($_SESSION['type'] == 'clerk'){
+
+<div id="nav">
+			<ul>
+				<?php 
+					
+						echo "<li><a href=\"../304p3/emploginpage.php\">Employee Login</a></li>";
+						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
+						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
+						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a href=\"../304p3/custloginpage.php\">Customer Login</a></div></li>"; 
 						echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
 						echo "<li><a id=\"button\">Clerk Action 2</a></li>";
-					}
-					else {
-						echo "<li><a id=\"button\">Customer Action 1</a></li>";
-						echo "<li><a id=\"button\">Customer Action 2</a></li>";
-					}
-					echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION["login_user"]."!</a></div> </li>"; 
-				}
-			?>
-		</ul>
-	</div>
-
-	<div id="dropdown_menu" class="hidden_menu"> 
-		<table id="container">
-			<tr><td><a class="sub-menu" href="/../304p3/settings.php">SETTINGS</a></td></tr>
-			<tr><td><a class="sub-menu" href="/../304p3/logout.php">LOGOUT</a></td></tr>
-		</table>					
-	</div>
+						
+					
+				?>
+			</ul>
+		</div>
 
 
-	<div id="wrap">
-		<h1>Returning Items</h1>
-		<p></p>
-	</div>
 
-	<form id="receipt" name="receipt" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-    	<table border=0 cellpadding=0 cellspacing=0>
-        	<tr><td>Receipt ID: </td><td><input type="text" size=30 name="new_receipt_id"</td></tr>
-        	<tr><td></td><td><input type="submit" name="submit" border=0 value="SUBMIT"></td></tr>
-    	</table>
-	</form>
 
-	<?php
 
-    $connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+<body>
+<h1>Returning Items</h1>
+
+<form id="receipt" name="receipt" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+    <table border=0 cellpadding=0 cellspacing=0>
+        <tr><td>Receipt ID</td><td><input type="text" size=30 name="new_receipt_id"</td></tr>
+        <tr><td></td><td><input type="submit" name="submit" border=0 value="SUBMIT"></td></tr>
+    </table>
+	
+
+<?php
+
+    $connection = new mysqli("localhost", "root", "photon", "AMS");
 
    
     if (mysqli_connect_errno()) {
@@ -83,103 +61,110 @@
 			$des_upc = stripslashes($des_upc);
 			$des_upc = mysql_real_escape_string($des_upc);
 			
+			
+			
 			$des_quant = $_POST['new_return_quantity'];
 			$des_quant = stripslashes($des_quant);
-			$des_quant = mysql_real_escape_string($des_quant);			
+			$des_quant = mysql_real_escape_string($des_quant);
+			
 			
 			$receipt_id  = $_POST['new_next_receipt_id'];
 			$receipt_id  = stripslashes($receipt_id);
 			$receipt_id	 = mysql_real_escape_string($receipt_id);
+
 	
 			$result = $connection->query("SELECT quantity FROM purchaseitem WHERE receiptid ='$receipt_id' AND upc = '$des_upc'");
 			
 			$rows 	= $result->num_rows;
 			$err_msg = "";
 			if($rows != 1){
-				$err_msg = "UPC entered was invalid.";
+			;
+			$err_msg = "UPC entered was invalid.";
 			}
 			else{
 				if(empty($des_quant)){
-					$err_msg = "Enter a valid quantity.";
+				$err_msg = "Enter a valid quantity.";
 				}
 				else{
 					if(!is_numeric($des_quant)){
-						$err_msg = "Enter a valid quantity.";
-					}
+					$err_msg = "Enter a valid quantity.";
+						}
 					else{
 						if($des_quant <= 0){
-							$err_msg = "Please enter a positive return quantity.";
+						$err_msg = "Please enter a positive return quantity.";
 						}
 						else{
 								$pQuantity = $result->fetch_object()->quantity ;
 								if($pQuantity < $des_quant){
 									$err_msg = "Return quantity is greater than order quantity.";
 								}	
-						}			
-					}
+					}		}
 				}
 			}
 			// invalid upc selected output the original table with the message underneath
 			if($err_msg != ""){
-				echo "<p><b>$err_msg</b></p>";
-				echo "<p><b>Receipt ID: $receipt_id</b></p>";
+			echo "<p><b>$err_msg</b></p>";
+			echo "<p><b>Receipt ID: $receipt_id</b></p>";
 						
-				$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
-				// trying copy paste text
-				echo "<table border='1'><tr><th>UPC</th><th>Title</th><th>Type</th><th>category</th><th>Company</th><th>Price</th><th>Quantity</th></tr>";
-				//echo "<tr><td>" . htmlspecialchars($row['username']) . "</td><td>" . htmlspecialchars($row['time']) . "</td></tr>";
-				while($row=mysqli_fetch_assoc($output)) {
-					echo "<tr>";
-					echo "<td>" . $row['upc'] . "</td>";
-					echo "<td>" . $row['title'] . "</td>";
-					echo "<td>" . $row['itype'] . "</td>";
-					echo "<td>" . $row['category'] . "</td>";
-					echo "<td>" . $row['company'] . "</td>";
-					echo "<td>" . $row['price'] . "</td>";
-					echo "<td>" . $row['quantity'] . "</td>";
-					echo "</tr>";
-				}
-						
-				echo "<form id=\"return\" name=\"return\" method=\"post\" action=\"<\?php echo htmlspecialchars(\$_SERVER[\"PHP_SELF\"])\;\?>";
-				// <tr><td>Receipt ID</td><td><input type=\"text\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"</td></tr>
-				echo "<table style=\"background-color:white\" border=0>
-					<tr><td>Return Item UPC</td><td><input type=\"text\" size=11 name=\"new_return_upc_id\"</td></tr>
-					<tr><td>Quantity</td><td><input type=\"text\" size=11 name=\"new_return_quantity\"</td></tr>
-					<input type=\"hidden\" value=\"$receipt_id\" size=11 name=\"new_next_receipt_id\"/>
-					<tr><td><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
-					</table>";
-				echo "</form>";
-						
-				$result = $connection->query("SELECT * FROM returns WHERE receiptid = '$receipt_id'");
-				$num 	= $result->num_rows;
-				if($num < 1){
-						// do not display the history table
-				}
-				else{
-						
-					$car_num = $connection->query("SELECT cardnumber FROM purchase WHERE receiptid = '$receipt_id'");
-					$car_num = $car_num->fetch_object()->cardnumber;
-					$amount_Return = $connection->query("SELECT sum(quantity*price) AS total FROM returns, returnitem, item WHERE returns.receiptid = 'test' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc;");
-					$amount_Return = $amount_Return->fetch_object()->total;
-					$result	= $connection->query("SELECT returns.retid, item.upc, quantity, title, price FROM returns, returnitem, item WHERE returns.receiptid = 'test' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc");
-							
-					echo "<p>Total amount returned to card: $car_num is : \$$amount_Return</p>";
-					echo "<p>Return History:</p>";
-					echo "<table border='1'><tr><th>RetID</th><th>UPC</th><th>Title</th><th>Quantity</th><th>Price</th></tr>";
-					while($row=mysqli_fetch_assoc($result)) {
+						$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
+						// trying copy pasta text
+						echo "<table border='1'><tr><th>UPC</th><th>Title</th><th>Type</th><th>category</th><th>Company</th><th>Price</th><th>Quantity</th></tr>";
+						//echo "<tr><td>" . htmlspecialchars($row['username']) . "</td><td>" . htmlspecialchars($row['time']) . "</td></tr>";
+						while($row=mysqli_fetch_assoc($output))
+						{
 						echo "<tr>";
-						echo "<td>" . $row['retid'] . "</td>";
 						echo "<td>" . $row['upc'] . "</td>";
 						echo "<td>" . $row['title'] . "</td>";
-						echo "<td>" . $row['quantity'] . "</td>";
+						echo "<td>" . $row['itype'] . "</td>";
+						echo "<td>" . $row['category'] . "</td>";
+						echo "<td>" . $row['company'] . "</td>";
 						echo "<td>" . $row['price'] . "</td>";
+						echo "<td>" . $row['quantity'] . "</td>";
 						echo "</tr>";
-					}
+						};
 						
-				}
+						echo "<form id=\"return\" name=\"return\" method=\"post\" action=\"<\?php echo htmlspecialchars(\$_SERVER[\"PHP_SELF\"])\;\?>";
+						// <tr><td>Receipt ID</td><td><input type=\"text\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"</td></tr>
+						echo "<table border=0 cellpadding=0 cellspacing=0>
+						<tr><td>Return Item UPC</td><td><input type=\"text\" size=5 name=\"new_return_upc_id\"</td></tr>
+						<tr><td>Quantity</td><td><input type=\"text\" size=5 name=\"new_return_quantity\"</td></tr>
+						<input type=\"hidden\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"/>
+						<tr><td></td><td><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
+						</table>";
+						
+						$result = $connection->query("SELECT * FROM returns WHERE receiptid = '$receipt_id'");
+						$num 	= $result->num_rows;
+						if($num < 1){
+						
+						// do not display the history table
+						}
+						else{
+						
+							$car_num = $connection->query("SELECT cardnumber FROM purchase WHERE receiptid = '$receipt_id'");
+							$car_num = $car_num->fetch_object()->cardnumber;
+							$amount_Return = $connection->query("SELECT sum(quantity*price) AS total FROM returns, returnitem, item WHERE returns.receiptid = 'test' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc;");
+							$amount_Return = $amount_Return->fetch_object()->total;
+							$result	= $connection->query("SELECT returns.retid, item.upc, quantity, title, price FROM returns, returnitem, item WHERE returns.receiptid = 'test' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc");
+							
+							echo "<p>Total amount returned to card: $car_num is : \$$amount_Return</p>";
+							echo "<p>Return History:</p>";
+							echo "<table border='1'><tr><th>RetID</th><th>UPC</th><th>Title</th><th>Quantity</th><th>Price</th></tr>";
+							while($row=mysqli_fetch_assoc($result))
+							{
+							echo "<tr>";
+							echo "<td>" . $row['retid'] . "</td>";
+							echo "<td>" . $row['upc'] . "</td>";
+							echo "<td>" . $row['title'] . "</td>";
+							echo "<td>" . $row['quantity'] . "</td>";
+							echo "<td>" . $row['price'] . "</td>";
+							echo "</tr>";
+						};
+						
+						}
 						
 						
-				mysqli_close($connection);
+						mysqli_close($connection);
+			
 			
 			}
 			else{
@@ -216,16 +201,15 @@
 				echo "<td>" . $row['price'] . "</td>";
 				echo "<td>" . $row['quantity'] . "</td>";
 				echo "</tr>";
-				}
+				};
 						
 				echo "<form id=\"return\" name=\"return\" method=\"post\" action=\"<\?php echo htmlspecialchars(\$_SERVER[\"PHP_SELF\"])\;\?>";
-						// <tr><td>Receipt ID</td><td><input type=\"text\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"</td></tr>
-				echo "<table border=0>
-					<tr><td>Return Item UPC</td><td><input type=\"text\" size=5 name=\"new_return_upc_id\"</td></tr>
-						<tr><td>Quantity</td><td><input type=\"number\" size=5 name=\"new_return_quantity\"</td></tr>
-						<input type=\"hidden\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"/>
-						<tr><td colspan=2 style=\"text-align:right\"><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
-						</table>";
+				echo "<table border=0 cellpadding=0 cellspacing=0>
+				<tr><td>Return Item UPC</td><td><input type=\"text\" size=5 name=\"new_return_upc_id\"</td></tr>
+				<tr><td>Quantity</td><td><input type=\"text\" size=5 name=\"new_return_quantity\"</td></tr>
+				<input type=\"hidden\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"/>
+				<tr><td></td><td><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
+				</table>";
 				
 				$result = $connection->query("SELECT * FROM returns WHERE receiptid = '$receipt_id'");
 						$num 	= $result->num_rows;
@@ -253,7 +237,7 @@
 							echo "<td>" . $row['quantity'] . "</td>";
 							echo "<td>" . $row['price'] . "</td>";
 							echo "</tr>";
-						}
+						};
 						
 						}
 				
@@ -317,7 +301,7 @@
 						echo "<td>" . $row['price'] . "</td>";
 						echo "<td>" . $row['quantity'] . "</td>";
 						echo "</tr>";
-						}
+						};
 						
 						
 					
@@ -325,11 +309,11 @@
 						
 						echo "<form id=\"return\" name=\"return\" method=\"post\" action=\"<\?php echo htmlspecialchars(\$_SERVER[\"PHP_SELF\"])\;\?>";
 						// <tr><td>Receipt ID</td><td><input type=\"text\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"</td></tr>
-						echo "<table border=0>
+						echo "<table border=0 cellpadding=0 cellspacing=0>
 						<tr><td>Return Item UPC</td><td><input type=\"text\" size=5 name=\"new_return_upc_id\"</td></tr>
-						<tr><td>Quantity</td><td><input type=\"number\" size=5 name=\"new_return_quantity\"</td></tr>
+						<tr><td>Quantity</td><td><input type=\"text\" size=5 name=\"new_return_quantity\"</td></tr>
 						<input type=\"hidden\" value=\"$receipt_id\" size=5 name=\"new_next_receipt_id\"/>
-						<tr><td colspan=2 style=\"text-align:right\"><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
+						<tr><td></td><td><input type=\"submit\" name=\"submit\" border=0 value=\"RETURN\"></td></tr>
 						</table>";
 						
 						// return history  "X amount has been refunded to Y Card"
@@ -352,14 +336,14 @@
 							echo "<table border='1'><tr><th>RetID</th><th>UPC</th><th>Title</th><th>Quantity</th><th>Price</th></tr>";
 							while($row=mysqli_fetch_assoc($result))
 							{
-								echo "<tr>";
-								echo "<td>" . $row['retid'] . "</td>";
-								echo "<td>" . $row['upc'] . "</td>";
-								echo "<td>" . $row['title'] . "</td>";
-								echo "<td>" . $row['quantity'] . "</td>";
-								echo "<td>" . $row['price'] . "</td>";
-								echo "</tr>";
-							}
+							echo "<tr>";
+							echo "<td>" . $row['retid'] . "</td>";
+							echo "<td>" . $row['upc'] . "</td>";
+							echo "<td>" . $row['title'] . "</td>";
+							echo "<td>" . $row['quantity'] . "</td>";
+							echo "<td>" . $row['price'] . "</td>";
+							echo "</tr>";
+						};
 						
 						}
 						
@@ -383,6 +367,6 @@
 
 
 
-	
+</form>
 </body>
 </html>
