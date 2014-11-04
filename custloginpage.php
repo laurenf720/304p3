@@ -71,6 +71,8 @@
 			        <tr>
 			        	<td colspan=2 style="text-align:center"><input type="submit" name="submit" border=0 value="LOGIN"></td>
 			        </tr>
+					<tr>
+						<td colpan=2 style="text-align:center">Not a customer? Register <a href="/../304p3/custRegisterPage.php">here</a>
 			    </table>
     			<span class="error"><?php echo $error; ?></span>
 			</form>
