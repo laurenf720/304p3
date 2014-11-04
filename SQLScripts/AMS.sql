@@ -75,14 +75,14 @@ CREATE TABLE purchaseitem
     FOREIGN KEY (upc) REFERENCES item (upc));
 
 CREATE TABLE returns
-	(retid		CHAR(11) NOT NULL,
+	(retid		INT NOT NULL AUTO_INCREMENT,
     rdate 		CHAR(20) NOT NULL,
     receiptid 	CHAR(11) NOT NULL,
     PRIMARY KEY (retid),
     FOREIGN KEY (receiptid) REFERENCES purchase (receiptid));
 
 CREATE TABLE returnitem
-	(retid		CHAR(11) NOT NULL,
+	(retid		INT NOT NULL AUTO_INCREMENT,
     upc 		CHAR(11) NOT NULL,
     quantity	SMALLINT NOT NULL,
     PRIMARY KEY (retid, upc),
