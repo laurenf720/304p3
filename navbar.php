@@ -1,11 +1,5 @@
 <html>
-	<head>
-		<title> AMS Website Search Page </title>
-		<link href="AMS.css" rel="stylesheet" type="text/css">
-	</head>
-
 	<body>
-		<?php include 'emplogin.php';?>
 		<div id="nav">
 			<ul>
 				<?php 
@@ -42,8 +36,5 @@
 				<tr><td><a class="sub-menu" href="/../304p3/logout.php">LOGOUT</a></td></tr>
 			</table>					
 		</div>
-
-		<p>index...</p>
 	</body>
-	<script src="ams.js"></script>
 </html>
