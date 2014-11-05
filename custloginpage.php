@@ -48,6 +48,12 @@
 			<h1 style="text-align:center">AMS Customers</h1>
 			<p></p>
 		</div>
+		<?php
+			// to prevent people from accessing login page when they are already logged in
+			if (isset($_SESSION['logged']) and $_SESSION['logged'] == true){
+					header("location: index.php");
+			}
+		?>
 		<div align="center">
 			<form id="loginform" name="loginform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
 				<table class="login" style="background-color:white">

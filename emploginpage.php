@@ -43,6 +43,12 @@
 				<tr><td><a class="sub-menu" href="/../304p3/logout.php">LOGOUT</a></td></tr>
 			</table>					
 		</div>
+		<?php
+			// to prevent people from accessing login page when they are already logged in
+			if (isset($_SESSION['logged']) and $_SESSION['logged'] == true){
+					header("location: index.php");
+			}
+		?>
 		<div id="wrap">
 			<h1 style="text-align:center">AMS Employees</h1>
 			<p></p>

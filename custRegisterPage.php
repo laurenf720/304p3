@@ -46,7 +46,12 @@
 			<p></p>
 		</div>
 		<div align="center">
-		
+			<?php
+				// to prevent people from accessing register page when they are already logged in
+				if (isset($_SESSION['logged']) and $_SESSION['logged'] == true){
+					header("location: index.php");
+				}
+			?>
 		
 			<form id="registerForm" name="registerForm" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
 				<table class="login" style="background-color:white">
