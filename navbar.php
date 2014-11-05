@@ -16,7 +16,7 @@
 							echo "<li><a id=\"button\">Manager Action 1</a></li>";
 							echo "<li><a id=\"button\">Manager Action 2</a></li>";
 						}
-						elseif ($_SESSION['type'] == 'clerk'){
+						if ($_SESSION['type'] == 'clerk' or $_SESSION['type'] == 'manager'){
 							echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
 							echo "<li><a id=\"button\">Clerk Action 2</a></li>";
 						}
