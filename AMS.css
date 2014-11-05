@@ -151,6 +151,14 @@ h2 {
 
 .itemlist th {
 	border-bottom: 1px black solid;
+	background-color:#EAF9FF;
+}
+.itemlist tr:nth-child(even) {
+    background-color:white;
+}
+
+.itemlist tr:nth-child(odd) {
+    background-color:#ABE2FF;
 }
 
 th.purchaseheader {
