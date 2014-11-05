@@ -55,6 +55,7 @@
 				
 				else {
 					$statement->execute();
+					header("location: custRegisterThankYou.php");
 				}
 				$statement->close();
 			}
