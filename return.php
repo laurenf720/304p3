@@ -127,7 +127,7 @@
 				$card_num = $connection->query("SELECT cardnumber FROM purchase WHERE receiptid = '$receipt_id'");
 				$card_num = $card_num->fetch_object()->cardnumber;
 
-				$amount_Return = $connection->query("SELECT sum(quantity*price) AS total FROM returns, returnitem, item WHERE returns.receiptid = '$receipt_id' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc;");
+				$amount_Return = $connection->query("SELECT sum(quantity*priece) AS total FROM returns, returnitem, item WHERE returns.receiptid = '$receipt_id' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc;");
 				$amount_Return = $amount_Return->fetch_object()->total;
 				if (empty($amount_Return)){
 					$amount_Return="0.00";
@@ -182,9 +182,10 @@
 			}
 			
 			elseif (isset($_POST["submit"]) && $_POST["submit"] == "RETURN"){
-
+				$errAlready = False;
 				if (empty($_POST['new_return_upc_id']) or empty($_POST['new_return_quantity'])){
 					echo "<div align=\"center\"><span class=\"error\"><b>* Please enter a valid Item UPC and Quantity</b></span></div>";
+					$errAlready = True;
 				}
 				$err_msg = "";
 				$des_upc = $_POST['new_return_upc_id'];
@@ -217,9 +218,9 @@
 
 				// invalid upc selected output the original table with the message underneath
 				if($err_msg != ""){
-					echo "<p><b>$err_msg</b></p>";
-					echo "<p><b>Receipt ID: $receipt_id</b></p>";
-							
+					if(!$errAlready){
+					echo "<div align=\"center\"><span class=\"error\"><b>$err_msg</b></span></div>";
+					}		
 					$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
 				}
 				else{
