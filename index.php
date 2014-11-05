@@ -23,7 +23,7 @@
 							echo "<li><a id=\"button\">Manager Action 2</a></li>";
 						}
 						elseif ($_SESSION['type'] == 'clerk'){
-							echo "<li><a id=\"button\">Clerk Action 1</a></li>";
+							echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
 							echo "<li><a id=\"button\">Clerk Action 2</a></li>";
 						}
 						else {

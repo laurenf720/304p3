@@ -1,6 +1,6 @@
 -- create database AMS;
--- USE AMS;
--- SELECT database();
+USE AMS;
+SELECT database();
 
 DROP TRIGGER IF EXISTS item_check_insert;
 DROP TRIGGER IF EXISTS item_check_update;
@@ -75,14 +75,14 @@ CREATE TABLE purchaseitem
     FOREIGN KEY (upc) REFERENCES item (upc));
 
 CREATE TABLE returns
-	(retid		CHAR(11) NOT NULL,
+	(retid		INT NOT NULL AUTO_INCREMENT,
     rdate 		CHAR(20) NOT NULL,
     receiptid 	CHAR(11) NOT NULL,
     PRIMARY KEY (retid),
     FOREIGN KEY (receiptid) REFERENCES purchase (receiptid));
 
 CREATE TABLE returnitem
-	(retid		CHAR(11) NOT NULL,
+	(retid		INT NOT NULL AUTO_INCREMENT,
     upc 		CHAR(11) NOT NULL,
     quantity	SMALLINT NOT NULL,
     PRIMARY KEY (retid, upc),
@@ -161,10 +161,18 @@ INSERT INTO item
 VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics', 2009, 9.99, 14);
     
 INSERT INTO employee
-VALUES ('a', 'pass', 'manager', 'man1');
+VALUES ('manager1', 'password', 'manager', 'man1');
 
 INSERT INTO customer
 VALUES ('cust1', 'password', 'lauren fung', '123 vancouver', '123 456');
+
+INSERT INTO employee
+VALUES ('employee1', 'password', 'clerk', 'clerk1');
+
+INSERT INTO purchase
+VALUES ('1', '2014-11-3', 'cust1','123','456','789','1234');
+INSERT INTO purchaseitem
+VALUES ('1','1','4');
 
 COMMIT;
     
