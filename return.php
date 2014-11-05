@@ -80,8 +80,8 @@
 				$result = $connection->query("select pdate from purchase where receiptid='$receipt_id'");
 				$p_date = $result->fetch_assoc()['pdate'];
 				echo "<div align=\"center\">
-						<table cellpadding=\"5\" class=\"purchases\"><thead><tr><th align=\"left\" colspan=3><h3>Receipt ID: $receipt_id</h3></th>";
-				echo "<th align=\"left\" colspan=3><h3>Purchase Date: $p_date</h3></th></tr>";
+						<table cellpadding=\"5\" class=\"purchases\"><thead><tr><th align=\"left\"><h3>Receipt ID: $receipt_id</h3></th>";
+				echo "<th align=\"left\"><h3>Purchase Date: $p_date</h3></th></tr>";
 				echo "<tr></tr><tr><th class=\"purchaseheader\">UPC</th><th class=\"purchaseheader\">Title</th><th class=\"purchaseheader\">Type</th><th class=\"purchaseheader\">Category</th><th class=\"purchaseheader\">Company</th><th class=\"purchaseheader\">Price</th><th class=\"purchaseheader\">Quantity</th></tr></thead>";
 					
 				$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
@@ -134,7 +134,7 @@
 				}
 				$result	= $connection->query("SELECT returns.retid, item.upc, quantity, title, price FROM returns, returnitem, item WHERE returns.receiptid = '$receipt_id' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc");
 
-				echo "<thead><th align=\"left\" colspan=3><h3>Return History</h3></th></thead>";
+				echo "<tr><td></td></tr><thead><th align=\"left\"><h3>Return History</h3></th></thead>";
 				echo "<tr></tr><tr><th class=\"purchaseheader\">RetID</th><th class=\"purchaseheader\">UPC</th><th class=\"purchaseheader\">Title</th><th class=\"purchaseheader\">Quantity</th><th class=\"purchaseheader\">Price</th></tr></thead>";
 						
 				while($row=mysqli_fetch_assoc($result)) {
@@ -220,7 +220,6 @@
 					echo "<p><b>Receipt ID: $receipt_id</b></p>";
 							
 					$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
-			
 				}
 				else{
 					// Desired Quantity is correct, upc is valid
@@ -247,6 +246,6 @@
 			}
 			mysqli_close($connection);
 		?>
-
+		<script src="ams.js"></script>
 	</body>
 </html>

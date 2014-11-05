@@ -122,6 +122,22 @@ h1 {
 	border-radius:5px;
 }
 
+.purchases{
+	border-spacing: 0px;
+	border: 1px solid;
+	border-radius:5px;
+	padding:15px;
+}
+
+th.purchaseheader {
+	border-bottom:1px solid black;
+}
+
+td.purchasedata{
+	border-right:1px solid black;
+	border-bottom:1px solid black;
+}
+
 input[type=submit] {
 	background-color:#0066FF;
 	color:#fff;
