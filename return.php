@@ -162,7 +162,7 @@
 					$receipt_id=stripslashes($receipt_id);
 					$receipt_id=mysql_real_escape_string($receipt_id);
 					$_SESSION['receiptid']=$receipt_id;
-					printpurchases($_SESSION['receiptid']);
+					
 					
 					// check if receipt is past return date
 					$result = $connection->query("select pdate from purchase where receiptid='$receipt_id'");
@@ -174,6 +174,7 @@
 					}
 					else {
 						$validReceipt = true;
+						printpurchases($_SESSION['receiptid']);
 						printreturnform();
 					}
 
