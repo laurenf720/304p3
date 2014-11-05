@@ -220,17 +220,7 @@
 					echo "<p><b>Receipt ID: $receipt_id</b></p>";
 							
 					$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
-				
-
-					// $result = $connection->query("SELECT * FROM returns WHERE receiptid = '$receipt_id'");
-					// $num = $result->num_rows;
-					// if($num < 1){
-					// 		// do not display the history table
-					// }
-					// else{
-					// 	printreturns($_SESSION['receiptid']);
-						
-					// }
+			
 				}
 				else{
 					// Desired Quantity is correct, upc is valid
