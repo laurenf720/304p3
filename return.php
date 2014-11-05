@@ -127,7 +127,7 @@
 				$card_num = $connection->query("SELECT cardnumber FROM purchase WHERE receiptid = '$receipt_id'");
 				$card_num = $card_num->fetch_object()->cardnumber;
 
-				$amount_Return = $connection->query("SELECT sum(quantity*priece) AS total FROM returns, returnitem, item WHERE returns.receiptid = '$receipt_id' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc;");
+				$amount_Return = $connection->query("SELECT sum(quantity*price) AS total FROM returns, returnitem, item WHERE returns.receiptid = '$receipt_id' AND returnitem.retid = returns.retid AND item.upc = returnitem.upc;");
 				$amount_Return = $amount_Return->fetch_object()->total;
 				if (empty($amount_Return)){
 					$amount_Return="0.00";
@@ -162,22 +162,28 @@
 					$receipt_id=stripslashes($receipt_id);
 					$receipt_id=mysql_real_escape_string($receipt_id);
 					$_SESSION['receiptid']=$receipt_id;
-					
-					
+					// printpurchases($_SESSION['receiptid']);
+
 					// check if receipt is past return date
 					$result = $connection->query("select pdate from purchase where receiptid='$receipt_id'");
-					$p_date = $result->fetch_assoc()['pdate'];
-					$current_Date = date ( "d-m-Y", time());
-					$last_return_date = date('d-m-Y', strtotime($p_date. ' + 15 days'));
-					if(strtotime($current_Date) > strtotime($last_return_date)){
-						echo "<div align=\"center\"><span class=\"error\"><b>* Sorry. It has been over 15 days since your purchase!</b></span></div>";
+					$rows 	= $result->num_rows;
+					if($rows != 1){
+						echo "<div align=\"center\"><span class=\"error\"><b>* Sorry. You have entered an invalid receipt!</b></span></div>";
 					}
-					else {
-						$validReceipt = true;
-						printpurchases($_SESSION['receiptid']);
-						printreturnform();
+					else{
+						$p_date = $result->fetch_assoc()['pdate'];
+						$current_Date = date ( "d-m-Y", time());
+						$last_return_date = date('d-m-Y', strtotime($p_date. ' + 15 days'));
+						
+						if(strtotime($current_Date) > strtotime($last_return_date)){
+							echo "<div align=\"center\"><span class=\"error\"><b>* Sorry. It has been over 15 days since your purchase!</b></span></div>";
+						}
+						else {
+							$validReceipt = true;
+							printpurchases($_SESSION['receiptid']);
+							printreturnform();
+						}
 					}
-
 				}
 			}
 			
@@ -185,7 +191,7 @@
 				$errAlready = False;
 				if (empty($_POST['new_return_upc_id']) or empty($_POST['new_return_quantity'])){
 					echo "<div align=\"center\"><span class=\"error\"><b>* Please enter a valid Item UPC and Quantity</b></span></div>";
-					$errAlready = True;
+					$errAlready = True; 
 				}
 				$err_msg = "";
 				$des_upc = $_POST['new_return_upc_id'];
@@ -220,7 +226,7 @@
 				if($err_msg != ""){
 					if(!$errAlready){
 					echo "<div align=\"center\"><span class=\"error\"><b>$err_msg</b></span></div>";
-					}		
+					}
 					$output = $connection->query("SELECT item.upc, title, itype, category, company, price, quantity FROM purchaseItem, item WHERE purchaseItem.receiptid ='$receipt_id' AND purchaseItem.upc = item.upc");
 				}
 				else{
