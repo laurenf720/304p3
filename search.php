@@ -8,7 +8,7 @@
 		<?php include 'navbar.php';?>
 		
 		<div id="wrap">
-			<h1>Search for an AMS Item</h1>
+			<h1 align="center">Search for an AMS Item</h1>
 			<p></p>
 		</div>
 		
