@@ -146,7 +146,7 @@
 						echo "<td class=\"purchasedata\">" . $row['price'] . "</td>";
 						echo "</tr>";
 				}
-				echo "<tr><td>Total amount returned to card: $card_num is : \$$amount_Return</td></tr>";
+				echo "<tr><td colspan=5>Total amount returned to card: $card_num is : \$$amount_Return</td></tr>";
 				mysqli_close($connection);
 			}
 
