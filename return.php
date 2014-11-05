@@ -141,6 +141,7 @@
 						
 						if(strtotime($current_Date) > strtotime($last_return_date)){
 							echo "<div align=\"center\"><span class=\"error\"><b>* Sorry. It has been over 15 days since your purchase!</b></span></div>";
+							printpurchases($_SESSION['receiptid']);
 						}
 						else {
 							$validReceipt = true;
