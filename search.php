@@ -30,9 +30,9 @@
 			    	echo "<td>".$row['title']."</td>";
 			    	echo "<td>".$row['itype']."</td>";
 			    	echo "<td>".$row['company']."</td>";
-			    	echo "<td>".$row['price']."</td>";
-			    	echo "<td style=\"border-right: 1px black solid;\"><input type=\"submit\" name=\"submit\" border=0 value=\"View Details\">";
-			    	echo "<input type=\"submit\" name=\"submit\" border=0 value=\"Add to Cart\"></td>";
+			    	echo "<td>$ ".$row['price']."</td>";
+			    	echo "<td style=\"border-right: 1px black solid;\"><input type=\"button\" name=\"detailsbutton\" border=0 value=\"View Details\">";
+			    	echo "<input type=\"button\" name=\"cartbutton\" border=0 value=\"Add to Cart\"></td>";
 			    	echo "</tr>";
 			    }
 

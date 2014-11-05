@@ -177,6 +177,36 @@ input[type=submit]:hover {
 	border:2px solid #0066FF;
 }
 
+input[name=detailsbutton] {
+	background-color:#FF8D00;
+	color:#fff;
+	border:2px solid #FFB65C;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[name=detailsbutton]:hover {
+	background-color:#FFB65C;
+	border:2px solid #FF8D00;
+}
+
+input[name=cartbutton] {
+	background-color:#00C80D;
+	color:#fff;
+	border:2px solid #85E28B;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[name=cartbutton]:hover {
+	background-color:#85E28B;
+	border:2px solid #00C80D;
+}
+
 input[type="text"], input[type="password"] {
 	height:23px;
 }
