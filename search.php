@@ -1,12 +1,6 @@
 <html>
 
 <script>
-$('#itemaction').bind('submit', function (event) {
-    event.preventDefault();
-});
-$('#itemaction').find(':submit').bind('click', function (event) {
-    event.preventDefault();
-});
 function addToCart(upc, title) {
     'use strict';
     do{
@@ -80,8 +74,7 @@ function addToCart(upc, title) {
 			    	echo "<td>$ ".$row['price']."</td>";
 
 			    	echo "<td style=\"border-right: 1px black solid;\">
-			    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" border=0 value=\"View Details\">";
-			    	// echo "<a href=\"javascript:addToCart('".$row['upc']."');\">Add to Cart</a>";
+			    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:viewDetails('".$row['upc']."'); \"border=0 value=\"View Details\" >";
 			    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
 			    	echo "</tr>";
 			    }
