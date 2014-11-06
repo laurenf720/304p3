@@ -4,7 +4,7 @@
 function addToCart(upc, title) {
     'use strict';
     do{
-	    var quantity = window.prompt("Please enter a number", "");
+	    var quantity = window.prompt("How much would you like to add to cart?", "Enter a positive integer");
 	    // if user presses cancel then break
 	    if (quantity == null || quantity ==""){
 	    	quantity=0;
@@ -17,10 +17,21 @@ function addToCart(upc, title) {
     form.submitAction.value="AddToCart"
     form.quantity.value = parseInt(quantity, 10);
     form.title.value= title;
-    if (confirm('Are you sure you want to add item to cart?')){
-		form.submit();
-	}
+    form.submit();
 }
+
+function getDetails(upc, title, type, category, company, year, price, stock){
+	alert("UPC: "+ upc+"\nTitle: "+ title + "\nType: " + type + "\nCategory: " + category + "\nCompany: " + company + "\nYear: "+ year + "\nPrice: $" + price + "\nStock: " + stock);
+}
+
+function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+
 </script>
 
 	<head>
@@ -39,7 +50,7 @@ function addToCart(upc, title) {
 			<h1 align="center">Search for an AMS Item</h1>
 			<p></p>
 		</div>
-		
+
 		<div align=center>
 			<table cellpadding=5 class="itemlist"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>
 
@@ -74,11 +85,10 @@ function addToCart(upc, title) {
 			    	echo "<td>$ ".$row['price']."</td>";
 
 			    	echo "<td style=\"border-right: 1px black solid;\">
-			    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:viewDetails('".$row['upc']."'); \"border=0 value=\"View Details\" >";
+			    			<input type=\"button\" name=\"submit\" class=\"detailsbutton\" onClick=\"getDetails('".$row['upc']."','".$row['title']."','".$row['itype']."','".$row['category']."','".$row['company']."','".$row['iyear']."','".$row['price']."','".$row['stock']."'); \"border=0 value=\"View Details\" >";
 			    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
 			    	echo "</tr>";
 			    }
-
 			    echo "</form>";
 			    
 			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
@@ -120,9 +130,6 @@ function addToCart(upc, title) {
 							}
 						}
 					}
-				}
-				elseif (isset($_POST["submit"]) and $_POST["submit"] == "View Details"){
-					echo "hey";
 				}
 		   	}
 		  

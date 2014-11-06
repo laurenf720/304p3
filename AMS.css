@@ -137,6 +137,16 @@ h2 {
 	border-radius:5px;
 	padding:15px;
 }
+.itemdetail {
+	border-spacing: 0px;
+	border: 1px solid;
+	border-radius:5px;
+	padding:15px;
+	background-color: white;
+	right:50%;
+	top:50%;
+	position: absolute;
+}
 
 .itemlist {
 	border-spacing: 0px;
