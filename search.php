@@ -1,7 +1,12 @@
 <html>
 
 <script>
-
+$('#itemaction').bind('submit', function (event) {
+    event.preventDefault();
+});
+$('#itemaction').find(':submit').bind('click', function (event) {
+    event.preventDefault();
+});
 function addToCart(upc, title) {
     'use strict';
     do{
@@ -12,14 +17,15 @@ function addToCart(upc, title) {
 	    	break;
 	    }
 	} while ( parseInt(quantity, 10) < 1 || isNaN(parseInt(quantity, 10)));
-
     // Set the value of a hidden HTML element in this form
     var form = document.getElementById('itemaction');
     form.upc.value = upc;
     form.submitAction.value="AddToCart"
     form.quantity.value = parseInt(quantity, 10);
     form.title.value= title;
-    form.submit();   
+    if (confirm('Are you sure you want to add item to cart?')){
+		form.submit();
+	}
 }
 </script>
 
@@ -44,6 +50,7 @@ function addToCart(upc, title) {
 			<table cellpadding=5 class="itemlist"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>
 
 			<?php
+				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 
 			    // Check that the connection was successful, otherwise exit
@@ -73,7 +80,7 @@ function addToCart(upc, title) {
 			    	echo "<td>$ ".$row['price']."</td>";
 
 			    	echo "<td style=\"border-right: 1px black solid;\">
-			    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\"  border=0 value=\"View Details\">";
+			    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" border=0 value=\"View Details\">";
 			    	// echo "<a href=\"javascript:addToCart('".$row['upc']."');\">Add to Cart</a>";
 			    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
 			    	echo "</tr>";
@@ -81,7 +88,7 @@ function addToCart(upc, title) {
 
 			    echo "</form>";
 			    
-			if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
 				if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){
 					if (($_POST['quantity']) == 0){
 						echo "<span class=\"error\">*You did not enter a valid a quantity</span>";
@@ -120,6 +127,9 @@ function addToCart(upc, title) {
 							}
 						}
 					}
+				}
+				elseif (isset($_POST["submit"]) and $_POST["submit"] == "View Details"){
+					echo "hey";
 				}
 		   	}
 		  
