@@ -123,6 +123,13 @@ function toggle_visibility(id) {
 				}
 
 
+				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+
+				// Check that the connection was successful, otherwise exit
+				if (mysqli_connect_errno()) {
+				    printf("Connect failed: %s\n", mysqli_connect_error());
+				    exit();
+				}
 
 				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			    
@@ -182,6 +189,7 @@ function toggle_visibility(id) {
 
 					}
 			   	}
+			   	mysqli_close($connection);
 			?>
 			</table>
 		</div>
