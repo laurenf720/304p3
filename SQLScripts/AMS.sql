@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS purchaseitem;
 DROP TABLE IF EXISTS purchase; -- changing name of order table to purchase
 DROP TABLE IF EXISTS hassong;
 DROP TABLE IF EXISTS leadsinger;
+DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS item;
 DROP TABLE IF EXISTS customer;
 DROP TABLE IF EXISTS employee;
@@ -88,6 +89,14 @@ CREATE TABLE returnitem
     PRIMARY KEY (retid, upc),
     FOREIGN KEY (upc) REFERENCES item (upc),
     FOREIGN KEY (retid) REFERENCES returns (retid));
+    
+CREATE TABLE cart 
+	(cid CHAR(11) not null,
+    upc CHAR(11) not null,
+    quantity smallint not null,
+    foreign key (cid) references customer (cid),
+    foreign key (upc) references item(upc),
+    primary key (cid, upc));
 
 
 -- The following are triggers defined to check domain of item type, item category, year, price, and stock

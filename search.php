@@ -1,36 +1,25 @@
 <html>
 
 <script>
-// function addToCart(upc) {
-// 	var person = prompt("Please enter your name", "Harry Potter");
-// }
-//     // 'use strict';
-//     //   // Set the value of a hidden HTML element in this form
-//     //   var form = document.getElementById('itemaction');
-//     //   form.upc.value = upc;
-//     //   var quantity = prompt("How many would you like to buy?", "Enter quantity");
-//     //   while (parseInt(quantity) == Number.NaN or parseInt(quantity)<1){
-//     //   	 System.out.println("ERROR: Please enter a positive integer");
-//     //   }
-//     //   // Post this form
-//     //   form.submit();
-// }
-function formSubmit(upc) {
+
+function addToCart(upc, title) {
     'use strict';
     do{
-	    var selection = window.prompt("Please enter a number", "");
+	    var quantity = window.prompt("Please enter a number", "");
 	    // if user presses cancel then break
-	    if (selection == null || selection =="")
+	    if (quantity == null || quantity ==""){
+	    	quantity=0;
 	    	break;
-	} while ( parseInt(selection, 10) < 1 || isNaN(parseInt(selection, 10)));
+	    }
+	} while ( parseInt(quantity, 10) < 1 || isNaN(parseInt(quantity, 10)));
 
     // Set the value of a hidden HTML element in this form
     var form = document.getElementById('itemaction');
     form.upc.value = upc;
     form.submitAction.value="AddToCart"
-    // Post this form
-    form.submit();
-    
+    form.quantity.value = parseInt(quantity, 10);
+    form.title.value= title;
+    form.submit();   
 }
 </script>
 
@@ -40,7 +29,11 @@ function formSubmit(upc) {
 	</head>
 
 	<body>
-		<?php include 'navbar.php';?>
+
+		<?php 
+		session_start();
+		include 'navbar.php';
+		?>
 		
 		<div id="wrap">
 			<h1 align="center">Search for an AMS Item</h1>
@@ -61,13 +54,15 @@ function formSubmit(upc) {
 
 			    $result = $connection->query("select * from item order by title");
 			    
-			       echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
-				    echo htmlspecialchars($_SERVER["PHP_SELF"]);
-				    echo "\" method=\"POST\">";
+			    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
+				echo htmlspecialchars($_SERVER["PHP_SELF"]);
+				echo "\" method=\"POST\">";
 				    // Hidden value is used if the delete link is clicked
-				    echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
+				echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
+				echo "<input type=\"hidden\" name=\"quantity\" value=\"-1\"/>";
+				echo "<input type=\"hidden\" name=\"title\" value=\"-1\"/>";
 				   // We need a submit value to detect if delete was pressed 
-				    echo "<input type=\"hidden\" name=\"submitAction\" value=\"action\"/>";
+				echo "<input type=\"hidden\" name=\"submitAction\" value=\"action\"/>";
 
 			    while ($row=$result->fetch_assoc()){
 			    	echo "<tr>";
@@ -78,14 +73,57 @@ function formSubmit(upc) {
 			    	echo "<td>$ ".$row['price']."</td>";
 
 			    	echo "<td style=\"border-right: 1px black solid;\">
-			    			<input type=\"button\" class=\"editbtn\" name=\"detailsbutton\" border=0 value=\"View Details\">";
-			    	echo "<a href=\"javascript:formSubmit('".$row['upc']."');\">Add to Cart</a>";
-			    	// echo "<form id=\"cart\"action=\"javascript:addToCart('".$row['upc']."');\"><input type=\"button\" name=\"cartbutton\" border=0 value=\"Add to Cart\"></form></td>";
+			    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\"  border=0 value=\"View Details\">";
+			    	// echo "<a href=\"javascript:addToCart('".$row['upc']."');\">Add to Cart</a>";
+			    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
 			    	echo "</tr>";
 			    }
 
 			    echo "</form>";
+			    
+			if ($_SERVER["REQUEST_METHOD"] == "POST") {
+				if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){
+					if (($_POST['quantity']) == 0){
+						echo "<span class=\"error\">*You did not enter a valid a quantity</span>";
+					}
+					elseif (!isset($_SESSION['logged'])) {
+						echo "<span class=\"error\">* Please login before you add something to your cart</span>";
+					}
+					else {
+						$cid=$_SESSION['login_user'];
+						$upc=$_POST['upc'];
+						$quantity=$_POST['quantity'];
+						$title=$_POST['title'];
+						$upc=stripslashes($upc);
+						$upc=mysql_real_escape_string($upc);
+						$quantity=stripslashes($quantity);
+						$quantity=mysql_real_escape_string($quantity);
+						$title=stripslashes($title);
+						$title=mysql_real_escape_string($title);
 
+					    if (isset($_POST["submitAction"]) && $_POST["submitAction"] == "AddToCart") {
+					    	$result = $connection->query("SELECT * FROM cart WHERE cid='$cid' and upc='$upc'");
+					    	if ($result->num_rows == 1){
+					    		$stmt = $connection->prepare("UPDATE cart SET quantity=quantity+(?) where cid=? and upc=?");
+					    		$stmt->bind_param("iss", $quantity, $cid, $upc);
+					    		$stmt->execute();
+					    	}
+					    	else{
+							    $stmt = $connection->prepare("INSERT INTO cart (cid, upc, quantity) VALUES (?,?,?)");
+							    $stmt->bind_param("ssi", $cid, $upc, $quantity);
+							    $stmt->execute();
+							}
+							if($stmt->error) {
+							    printf("<b>Error: %s.</b>\n", $stmt->error);
+							} else {
+							    echo "<b>Successfully added to cart: '".$title."' x ".$quantity."</b>";
+							}
+						}
+					}
+				}
+		   	}
+		  
+		   mysqli_close($connection);
 			?>
 			</table>
 		</div>

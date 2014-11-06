@@ -185,7 +185,7 @@ input[type=submit]:hover {
 	border:2px solid #0066FF;
 }
 
-input[name=detailsbutton] {
+input[class=detailsbutton] {
 	background-color:#FF8D00;
 	color:#fff;
 	border:2px solid #FFB65C;
@@ -195,12 +195,12 @@ input[name=detailsbutton] {
 	border-radius:5px;
 }
 
-input[name=detailsbutton]:hover {
+input[class=detailsbutton]:hover {
 	background-color:#FFB65C;
 	border:2px solid #FF8D00;
 }
 
-input[name=cartbutton] {
+input[class=cartbutton] {
 	background-color:#00C80D;
 	color:#fff;
 	border:2px solid #85E28B;
@@ -210,7 +210,7 @@ input[name=cartbutton] {
 	border-radius:5px;
 }
 
-input[name=cartbutton]:hover {
+input[class=cartbutton]:hover {
 	background-color:#85E28B;
 	border:2px solid #00C80D;
 }
