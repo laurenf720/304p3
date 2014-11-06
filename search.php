@@ -79,8 +79,6 @@ function toggle_visibility(id) {
 			</form>
 			<!-- end of search bar -->
 
-			<table cellpadding=5 class="itemlist"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>
-
 			<?php
 				function printItemList($searchfield, $searchtext, $searchorder) {
 					$whereclause = false;
@@ -96,7 +94,7 @@ function toggle_visibility(id) {
 				    }
 
 					$result = $connection->query("SELECT * FROM item ORDER BY $searchorder");
-			    
+			    	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
 				    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
 					echo htmlspecialchars($_SERVER["PHP_SELF"]);
 					echo "\" method=\"POST\">";
@@ -129,6 +127,13 @@ function toggle_visibility(id) {
 				if (mysqli_connect_errno()) {
 				    printf("Connect failed: %s\n", mysqli_connect_error());
 				    exit();
+				}
+
+				if (isset($_SESSION['searchorder'])){
+					printItemList('All','', $_SESSION['searchorder']);
+				}
+				else {
+					printItemList('All','', 'title');
 				}
 
 				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
@@ -185,7 +190,8 @@ function toggle_visibility(id) {
 						$searchtext=stripslashes($searchtext);
 						$searchtext=mysql_real_escape_string($searchtext);
 
-						printItemList('All','', $searchorder);
+						$_SESSION['searchorder']=$searchorder;
+						
 
 					}
 			   	}
