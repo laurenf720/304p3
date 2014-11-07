@@ -59,10 +59,10 @@ function toggle_visibility(id) {
 						<td>Search in: 
 							<select name="searchfield">
 								<option value="All">All</option>
-								<option value="Title">Title</option>
-								<option value="Artist">Artist</option>
-								<option value="Category">Category</option>
-								<option value="Year">Year</option>
+								<option value="title">Title</option>
+								<option value="itype">Type</option>
+								<option value="category">Category</option>
+								<option value="iyear">Year</option>
 							</select>
 						</td>
 						<td><input type="search" name="search" placeholder="Search"></td>
@@ -81,9 +81,9 @@ function toggle_visibility(id) {
 
 			<?php
 				function printItemList($searchfield, $searchtext, $searchorder) {
-					$whereclause = false;
-					if ($searchfield != "All"){
-						$whereclause = true;
+					
+					if ($searchfield == "All"){
+						$searchfield='CONCAT (upc, title,itype, category, company, iyear, price)';
 					}
 					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 
@@ -92,9 +92,9 @@ function toggle_visibility(id) {
 				        printf("Connect failed: %s\n", mysqli_connect_error());
 				        exit();
 				    }
-
-					$result = $connection->query("SELECT * FROM item ORDER BY $searchorder");
-			    	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
+				    $result='';
+					$result = $connection->query("SELECT * FROM item WHERE $searchfield LIKE '%$searchtext%' ORDER BY $searchorder");
+				   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
 				    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
 					echo htmlspecialchars($_SERVER["PHP_SELF"]);
 					echo "\" method=\"POST\">";
@@ -120,7 +120,7 @@ function toggle_visibility(id) {
 				    mysqli_close($connection);
 				}
 
-
+				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 
 				// Check that the connection was successful, otherwise exit
@@ -129,15 +129,10 @@ function toggle_visibility(id) {
 				    exit();
 				}
 
-				if (isset($_SESSION['searchorder'])){
-					printItemList('All','', $_SESSION['searchorder']);
-				}
-				else {
+				if ($_SERVER["REQUEST_METHOD"] != "POST" or $pageWasRefreshed){
 					printItemList('All','', 'title');
 				}
-
-				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
-			    
+  
 				if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){
 						if (($_POST['quantity']) == 0){
@@ -191,6 +186,9 @@ function toggle_visibility(id) {
 						$searchtext=mysql_real_escape_string($searchtext);
 
 						$_SESSION['searchorder']=$searchorder;
+						$_SESSION['searchfield']=$searchfield;
+						$_SESSION['searchtext']=$searchtext;
+						printItemList($_SESSION['searchfield']=$searchfield,$_SESSION['searchtext'], $_SESSION['searchorder']);
 						
 
 					}
