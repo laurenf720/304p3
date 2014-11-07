@@ -48,7 +48,7 @@ function updateQuantity(upc) {
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
 				if ($result->num_rows == 0){
-					echo "<span class=\"error\"><b>* Your shopping cart is empty<b></span>";
+					echo "<span class=\"error\">* Your shopping cart is empty</span>";
 				}
 				else {
 					echo "<form id=\"updatequantity\" name=\"updatequantity\" action=\"";
