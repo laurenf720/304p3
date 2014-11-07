@@ -125,7 +125,7 @@ h2 {
   border-left: 1px solid #818181;
 }
 
-.login {
+.login { 
 	border-spacing: 10px;
 	border: 1px solid;
 	border-radius:5px;
@@ -138,6 +138,8 @@ h2 {
 	padding:15px;
 }
 
+
+
 th.purchaseheader {
 	border-bottom:1px solid black;
 }
@@ -145,6 +147,19 @@ th.purchaseheader {
 td.purchasedata{
 	border-right:1px solid black;
 	border-bottom:1px solid black;
+}
+table.addItem{
+	border-spacing: 10px;
+	border: 1px solid;
+	border-radius:5px;
+}
+
+th.addItemHeader{
+	text-align:center;
+	border-bottom:1px solid black;
+}
+td.addItemData{
+	text-align:center;
 }
 
 input[type=submit] {
@@ -158,6 +173,22 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
+	background-color:#4891FE;
+	border:2px solid #0066FF;
+}
+
+
+input[type=button] {
+	background-color:#0066FF;
+	color:#fff;
+	border:2px solid #4891FE;
+	padding:10px;
+	font-size:16px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[type=button]:hover {
 	background-color:#4891FE;
 	border:2px solid #0066FF;
 }
