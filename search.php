@@ -184,11 +184,10 @@ function toggle_visibility(id) {
 						$_SESSION['searchorder']=$searchorder;
 						$_SESSION['searchfield']=$searchfield;
 						$_SESSION['searchtext']=$searchtext;
-						
-
 					}
 			   	}
 
+			   	// end of logic - now printing item list
 			   	if ($pageWasRefreshed or !(isset($_SESSION['searchtext']))){
 					printItemList('All','', 'title');
 				}
