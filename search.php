@@ -128,10 +128,6 @@ function toggle_visibility(id) {
 				    printf("Connect failed: %s\n", mysqli_connect_error());
 				    exit();
 				}
-
-				if ($_SERVER["REQUEST_METHOD"] != "POST" or $pageWasRefreshed){
-					printItemList('All','', 'title');
-				}
   
 				if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){
@@ -188,11 +184,17 @@ function toggle_visibility(id) {
 						$_SESSION['searchorder']=$searchorder;
 						$_SESSION['searchfield']=$searchfield;
 						$_SESSION['searchtext']=$searchtext;
-						printItemList($_SESSION['searchfield']=$searchfield,$_SESSION['searchtext'], $_SESSION['searchorder']);
 						
 
 					}
 			   	}
+
+			   	if ($pageWasRefreshed or !(isset($_SESSION['searchtext']))){
+					printItemList('All','', 'title');
+				}
+				else{
+					printItemList($_SESSION['searchfield'],$_SESSION['searchtext'], $_SESSION['searchorder']);
+				}
 			   	mysqli_close($connection);
 			?>
 			</table>
