@@ -1,6 +1,6 @@
 <html>
 <script>
-function updateQuantity(upc, title) {
+function updateQuantity(upc) {
     'use strict';
     do{
 	    var quantity = window.prompt("How much would you like in your cart?", "Enter a positive integer");
@@ -8,15 +8,13 @@ function updateQuantity(upc, title) {
 	    if (quantity == null || quantity ==""){
 	    	break;
 	    }
-	} while ( parseInt(quantity, 10) < 1 || isNaN(parseInt(quantity, 10)));
-    // Set the value of a hidden HTML element in this form
+	} while ( parseInt(quantity, 10) < 0 || isNaN(parseInt(quantity, 10)));
+    //Set the value of a hidden HTML element in this form
     
-    // var form = document.getElementById('itemaction');
-    // form.upc.value = upc;
-    // form.submitAction.value="AddToCart"
-    // form.quantity.value = parseInt(quantity, 10);
-    // form.title.value= title;
-    // form.submit();
+    var form = document.getElementById('updatequantity');
+    form.upc.value = upc;
+    form.quantity.value = parseInt(quantity, 10);
+    form.submit();
 }
 </script>
 
@@ -38,12 +36,8 @@ function updateQuantity(upc, title) {
 		</div>
 		<div align="center">
 		<?php
-			if (!isset($_SESSION['logged'])){
-					echo "<span class=\"error\">* Please login before viewing your shopping cart</span>";
-			}
-			else {
+			function printcart(){
 				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
 				// Check that the connection was successful, otherwise exit
 				if (mysqli_connect_errno()) {
 				    printf("Connect failed: %s\n", mysqli_connect_error());
@@ -56,8 +50,14 @@ function updateQuantity(upc, title) {
 					echo "<span class=\"error\">* Your shopping cart is empty</span>";
 				}
 				else {
+					echo "<form id=\"updatequantity\" name=\"updatequantity\" action=\"";
+					echo htmlspecialchars($_SERVER["PHP_SELF"]);
+					echo "\" method=\"POST\">";
+					echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
+					echo "<input type=\"hidden\" name=\"quantity\" value=\"-1\"/>";
+					echo "<input type=\"hidden\" name=\"submitAction\" value=\"updatequantity\"/>";
 					echo "<table cellpadding=5 class=\"itemlist\"><thead>
-					<tr><th colspan=7>Your Shopping Cart</th></tr>";
+						<tr><th colspan=7>Your Shopping Cart</th></tr>";
 					echo "<tr><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Quantity</th><th>Actions</th></tr></thead>";
 
 					while($row=$result->fetch_assoc()){
@@ -67,24 +67,65 @@ function updateQuantity(upc, title) {
 						echo "<td>".$row['title']."</td>";
 						echo "<td>".$row['itype']."</td>";
 						echo "<td><p></p>";
-					    	$artistresult = $connection->query("SELECT lsname FROM leadsinger WHERE upc='$upc'");
-					    	while ($artist=$artistresult->fetch_assoc()){
-					    		if (!empty($artist['lsname'])){
-					    			echo $artist['lsname']."<br>";
-					    		}
-					    	}
-					    	echo "</td>";
+						$artistresult = $connection->query("SELECT lsname FROM leadsinger WHERE upc='$upc'");
+						while ($artist=$artistresult->fetch_assoc()){
+							if (!empty($artist['lsname'])){
+								echo $artist['lsname']."<br>";
+						    }
+						}
+						echo "</td>";
 						echo "<td>".$row['company']."</td>";
 						echo "<td>".$row['quantity']."</td>";
-						echo "<td style=\"border-right: 1px black solid;\"><input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:updateQuantity('".$row['upc']."','".$cid."');\"border=0 value=\"Update Quantity\"></td>";;
+						echo "<td style=\"border-right: 1px black solid;\"><input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:updateQuantity('".$row['upc']."');\"border=0 value=\"Update Quantity\"></td>";;
 						echo "</tr>";
 					}
 
 					echo "</table>";
+					echo "</form>";
 				}
 
 				mysqli_close($connection);
 			}
+
+
+			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
+			
+			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
+				if (isset($_POST["submit"]) and $_POST["submit"] == "Update Quantity") {
+					$cid=$_SESSION['login_user'];
+					$upc=$_POST['upc'];
+					$quantity=$_POST['quantity'];
+					$upc=stripslashes($upc);
+					$upc=mysql_real_escape_string($upc);
+					$quantity=stripslashes($quantity);
+					$quantity=mysql_real_escape_string($quantity);
+
+					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+
+					// Check that the connection was successful, otherwise exit
+					if (mysqli_connect_errno()) {
+					    printf("Connect failed: %s\n", mysqli_connect_error());
+					    exit();
+					}
+
+					if ($quantity == 0){
+						$result=$connection->query("DELETE FROM cart WHERE cid='$cid' AND upc='$upc'");
+					}
+					else{
+						$result=$connection->query("UPDATE cart SET quantity='$quantity' WHERE cid='$cid' AND upc='$upc'");
+					}
+					mysqli_close($connection);
+				}
+			}
+
+			// end of logic - printing cart
+			if (!isset($_SESSION['logged'])){
+					echo "<span class=\"error\">* Please login before viewing your shopping cart</span>";
+			}
+			else {
+				printcart();
+			}
+
 		?>
 		</div>
 	</body>
