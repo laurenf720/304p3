@@ -88,12 +88,6 @@ function updateQuantity(upc) {
 				mysqli_close($connection);
 			}
 
-			if (!isset($_SESSION['logged'])){
-				header("location: search.php");
-			}
-			elseif(isset($_SESSION['type']) and $_SESSION['type'] != "customer"){
-				echo "<b><span class=\"error\">* Only customers have an online shopping cart </span></b><br>";
-			}
 			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			
 			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
@@ -128,6 +122,9 @@ function updateQuantity(upc) {
 			// end of logic - printing cart
 			if (!isset($_SESSION['logged'])){
 					echo "<span class=\"error\">* Please login before viewing your shopping cart</span>";
+			}
+			elseif(isset($_SESSION['type']) and $_SESSION['type'] != "customer"){
+				echo "<span class=\"error\">* Only customers have an online shopping cart </span><br>";
 			}
 			else {
 				printcart();
