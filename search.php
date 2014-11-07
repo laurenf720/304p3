@@ -60,9 +60,11 @@ function toggle_visibility(id) {
 							<select name="searchfield">
 								<option value="All">All</option>
 								<option value="title">Title</option>
+								<option value="lsname">Artist</option>
 								<option value="itype">Type</option>
 								<option value="category">Category</option>
 								<option value="iyear">Year</option>
+								
 							</select>
 						</td>
 						<td><input type="search" name="search" placeholder="Search"></td>
@@ -83,7 +85,7 @@ function toggle_visibility(id) {
 				function printItemList($searchfield, $searchtext, $searchorder) {
 					
 					if ($searchfield == "All"){
-						$searchfield='CONCAT (upc, title,itype, category, company, iyear, price)';
+						$searchfield='CONCAT (item.upc, title, itype, category, company, iyear)';
 					}
 					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 
@@ -92,9 +94,13 @@ function toggle_visibility(id) {
 				        printf("Connect failed: %s\n", mysqli_connect_error());
 				        exit();
 				    }
-				    $result='';
-					$result = $connection->query("SELECT * FROM item WHERE $searchfield LIKE '%$searchtext%' ORDER BY $searchorder");
-				   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
+				    $query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE 
+						$searchfield LIKE '%$searchtext%') 
+						UNION (SELECT item.upc,title, itype, category, company, iyear,price, stock FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE lsname LIKE '%$searchtext%') ORDER BY $searchorder";
+					
+					$result = $connection->query($query);
+
+				   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
 				    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
 					echo htmlspecialchars($_SERVER["PHP_SELF"]);
 					echo "\" method=\"POST\">";
@@ -104,10 +110,19 @@ function toggle_visibility(id) {
 					echo "<input type=\"hidden\" name=\"submitAction\" value=\"action\"/>";
 
 				    while ($row=$result->fetch_assoc()){
+				    	$upc = $row['upc'];
 				    	echo "<tr>";
 				    	echo "<td>".$row['upc']."</td>";
 				    	echo "<td>".$row['title']."</td>";
 				    	echo "<td>".$row['itype']."</td>";
+				    	echo "<td><p></p>";
+				    	$artistresult = $connection->query("SELECT lsname FROM leadsinger WHERE upc='$upc'");
+				    	while ($artist=$artistresult->fetch_assoc()){
+				    		if (!empty($artist['lsname'])){
+				    			echo $artist['lsname']."<br>";
+				    		}
+				    	}
+				    	echo "</td>";
 				    	echo "<td>".$row['company']."</td>";
 				    	echo "<td>$ ".$row['price']."</td>";
 

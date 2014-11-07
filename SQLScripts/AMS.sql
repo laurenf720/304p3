@@ -170,6 +170,9 @@ VALUES ('5', '1989 (Deluxe Edition)', 'CD', 'country', 'Big Machine Records, LLC
 
 INSERT INTO item
 VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics', 2009, 9.99, 14);
+
+INSERT INTO item
+VALUES ('8', '9.99 test', 'CD', 'classical', 'Menuetto Classics', 2009, 19.99, 14);
     
 INSERT INTO employee
 VALUES ('manager1', 'password', 'manager', 'man1');
@@ -191,6 +194,24 @@ INSERT INTO purchaseitem
 VALUES ('2','1','4');
 INSERT INTO purchaseitem
 VALUES ('2','2','3');
+
+INSERT INTO leadsinger
+VALUES ('4', 'Eminem');
+
+INSERT INTO leadsinger
+VALUES ('1', 'Spice Girls');
+
+INSERT INTO leadsinger
+VALUES ('7', 'Spice Girls');
+INSERT INTO leadsinger
+VALUES ('7', 'test multiple');
+INSERT INTO leadsinger
+VALUES ('5', 'Taylor Swift');
+INSERT INTO leadsinger
+VALUES ('3', 'Imagine Dragons');
+
+INSERT INTO leadsinger
+VALUES ('2', 'Random People');
 
 COMMIT;
     
