@@ -70,7 +70,8 @@ function toggle_visibility(id) {
 						<td><input type="search" name="search" placeholder="Search"></td>
 						<td>Order By: 
 							<select name="searchorder">
-								<option value="title">Item Name</option>
+								<option value="title ASC">Item Name (A-Z)</option>
+								<option value="title DESC">Item Name (Z-A)</option>
 								<option value="price ASC">Price - Low to High</option>
 								<option value="price DESC">Price - High to Low</option>
 							</select>
