@@ -6,7 +6,8 @@ function updateQuantity(upc) {
 	    var quantity = window.prompt("How much would you like in your cart?", "Enter a positive integer");
 	    // if user presses cancel then break
 	    if (quantity == null || quantity ==""){
-	    	break;
+	    	quantity="cancel";
+	    	return;
 	    }
 	} while ( parseInt(quantity, 10) < 0 || isNaN(parseInt(quantity, 10)));
     //Set the value of a hidden HTML element in this form
@@ -92,6 +93,7 @@ function updateQuantity(upc) {
 			
 			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
 				if (isset($_POST["submit"]) and $_POST["submit"] == "Update Quantity") {
+					
 					$cid=$_SESSION['login_user'];
 					$upc=$_POST['upc'];
 					$quantity=$_POST['quantity'];
