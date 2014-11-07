@@ -100,40 +100,45 @@ function toggle_visibility(id) {
 						UNION (SELECT item.upc,title, itype, category, company, iyear,price, stock FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE lsname LIKE '%$searchtext%') ORDER BY $searchorder";
 					
 					$result = $connection->query($query);
+					if (!$result->num_rows == 0){
+					   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
+					    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
+						echo htmlspecialchars($_SERVER["PHP_SELF"]);
+						echo "\" method=\"POST\">";
+						echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
+						echo "<input type=\"hidden\" name=\"quantity\" value=\"-1\"/>";
+						echo "<input type=\"hidden\" name=\"title\" value=\"-1\"/>";
+						echo "<input type=\"hidden\" name=\"submitAction\" value=\"action\"/>";
 
-				   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
-				    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
-					echo htmlspecialchars($_SERVER["PHP_SELF"]);
-					echo "\" method=\"POST\">";
-					echo "<input type=\"hidden\" name=\"upc\" value=\"-1\"/>";
-					echo "<input type=\"hidden\" name=\"quantity\" value=\"-1\"/>";
-					echo "<input type=\"hidden\" name=\"title\" value=\"-1\"/>";
-					echo "<input type=\"hidden\" name=\"submitAction\" value=\"action\"/>";
+					    while ($row=$result->fetch_assoc()){
+					    	$upc = $row['upc'];
+					    	echo "<tr>";
+					    	echo "<td>".$row['upc']."</td>";
+					    	echo "<td>".$row['title']."</td>";
+					    	echo "<td>".$row['itype']."</td>";
+					    	echo "<td><p></p>";
+					    	$artistresult = $connection->query("SELECT lsname FROM leadsinger WHERE upc='$upc'");
+					    	while ($artist=$artistresult->fetch_assoc()){
+					    		if (!empty($artist['lsname'])){
+					    			echo $artist['lsname']."<br>";
+					    		}
+					    	}
+					    	echo "</td>";
+					    	echo "<td>".$row['company']."</td>";
+					    	echo "<td>$ ".$row['price']."</td>";
 
-				    while ($row=$result->fetch_assoc()){
-				    	$upc = $row['upc'];
-				    	echo "<tr>";
-				    	echo "<td>".$row['upc']."</td>";
-				    	echo "<td>".$row['title']."</td>";
-				    	echo "<td>".$row['itype']."</td>";
-				    	echo "<td><p></p>";
-				    	$artistresult = $connection->query("SELECT lsname FROM leadsinger WHERE upc='$upc'");
-				    	while ($artist=$artistresult->fetch_assoc()){
-				    		if (!empty($artist['lsname'])){
-				    			echo $artist['lsname']."<br>";
-				    		}
-				    	}
-				    	echo "</td>";
-				    	echo "<td>".$row['company']."</td>";
-				    	echo "<td>$ ".$row['price']."</td>";
-
-				    	echo "<td style=\"border-right: 1px black solid;\">
-				    			<input type=\"button\" name=\"submit\" class=\"detailsbutton\" onClick=\"getDetails('".$row['upc']."','".$row['title']."','".$row['itype']."','".$row['category']."','".$row['company']."','".$row['iyear']."','".$row['price']."','".$row['stock']."'); \"border=0 value=\"View Details\" >";
-				    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
-				    	echo "</tr>";
-				    }
-				    echo "</form>";
+					    	echo "<td style=\"border-right: 1px black solid;\">
+					    			<input type=\"button\" name=\"submit\" class=\"detailsbutton\" onClick=\"getDetails('".$row['upc']."','".$row['title']."','".$row['itype']."','".$row['category']."','".$row['company']."','".$row['iyear']."','".$row['price']."','".$row['stock']."'); \"border=0 value=\"View Details\" >";
+					    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
+					    	echo "</tr>";
+					    }
+					    echo "</form>";
+					}
+					else {
+						echo "<span class=\"error\">* Sorry, no items were found that match your search</span>";
+					}
 				    mysqli_close($connection);
+
 				}
 
 				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
