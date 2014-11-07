@@ -84,6 +84,9 @@ function toggle_visibility(id) {
 
 			<?php
 				function printItemList($searchfield, $searchtext, $searchorder) {
+					if (!isset($_SESSION['logged'])) {
+							echo "<span class=\"error\">* Please login to add something to your cart</span>";
+						}
 					
 					if ($searchfield == "All"){
 						$searchfield='CONCAT (item.upc, title, itype, category, company, iyear)';
@@ -129,7 +132,9 @@ function toggle_visibility(id) {
 
 					    	echo "<td style=\"border-right: 1px black solid;\">
 					    			<input type=\"button\" name=\"submit\" class=\"detailsbutton\" onClick=\"getDetails('".$row['upc']."','".$row['title']."','".$row['itype']."','".$row['category']."','".$row['company']."','".$row['iyear']."','".$row['price']."','".$row['stock']."'); \"border=0 value=\"View Details\" >";
-					    	echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
+					    	if (isset($_SESSION['type']) and  $_SESSION['type']== "customer"){
+					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
+					    	}
 					    	echo "</tr>";
 					    }
 					    echo "</form>";
@@ -154,9 +159,6 @@ function toggle_visibility(id) {
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){
 						if (($_POST['quantity']) == 0){
 							echo "<span class=\"error\">*You did not enter a valid a quantity</span>";
-						}
-						elseif (!isset($_SESSION['logged'])) {
-							echo "<span class=\"error\">* Please login before you add something to your cart</span>";
 						}
 						else {
 							$cid=$_SESSION['login_user'];

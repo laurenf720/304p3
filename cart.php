@@ -48,7 +48,7 @@ function updateQuantity(upc) {
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
 				if ($result->num_rows == 0){
-					echo "<span class=\"error\">* Your shopping cart is empty</span>";
+					echo "<span class=\"error\"><b>* Your shopping cart is empty<b></span>";
 				}
 				else {
 					echo "<form id=\"updatequantity\" name=\"updatequantity\" action=\"";
@@ -88,7 +88,12 @@ function updateQuantity(upc) {
 				mysqli_close($connection);
 			}
 
-
+			if (!isset($_SESSION['logged'])){
+				header("location: search.php");
+			}
+			elseif(isset($_SESSION['type']) and $_SESSION['type'] != "customer"){
+				echo "<b><span class=\"error\">* Only customers have an online shopping cart </span></b><br>";
+			}
 			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			
 			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {

@@ -13,7 +13,6 @@
 					elseif (isset($_SESSION['logged']) and $_SESSION['logged']== true) {
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
 						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
-						echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
 						if ($_SESSION['type'] == 'manager'){
 							echo "<li><a id=\"button\">Manager Action 1</a></li>";
 							echo "<li><a id=\"button\">Manager Action 2</a></li>";
@@ -23,7 +22,7 @@
 							echo "<li><a id=\"button\">Clerk Action 2</a></li>";
 						}
 						else {
-							echo "<li><a id=\"button\">Customer Action 1</a></li>";
+							echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
 							echo "<li><a id=\"button\">Customer Action 2</a></li>";
 						}
 						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION["login_user"]."!</a></div> </li>"; 
