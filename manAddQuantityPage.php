@@ -32,9 +32,9 @@
 						<td class="addItemData">Price</td>
 			       	</tr>
 			       	<tr>
-			       		<td><input id="UPC" type="text" size=30 name="UPC" placeholder="Enter UPC"></td>
-						<td><input id="Quantity" type="text" size=30 name="Quantity" placeholder="Enter Quantity"></td>
-						<td><input id="Price" type="text" size=30 name="Price" placeholder="Enter Price"></td>
+			       		<td><input id="UPC" type="text" size=30 name="UPC[]" placeholder="Enter UPC"></td>
+						<td><input id="Quantity" type="text" size=30 name="Quantity[]" placeholder="Enter Quantity"></td>
+						<td><input id="Price" type="text" size=30 name="Price[]" placeholder="Enter Price"></td>
 			       	</tr>	
 					
 					
@@ -45,7 +45,7 @@
 					<td><input type="submit" border=0 name="submit" value="Add Items"/>
 				</tr>
 				</table>
-    			<span class="error"><?php echo $error; ?></span>
+    			<div class="error"><?php echo $error; ?></div>
 				<span class="message"><?php echo $message; ?></span>
 			</form>
 		</div>

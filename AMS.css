@@ -206,3 +206,11 @@ span.error {
 span.message{
 	color:black;
 	font-size: 12px;
+}
+
+div.error{
+	color:red;
+	font-style: italic;
+	font-size: 12px;
+	white-space: pre-wrap;
+}

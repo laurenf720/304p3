@@ -16,49 +16,58 @@
     	if (isset($_POST["submit"]) && $_POST["submit"] == "Add Items") {
     				
 			$stockUpdate=$connection->prepare("update item set stock=? where upc=?");
-			$stockPriceUpdate=$connection->prepare("update item set stock=?,price=? where upc=?");
-			$checkUPC=$connection->prepare("select upc, quantity, price from item where upc=?");
+			$stockPriceUpdate=$connection->prepare("update item set stock=?, price=? where upc=?");
+			$checkUpc=$connection->prepare("select upc, stock, price from item where upc=?");
 			$upc=$_POST['UPC'];
 			$quantity=$_POST['Quantity'];
 			$price=$_POST['Price'];
 			$errorCount=0;
-			$updatedRows;
+			$updatedRows=0;
+			$checkUpc->bind_param("i",$tempUpc);
+			$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc);
+			$stockUpdate->bind_param("ss",$tempStock,$tempUpc);
 			
-			foreach($upc as $a => $b) {		
+			foreach($upc as $a => $b) {
+				if(!is_numeric($b)){
+					//If blank skip it
+					if($b != ''){
+						$error .= "Error $errorCount: UPC was not a number\r\n";
+						$errorCount+= 1;
+					}
+				}
+				
 				//Ensure that there is a value in UPC field, otherwise, skip it
-				if(!is_null($b)){
+				else{
 					// To protect MySQL injection for Security purposes
-					$tempUpc = stripslashes($upc+a);
-					$tempStock = stripslashes($quantity+a);
-					$tempPrice = stripslashes($Price+a);
+					$tempUpc = stripslashes($upc[$a]);
+					$tempStock = stripslashes($quantity[$a]);
+					$tempPrice = stripslashes($price[$a]);
 					$tempUpc = mysql_real_escape_string($tempUpc);
 					$tempStock = mysql_real_escape_string($tempStock);
 					$tempPrice = mysql_real_escape_string($tempPrice);
 					
 					//check if the upc exists in DB
-					$checkUPC->bind_param("s",$tempUpc);
-					$result=$checkUPC->execute();
+					$checkUpc->execute();
+					$result=$checkUpc->get_result();
 					//UPC does not exist in database
 					if($result->num_rows == 0){
-						$error .= "$tempUpc was not found in the database" . PHP_EOL;
+						$error .= "Error $errorCount: $tempUpc was not found in the database\r\n";
 						$errorCount += 1;
 					}
 					//Check Quantity for invalid values
-					elseif(is_nan($tempStock) ||$quantity+a <= 0){
+					elseif(!is_numeric($tempStock) || $tempStock < 1){
+						$error .= "Error $errorCount: Item with UPC $tempUpc contained an invalid quantity: $tempStock\r\n" ;
 						$errorCount += 1;
-						$error .= "$tempUpc contained an invalid quantity: $tempStock" . PHP_EOL;
 					}
 					else
 					{
-						$tempStock += $result->fetch_assoc()['quantity'];
+						$tempStock += $result->fetch_assoc()['stock'];
 						//Do not update price
-						if(isnull($result->fetch_assoc()['price'])){
-							$stockUpdate->bind_param("ss",$tempStock,$tempUpc);
+						if(is_null($result->fetch_assoc()['price'])){
 							$stockUpdate->execute();
 						}
 						//Update the price
 						else{
-							$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc);
 							$stockPriceUpdate->execute();
 						}
 						$updatedRows += 1;
@@ -66,12 +75,13 @@
 				}
 			}
 			
-			$stockPriceupdate->close();
-			$stockUpdate->close();
-			$checkUPC->close();
-			
-			$error .= "Total $errorCount errors were encountered during insert";
-			$message = "$updatedRows were updated.";//updated x quantities, updated y prices
+			$stockUpdate->close();			
+			$stockPriceUpdate->close();			
+			$checkUpc->close();
+			if($errorCount > 0){
+				$error .= "Total: $errorCount error(s) were encountered during insert\r\n";
+			}
+			$message = "$updatedRows items were updated.";//updated x quantities, updated y prices
     	}
     }
     mysqli_close($connection);
