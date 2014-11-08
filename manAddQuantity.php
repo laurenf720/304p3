@@ -58,31 +58,20 @@
 						}
 						//Update the price
 						else{
-							$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc)
+							$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc);
 							$stockPriceUpdate->execute();
 						}
 						$updatedRows += 1;
+					}
 				}
-			$rows = $result->num_rows;
-			//check if the username has been taken
-			
-			$statement->bind_param("sssss",$username,$password,$cname,$address,$phone);	
-			if($rows != 0){
-				$error = "The username $username has been taken, please try another name";
-				session_write_close();
 			}
-			//register the customer
 			
-			else {
-				$statement->execute();
-				header("location: custRegisterThankYou.php");
-			}
 			$stockPriceupdate->close();
 			$stockUpdate->close();
 			$checkUPC->close();
 			
 			$error .= "Total $errorCount errors were encountered during insert";
-			$message = "$updatedRows were updated."//updated x quantities, updated y prices
+			$message = "$updatedRows were updated.";//updated x quantities, updated y prices
     	}
     }
     mysqli_close($connection);

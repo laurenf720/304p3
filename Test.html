@@ -1,0 +1,109 @@
+
+<html>
+
+<script>
+function addToCart(upc, title) {
+    'use strict';
+    do{
+	    var quantity = window.prompt("How much would you like to add to cart?", "Enter a positive integer");
+	    // if user presses cancel then break
+	    if (quantity == null || quantity ==""){
+	    	quantity=0;
+	    	break;
+	    }
+	} while ( parseInt(quantity, 10) < 1 || isNaN(parseInt(quantity, 10)));
+    // Set the value of a hidden HTML element in this form
+    var form = document.getElementById('itemaction');
+    form.upc.value = upc;
+    form.submitAction.value="AddToCart"
+    form.quantity.value = parseInt(quantity, 10);
+    form.title.value= title;
+    form.submit();
+}
+
+function getDetails(upc, title, type, category, company, year, price, stock){
+	alert("UPC: "+ upc+"\nTitle: "+ title + "\nType: " + type + "\nCategory: " + category + "\nCompany: " + company + "\nYear: "+ year + "\nPrice: $" + price + "\nStock: " + stock);
+}
+
+function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+
+</script>
+
+	<head>
+		<title> AMS Website Search Page </title>
+		<link href="AMS.css" rel="stylesheet" type="text/css">
+	</head>
+
+	<body>
+
+		<html>
+	<body>
+		<div id="nav">
+			<ul>
+				<li><a href="../304p3/index.php">Home</a></li><li><a href="../304p3/search.php">Search</a></li><li><a href="../304p3/cart.php">Shopping Cart</a></li><li><a id="button">Customer Action 2</a></li><li><div class="rightpos" style="cursor: pointer;"><a id="welcomebutton">Welcome cust1!</a></div> </li>			</ul>
+		</div>
+
+		<div id="dropdown_menu" class="hidden_menu"> 
+			<table id="container">
+				<tr><td><a class="sub-menu" href="/../304p3/settings.php">SETTINGS</a></td></tr>
+				<tr><td><a class="sub-menu" href="/../304p3/logout.php">LOGOUT</a></td></tr>
+			</table>					
+		</div>
+	</body>
+</html>		
+		<div id="wrap">
+			<h1 align="center">Search for an AMS Item</h1>
+			<p></p>
+		</div>
+
+		<div align=center>
+			<!-- search bar -->
+			<form id="itemsearch" name="itemsearch" method="post" action="/304p3/search.php">
+				<table class="searchbar">
+					<tr>	
+						<td>Search in: 
+							<select name="searchfield">
+								<option value="All">All</option>
+								<option value="title">Title</option>
+								<option value="lsname">Artist</option>
+								<option value="itype">Type</option>
+								<option value="category">Category</option>
+								<option value="iyear">Year</option>
+								
+							</select>
+						</td>
+						<td><input type="search" name="search" placeholder="Search"></td>
+						<td>Order By: 
+							<select name="searchorder">
+								<option value="title ASC">Item Name (A-Z)</option>
+								<option value="title DESC">Item Name (Z-A)</option>
+								<option value="price ASC">Price - Low to High</option>
+								<option value="price DESC">Price - High to Low</option>
+							</select>
+						</td>
+						<td><input type="submit" name="submit" class="searchbutton" value="Search"></td>
+					</tr>
+				</table>
+			</form>
+			<!-- end of search bar -->
+
+			<table cellpadding=5 class="itemlist"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead><form id="itemaction" name="itemaction" action="/304p3/search.php" method="POST"><input type="hidden" name="upc" value="-1"/><input type="hidden" name="quantity" value="-1"/><input type="hidden" name="title" value="-1"/><input type="hidden" name="submitAction" value="action"/><tr><td>6</td><td>111 Classical Masterpieces</td><td>CD</td><td><p></p></td><td>Menuetto Classics</td><td>$ 9.99</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('6','111 Classical Masterpieces','CD','classical','Menuetto Classics','2009','9.99','14'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('6','111 Classical Masterpieces');"border=0 value="Add to Cart"></td></tr><tr><td>5</td><td>1989 (Deluxe Edition)</td><td>CD</td><td><p></p>Taylor Swift<br></td><td>Big Machine Records, LLC.</td><td>$ 14.99</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('5','1989 (Deluxe Edition)','CD','country','Big Machine Records, LLC.','2014','14.99','35'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('5','1989 (Deluxe Edition)');"border=0 value="Add to Cart"></td></tr><tr><td>8</td><td>9.99 test</td><td>CD</td><td><p></p></td><td>Menuetto Classics</td><td>$ 19.99</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('8','9.99 test','CD','classical','Menuetto Classics','2009','19.99','14'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('8','9.99 test');"border=0 value="Add to Cart"></td></tr><tr><td>3</td><td>Night Visions</td><td>CD</td><td><p></p>Imagine Dragons<br></td><td>Interscope Records</td><td>$ 9.99</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('3','Night Visions','CD','rock','Interscope Records','2012','9.99','30'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('3','Night Visions');"border=0 value="Add to Cart"></td></tr><tr><td>4</td><td>Recovery (Deluxe Edition)</td><td>CD</td><td><p></p>Eminem<br></td><td>Aftermath Records</td><td>$ 14.99</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('4','Recovery (Deluxe Edition)','CD','rap','Aftermath Records','2010','14.99','15'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('4','Recovery (Deluxe Edition)');"border=0 value="Add to Cart"></td></tr><tr><td>2</td><td>Sleep Sounds</td><td>CD</td><td><p></p>Random People<br></td><td>Relaxation Music Relaxing 101</td><td>$ 9.99</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('2','Sleep Sounds','CD','instrumental','Relaxation Music Relaxing 101','2012','9.99','10'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('2','Sleep Sounds');"border=0 value="Add to Cart"></td></tr><tr><td>1</td><td>Spice</td><td>CD</td><td><p></p>Spice Girls<br></td><td>Virgin</td><td>$ 10.00</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('1','Spice','CD','pop','Virgin','1996','10.00','26'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('1','Spice');"border=0 value="Add to Cart"></td></tr><tr><td>7</td><td>Spice World</td><td>CD</td><td><p></p>Spice Girls<br>test multiple<br></td><td>Virgin</td><td>$ 9.00</td><td style="border-right: 1px black solid;">
+					    			<input type="button" name="submit" class="detailsbutton" onClick="getDetails('7','Spice World','CD','pop','Virgin','1997','9.00','26'); "border=0 value="View Details" ><input type="submit" name="submit" class="cartbutton" onClick="javascript:addToCart('7','Spice World');"border=0 value="Add to Cart"></td></tr></form>			</table>
+		</div>
+
+	</body>
+	<script src="ams.js"></script>
+</html>
