@@ -4,7 +4,7 @@
 	<link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
-	<?php include 'custRegister.php';?>	
+	<?php include 'manAddQuantity.php';?>	
 	<?php include 'navbar.php';?>
 	<?php
 			// to prevent unauthorized access
@@ -28,7 +28,7 @@
 					</thead>
 			        <tr>
 			       		<td class="addItemData">UPC</td>
-						<td class="addItemData">Quantity</td>
+						<td class="addItemData">Quantity to Add</td>
 						<td class="addItemData">Price</td>
 			       	</tr>
 			       	<tr>
@@ -46,6 +46,7 @@
 				</tr>
 				</table>
     			<span class="error"><?php echo $error; ?></span>
+				<span class="message"><?php echo $message; ?></span>
 			</form>
 		</div>
 		

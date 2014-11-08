@@ -202,3 +202,7 @@ span.error {
 	font-style: italic;
 	font-size: 12px;
 }
+
+span.message{
+	color:black;
+	font-size: 12px;
