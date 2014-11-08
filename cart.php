@@ -90,7 +90,7 @@ function updateQuantity(upc) {
 
 			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			
-			if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
+			if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				if (isset($_POST["submit"]) and $_POST["submit"] == "Update Quantity") {
 					
 					$cid=$_SESSION['login_user'];

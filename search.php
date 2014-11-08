@@ -155,7 +155,7 @@ function toggle_visibility(id) {
 				    exit();
 				}
   
-				if ($_SERVER["REQUEST_METHOD"] == "POST" && !$pageWasRefreshed) {
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){
 						if (($_POST['quantity']) == 0){
 							echo "<span class=\"error\">*You did not enter a valid a quantity</span>";
@@ -211,7 +211,7 @@ function toggle_visibility(id) {
 			   	}
 
 			   	// end of logic - now printing item list
-			   	if ($pageWasRefreshed or !(isset($_SESSION['searchtext']))){
+			   	if (!(isset($_SESSION['searchtext']))){
 					printItemList('All','', 'title');
 				}
 				else{
