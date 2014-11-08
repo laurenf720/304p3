@@ -7,6 +7,7 @@ DROP TRIGGER IF EXISTS item_check_update;
 DROP TRIGGER IF EXISTS employee_check_insert;
 DROP TRIGGER IF EXISTS employee_check_update;
 
+DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS returnitem;
 DROP TABLE IF EXISTS returns;
 DROP TABLE IF EXISTS purchaseitem;
