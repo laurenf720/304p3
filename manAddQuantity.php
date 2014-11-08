@@ -24,7 +24,7 @@
 			$errorCount=0;
 			$updatedRows;
 			
-			foreach($upc as $a->$b) {		
+			foreach($upc as $a => $b) {		
 				//Ensure that there is a value in UPC field, otherwise, skip it
 				if(!is_null($b)){
 					// To protect MySQL injection for Security purposes
