@@ -51,24 +51,29 @@
 					$result=$checkUpc->get_result();
 					//UPC does not exist in database
 					if($result->num_rows == 0){
-						$error .= "Error $errorCount: $tempUpc was not found in the database\r\n";
+						$error .= "Error $errorCount: Item with UPC $tempUpc was not found in the database\r\n";
 						$errorCount += 1;
 					}
 					//Check Quantity for invalid values
-					elseif(!is_numeric($tempStock) || $tempStock < 1){
-						$error .= "Error $errorCount: Item with UPC $tempUpc contained an invalid quantity: $tempStock\r\n" ;
+					elseif(!is_numeric($tempStock) || $tempStock < 0){
+						$error .= "Error $errorCount: Item with UPC $tempUpc contained an invalid quantity: $tempStock\r\n";
 						$errorCount += 1;
 					}
 					else
 					{
 						$tempStock += $result->fetch_assoc()['stock'];
-						//Do not update price
-						if(is_null($result->fetch_assoc()['price'])){
+						//Update price						
+						if(is_numeric($tempPrice) && $tempPrice > 0){
+							$stockPriceUpdate->execute();
+						}
+						//Update the stock
+						elseif(isset($tempPrice)){
 							$stockUpdate->execute();
 						}
-						//Update the price
+						//Error
 						else{
-							$stockPriceUpdate->execute();
+							$error .= "Error $errorCount: Item with UPC $tempUpc contained an invalid price: $tempPrice\r\n";
+							$errorCount += 1;
 						}
 						$updatedRows += 1;
 					}
@@ -79,9 +84,9 @@
 			$stockPriceUpdate->close();			
 			$checkUpc->close();
 			if($errorCount > 0){
-				$error .= "Total: $errorCount error(s) were encountered during insert\r\n";
+				$error .= "Total: $errorCount error(s) were encountered during update\r\n";
 			}
-			$message = "$updatedRows items were updated.";//updated x quantities, updated y prices
+			$message .= "$updatedRows items were updated.";//updated x quantities, updated y prices
     	}
     }
     mysqli_close($connection);

@@ -32,7 +32,7 @@
 						<td class="addItemData">Price</td>
 			       	</tr>
 			       	<tr>
-			       		<td><input id="UPC" type="text" size=30 name="UPC[]" placeholder="Enter UPC"></td>
+			       		<td><input id="UPC" type="number" size=30 name="UPC[]" placeholder="Enter UPC"></td>
 						<td><input id="Quantity" type="text" size=30 name="Quantity[]" placeholder="Enter Quantity"></td>
 						<td><input id="Price" type="text" size=30 name="Price[]" placeholder="Enter Price"></td>
 			       	</tr>	
