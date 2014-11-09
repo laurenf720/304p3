@@ -23,15 +23,15 @@
 			$price=$_POST['Price'];
 			$errorCount=0;
 			$updatedRows=0;
-			$checkUpc->bind_param("i",$tempUpc);
+			$checkUpc->bind_param("s",$tempUpc);
 			$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc);
 			$stockUpdate->bind_param("ss",$tempStock,$tempUpc);
 			
 			foreach($upc as $a => $b) {
-				if(!is_numeric($b)){
+				if(!ctype_alnum($b)){
 					//If blank skip it
 					if($b != ''){
-						$error .= "Error $errorCount: UPC was not a number\r\n";
+						$error .= "Error $errorCount: There are invalid characters in the UPC: $b\r\n";
 						$errorCount+= 1;
 					}
 				}
