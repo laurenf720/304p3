@@ -32,11 +32,12 @@
 
 		<div align="center">
 			<form id="viewform" name="viewform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
-				<table cellpadding=10 style="background-color:white; border:1px solid black; border-radius:5px; text-align:center; width:400px">
-					<thead><tr><th>User Types:</th></tr></thead>
+				<table cellpadding=10 style="background-color:white; border:1px solid black; border-radius:5px; text-align:center; width:400px;">
+					<tr><td><p> </p></td></tr>
 					<tr><td><input class= "usertypebutton" id="customertype" type="submit" name="submit" value="Customer"></td></tr>
 					<tr><td><input class= "usertypebutton" id="clerktype" type="submit" name="submit" value="Clerk"></td></tr>
 					<tr><td><input class= "usertypebutton" id="managertype" type="submit" name="submit" value="Manager"></td></tr>
+					<tr><td><p> </p></td></tr>
 				</table>
 			</form>
 		</div>
