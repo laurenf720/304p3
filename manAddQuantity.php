@@ -2,6 +2,7 @@
 	session_start();
 	$error='';
 	$message='';
+	$warning='';
 
 	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 	
@@ -22,6 +23,7 @@
 			$quantity=$_POST['Quantity'];
 			$price=$_POST['Price'];
 			$errorCount=0;
+			$warningCount=0;
 			$updatedRows=0;
 			$checkUpc->bind_param("s",$tempUpc);
 			$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc);
@@ -47,33 +49,45 @@
 					$tempPrice = mysql_real_escape_string($tempPrice);
 					
 					//check if the upc exists in DB
-					$checkUpc->execute();
-					$result=$checkUpc->get_result();
-					//UPC does not exist in database
-					if($result->num_rows == 0){
-						$error .= "Error $errorCount: Item with UPC $tempUpc was not found in the database\r\n";
+					if(!$checkUpc->execute()){
+						$error .= "Error $errorCount: " . mysqli_error($connection) . "\r\n";
 						$errorCount += 1;
+					}
+					$result=$checkUpc->get_result();
+					//Set a blank stock equal to zero to enable the user to just update the price
+					if($tempStock == ''){
+						$tempStock = 0;
+					}
+					//UPC does not exist in database warn the user and redirect them to the correct form
+					if($result->num_rows == 0){
+						$warning .= "Warning $errorCount: Item with UPC $tempUpc was not found in the database, use <a href=\"../304p3/manProcessShipment.php\">Process Shipment</a> instead to add new items\r\n";
+						$warningCount += 1;
 					}
 					//Check Quantity for invalid values
 					elseif(!is_numeric($tempStock) || $tempStock < 0){
 						$error .= "Error $errorCount: Item with UPC $tempUpc contained an invalid quantity: $tempStock\r\n";
 						$errorCount += 1;
 					}
-					else
-					{
+					else {
+					
 						$tempStock += $result->fetch_assoc()['stock'];
-						//Update price						
+						//Update price and stock				
 						if(is_numeric($tempPrice) && $tempPrice > 0){
-							$stockPriceUpdate->execute();
+							if(!$stockPriceUpdate->execute()) {
+								$error .= "Error $errorCount: " . mysqli_error($connection) . "\r\n";
+								$errorCount += 1;
+							}
 						}
-						//Update the stock
-						elseif(isset($tempPrice)){
-							$stockUpdate->execute();
-						}
-						//Error
-						else{
-							$error .= "Error $errorCount: Item with UPC $tempUpc contained an invalid price: $tempPrice\r\n";
-							$errorCount += 1;
+						//Update the stock if price is not set or is invalid
+						else  {
+							if(isset($tempPrice) && $tempPrice != ''){
+								$warning .="Warning $warningCount: Item with UPC $tempUpc contained an invalid price: $tempPrice but stock was updated\r\n";
+								$warningCount += 1;
+							}
+							if(!$stockUpdate->execute()){
+								$error .= "Error $errorCount: " . mysqli_error($connection) . "\r\n";
+								$errorCount += 1;
+							}
 						}
 						$updatedRows += 1;
 					}
@@ -86,7 +100,10 @@
 			if($errorCount > 0){
 				$error .= "Total: $errorCount error(s) were encountered during update\r\n";
 			}
-			$message .= "$updatedRows items were updated.";//updated x quantities, updated y prices
+			if($warningCount >0){
+				$warning .= "Total: $warningCount warning(s) were encountered during update\r\n";
+			}
+			$message .= "$updatedRows items were updated.";
     	}
     }
     mysqli_close($connection);

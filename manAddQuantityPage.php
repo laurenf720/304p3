@@ -6,13 +6,6 @@
 	<body>
 	<?php include 'manAddQuantity.php';?>	
 	<?php include 'navbar.php';?>
-	<?php
-			/*to prevent unauthorized access
-			if ($_SESSION['type'] != 'manager'){
-					header("location: index.php");
-			}
-			*/
-		?>
 		<div id="wrap">
 			<h1 style="text-align:center">AMS Managers</h1>
 			<p></p>
@@ -47,6 +40,7 @@
 				</tr>
 				</table>
     			<div class="error"><?php echo $error; ?></div>
+				<div class="warning"><?php echo $warning; ?></div>
 				<span class="message"><?php echo $message; ?></span>
 			</form>
 		</div>

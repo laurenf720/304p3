@@ -214,3 +214,10 @@ div.error{
 	font-size: 12px;
 	white-space: pre-wrap;
 }
+
+div.warning{
+	color:yellow;
+	font-style: italic;
+	font-size: 12px;
+	white-space: pre-wrap;
+}

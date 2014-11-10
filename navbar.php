@@ -13,7 +13,7 @@
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
 						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
 						if ($_SESSION['type'] == 'manager'){
-							echo "<li><a id=\"button\" href=\"../304p3/manAddQuantityPage.php\">Add Stock</a></li>";
+							echo "<li><a id=\"button\" href=\"../304p3/manAddQuantityPage.php\">Update Stock</a></li>";
 							echo "<li><a id=\"button\">Manager Action 2</a></li>";
 						}
 						if ($_SESSION['type'] == 'clerk' or $_SESSION['type'] == 'manager'){
