@@ -7,10 +7,11 @@
 	<?php include 'manAddQuantity.php';?>	
 	<?php include 'navbar.php';?>
 	<?php
-			// to prevent unauthorized access
+			/*to prevent unauthorized access
 			if ($_SESSION['type'] != 'manager'){
 					header("location: index.php");
 			}
+			*/
 		?>
 		<div id="wrap">
 			<h1 style="text-align:center">AMS Managers</h1>
@@ -24,7 +25,7 @@
 					<thead>
 						<tr>
 							<th class="addItemHeader" colspan=3>Add Items to Stock</th>
-						</tr>
+						</tr> 	
 					</thead>
 			        <tr>
 			       		<td class="addItemData">UPC</td>
