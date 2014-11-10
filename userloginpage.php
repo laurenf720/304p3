@@ -5,7 +5,7 @@
 
 	</head>
 	<body>
-		<?php include 'custlogin.php';?>
+		<?php include 'userlogin.php';?>
 		<?php include 'navbar.php';?>
 
 		<div id="wrap">

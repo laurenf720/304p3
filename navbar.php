@@ -4,11 +4,14 @@
 			<ul>
 				<?php 
 					if (!isset($_SESSION['logged'])){
-						echo "<li><a href=\"../304p3/emploginpage.php\">Employee Login</a></li>";
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
 						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
 						echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
-						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a href=\"../304p3/custloginpage.php\">Customer Login</a></div></li>"; 
+						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a href=\"../304p3/userloginpage.php\">Login</a></div></li>"; 
+					}
+					elseif(!isset($_SESSION['type'])){
+						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
+						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION["login_user"]."!</a></div> </li>"; 
 					}
 					elseif (isset($_SESSION['logged']) and $_SESSION['logged']== true) {
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";

@@ -14,9 +14,7 @@
 		?>
 		<div id="nav">
 			<ul>
-				<li><a href="../304p3/emploginpage.php">Employee Login</a></li>
 				<li><a href="../304p3/index.php">Home</a></li>
-				<li><div class="rightpos"><a href="../304p3/custloginpage.php">Customer Login</a></div></li>
 			</ul>
 		</div>
 		<div id="wrap">

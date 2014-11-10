@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS leadsinger;
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS item;
 DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS employee;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE item 
 	(upc 		CHAR(11) NOT NULL,
@@ -42,20 +42,19 @@ CREATE TABLE hassong
     PRIMARY KEY (upc, songtitle),
     FOREIGN KEY (upc) REFERENCES item (upc));
 
-CREATE TABLE employee
-    (eid        VARCHAR(11) NOT NULL,
-    epassword   VARCHAR(30) NOT NULL,
-    etype       VARCHAR(7) NOT NULL, -- either clerk or manager
-    ename       VARCHAR(30) NOT NULL,
-    PRIMARY KEY (eid));
+CREATE TABLE users
+    (uid        VARCHAR(11) NOT NULL,
+    upassword   VARCHAR(30) NOT NULL,
+    -- etype       VARCHAR(7) NOT NULL, -- either clerk or manager
+    uname       VARCHAR(30) NOT NULL,
+    PRIMARY KEY (uid));
 
 CREATE TABLE customer
-	(cid 		CHAR(11) NOT NULL,
-    cpassword	VARCHAR(30) NULL,
-    cname 		VARCHAR(30) NOT NULL,
+	(cid 		VARCHAR(11) NOT NULL,
     address 	VARCHAR(30) NULL,
     phone		CHAR(11) NULL,
-    PRIMARY KEY (cid));
+    PRIMARY KEY (cid),
+    FOREIGN KEY (cid) REFERENCES users (uid));
 
 CREATE TABLE purchase
 	(receiptid		CHAR(11) NOT NULL,
@@ -134,21 +133,21 @@ BEGIN
 	END IF;
 END $$
     
-CREATE TRIGGER `employee_check_insert` BEFORE INSERT ON `employee`
-FOR EACH ROW
-BEGIN
-	IF NEW.etype != 'manager' AND NEW.etype != 'clerk' THEN
-		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in employee type must be 'clerk' or 'manager'";
-	END IF;
-END$$
-
-CREATE TRIGGER `employee_check_update` BEFORE UPDATE ON `employee`
-FOR EACH ROW
-BEGIN
-	IF NEW.etype != 'manager' AND NEW.etype != 'clerk' THEN
-		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in employee type must be 'clerk' or 'manager'";
-	END IF;
-END$$
+-- CREATE TRIGGER `employee_check_insert` BEFORE INSERT ON `employee`
+-- FOR EACH ROW
+-- BEGIN
+-- 	IF NEW.etype != 'manager' AND NEW.etype != 'clerk' THEN
+-- 		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in employee type must be 'clerk' or 'manager'";
+-- 	END IF;
+-- END$$
+-- 
+-- CREATE TRIGGER `employee_check_update` BEFORE UPDATE ON `employee`
+-- FOR EACH ROW
+-- BEGIN
+-- 	IF NEW.etype != 'manager' AND NEW.etype != 'clerk' THEN
+-- 		SIGNAL SQLSTATE '45001' SET MESSAGE_TEXT = "violation in employee type must be 'clerk' or 'manager'";
+-- 	END IF;
+-- END$$
 
 DELIMITER ; 
 
@@ -175,14 +174,17 @@ VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics
 INSERT INTO item
 VALUES ('8', '9.99 test', 'CD', 'classical', 'Menuetto Classics', 2009, 19.99, 14);
     
-INSERT INTO employee
-VALUES ('manager1', 'password', 'manager', 'man1');
+INSERT INTO users
+VALUES ('manager1', 'password', 'man1');
+
+INSERT INTO users
+VALUES ('cust1', 'password', 'lauren fung');
 
 INSERT INTO customer
-VALUES ('cust1', 'password', 'lauren fung', '123 vancouver', '123 456');
+VALUES ('cust1', '123 vancouver', '123 456');
 
-INSERT INTO employee
-VALUES ('employee1', 'password', 'clerk', 'clerk1');
+INSERT INTO users
+VALUES ('employee1', 'password', 'clerk1');
 
 INSERT INTO purchase
 VALUES ('1', '2014-11-3', 'cust1','123','456','789','1234');
