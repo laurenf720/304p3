@@ -53,33 +53,72 @@ function toggle_visibility(id) {
 
 		<div align=center>
 			<!-- search bar -->
-			<form id="itemsearch" name="itemsearch" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				<table class="searchbar">
-					<tr>	
-						<td>Search in: 
-							<select name="searchfield">
-								<option value="All">All</option>
-								<option value="title">Title</option>
-								<option value="lsname">Artist</option>
-								<option value="itype">Type</option>
-								<option value="category">Category</option>
-								<option value="iyear">Year</option>
-								
-							</select>
-						</td>
-						<td><input type="search" name="search" placeholder="Search"></td>
-						<td>Order By: 
-							<select name="searchorder">
-								<option value="title ASC">Item Name (A-Z)</option>
-								<option value="title DESC">Item Name (Z-A)</option>
-								<option value="price ASC">Price - Low to High</option>
-								<option value="price DESC">Price - High to Low</option>
-							</select>
-						</td>
-						<td><input type="submit" name="submit" class="searchbutton" value="Search"></td>
-					</tr>
-				</table>
-			</form>
+			<?php
+			function printSearchbar(){
+				if (!isset($_SESSION['searchtoggle'])){
+					echo "<form id=\"itemsearch\" name=\"itemsearch\" method=\"post\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\">
+						<table class=\"searchbar\">
+							<tr>	
+								<td>Search in: 
+									<select name=\"searchfield\">
+										<option value=\"All\">All</option>
+										<option value=\"title\">Title</option>
+										<option value=\"lsname\">Artist</option>
+										<option value=\"itype\">Type</option>
+										<option value=\"category\">Category</option>
+										<option value=\"iyear\">Year</option>
+										
+									</select>
+								</td>
+								<td><input type=\"search\" name=\"search\" placeholder=\"Search\"></td>
+								<td>Order By: 
+									<select name=\"searchorder\">
+										<option value=\"title ASC\">Item Name (A-Z)</option>
+										<option value=\"title DESC\">Item Name (Z-A)</option>
+										<option value=\"price ASC\">Price - Low to High</option>
+										<option value=\"price DESC\">Price - High to Low</option>
+									</select>
+								</td>
+								<td><input type=\"submit\" name=\"submit\" class=\"searchbutton\" value=\"Search\"></td>
+								<td><input type=\"submit\" name=\"submit\" class=\"togglebutton\" value=\"Toggle\"></td>
+							</tr>
+						</table>
+					</form>";
+				}
+				elseif(isset($_SESSION['searchtoggle']) and $_SESSION['searchtoggle'] == "advanced"){
+					echo "advanced";
+					echo "<form id=\"itemsearch\" name=\"itemsearch\" method=\"post\" action=\"".htmlspecialchars($_SERVER["PHP_SELF"])."\">
+						<table class=\"searchbar\">
+							<tr>	
+								<td>Search in: 
+									<select name=\"searchfield\">
+										<option value=\"All\">All</option>
+										<option value=\"title\">Title</option>
+										<option value=\"lsname\">Artist</option>
+										<option value=\"itype\">Type</option>
+										<option value=\"category\">Category</option>
+										<option value=\"iyear\">Year</option>
+										
+									</select>
+								</td>
+								<td><input type=\"search\" name=\"search\" placeholder=\"Search\"></td>
+								<td>Order By: 
+									<select name=\"searchorder\">
+										<option value=\"title ASC\">Item Name (A-Z)</option>
+										<option value=\"title DESC\">Item Name (Z-A)</option>
+										<option value=\"price ASC\">Price - Low to High</option>
+										<option value=\"price DESC\">Price - High to Low</option>
+									</select>
+								</td>
+								<td><input type=\"submit\" name=\"submit\" class=\"searchbutton\" value=\"Search\"></td>
+								<td><input type=\"submit\" name=\"submit\" class=\"togglebutton\" value=\"Toggle\"></td>
+							</tr>
+						</table>
+					</form>";
+				}
+			}
+			?>
+			
 			<!-- end of search bar -->
 
 			<?php
@@ -215,8 +254,16 @@ function toggle_visibility(id) {
 						$_SESSION['searchfield']=$searchfield;
 						$_SESSION['searchtext']=$searchtext;
 					}
+					elseif(isset($_POST["submit"]) and $_POST["submit"] == "Toggle"){
+						if(isset($_SESSION['searchtoggle'])){
+							unset($_SESSION['searchtoggle']);
+						}
+						else{
+							$_SESSION['searchtoggle'] = "advanced";
+						}
+					}
 			   	}
-
+			   	printSearchbar();
 			   	// end of logic - now printing item list
 			   	if (!(isset($_SESSION['searchtext']))){
 					printItemList('All','', 'title');
