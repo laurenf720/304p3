@@ -173,21 +173,28 @@ function toggle_visibility(id) {
 							$title=mysql_real_escape_string($title);
 
 						    if (isset($_POST["submitAction"]) && $_POST["submitAction"] == "AddToCart") {
-						    	$result = $connection->query("SELECT * FROM cart WHERE cid='$cid' and upc='$upc'");
-						    	if ($result->num_rows == 1){
-						    		$stmt = $connection->prepare("UPDATE cart SET quantity=quantity+(?) where cid=? and upc=?");
-						    		$stmt->bind_param("iss", $quantity, $cid, $upc);
-						    		$stmt->execute();
+						    	$result=$connection->query("SELECT * FROM customer WHERE cid='$cid'");
+						    	$rows=$result->num_rows;
+						    	if ($rows == 0){
+						    		echo "<span class=\"error\"><b>*Oops! Looks like your account is not a customer account! Please register as a customer</b></span>";
 						    	}
-						    	else{
-								    $stmt = $connection->prepare("INSERT INTO cart (cid, upc, quantity) VALUES (?,?,?)");
-								    $stmt->bind_param("ssi", $cid, $upc, $quantity);
-								    $stmt->execute();
-								}
-								if($stmt->error) {
-								    printf("<b>Error: %s.</b>\n", $stmt->error);
-								} else {
-								    echo "<b>Successfully added to cart: '".$title."' x ".$quantity."</b>";
+						    	else {
+						    		$result = $connection->query("SELECT * FROM cart WHERE cid='$cid' and upc='$upc'");
+							    	if ($result->num_rows == 1){
+							    		$stmt = $connection->prepare("UPDATE cart SET quantity=quantity+(?) where cid=? and upc=?");
+							    		$stmt->bind_param("iss", $quantity, $cid, $upc);
+							    		$stmt->execute();
+							    	}
+							    	else{
+									    $stmt = $connection->prepare("INSERT INTO cart (cid, upc, quantity) VALUES (?,?,?)");
+									    $stmt->bind_param("ssi", $cid, $upc, $quantity);
+									    $stmt->execute();
+									}
+									if($stmt->error) {
+									    printf("<b>Error: %s.</b>\n", $stmt->error);
+									} else {
+									    echo "<b>Successfully added to cart: '".$title."' x ".$quantity."</b>";
+									}
 								}
 							}
 						}
