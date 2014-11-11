@@ -9,7 +9,11 @@
 	<body>
 		<?php include 'userlogin.php';?>
 		<?php include 'navbar.php';?>
-
+		<?php
+			if (!isset($_SESSION['logged'])){
+				header("location: userloginpage.php");
+			}
+		?>
 
 		<div id="wrap">
 			<h1 style="text-align:center">Returning Items</h1>
