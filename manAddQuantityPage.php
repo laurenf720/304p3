@@ -1,13 +1,13 @@
 <html>
 <head>
-	<title>Update Item Stock</title>
+	<title>AMS Store</title>
 	<link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 	<?php include 'manAddQuantity.php';?>	
 	<?php include 'navbar.php';?>
 		<div id="wrap">
-			<h1 style="text-align:center">AMS Managers</h1>
+			<h1 style="text-align:center">Update Stock of Item</h1>
 			<p></p>
 		</div>
 		<div align="center">
