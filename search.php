@@ -194,9 +194,15 @@ function toggle_visibility(id) {
 						$quantitysearch=0;
 					}
 
-					$query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock, lsname FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE title LIKE '%$titlesearch%' and category LIKE '%$categorysearch%' and lsname LIKE '%$artistsearch%' and stock >= $quantitysearch)
+					if ($artistsearch==""){
+						$query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock, lsname FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE title LIKE '%$titlesearch%' and category LIKE '%$categorysearch%' and lsname LIKE '%$artistsearch%' and stock >= $quantitysearch)
 						UNION
 						(SELECT item.upc,title, itype, category, company, iyear,price, stock, lsname FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE title LIKE '%$titlesearch%' and category LIKE '%$categorysearch%' and stock >= $quantitysearch)";
+					}
+					else {
+						$query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock, lsname FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE title LIKE '%$titlesearch%' and category LIKE '%$categorysearch%' and lsname LIKE '%$artistsearch%' and stock >= $quantitysearch)";
+					}
+					
 
 					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 					if (mysqli_connect_errno()) {
