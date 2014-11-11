@@ -1,14 +1,16 @@
 <html>
 	<head>
-		<title> AMS Website Settings Page </title>
+		<title>AMS Store</title>
 		<link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
-		<?php include 'emplogin.php';?>
+		<?php include 'userlogin.php';?>
 		<?php include 'navbar.php';?>
 
-		<p>Settings</p>
+		<div id="wrap">
+			<h1 align="center">Settings</h1>
+		</div>
 	</body>
 	<script src="ams.js"></script>
 </html>

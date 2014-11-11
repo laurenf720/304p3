@@ -5,11 +5,11 @@
 
 	</head>
 	<body>
-		<?php include 'custlogin.php';?>
+		<?php include 'userlogin.php';?>
 		<?php include 'navbar.php';?>
 
 		<div id="wrap">
-			<h1 style="text-align:center">AMS Customers</h1>
+			<h1 style="text-align:center">AMS Login</h1>
 			<p></p>
 		</div>
 		<?php
@@ -23,7 +23,7 @@
 				<table class="login" style="background-color:white">
 					<thead>
 						<tr>
-							<th colspan=2 style="border-bottom:1px solid">Customer Login Form</th>
+							<th colspan=2 style="border-bottom:1px solid">Login Form</th>
 						</tr>
 					</thead>
 			        <tr>

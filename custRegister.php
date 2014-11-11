@@ -23,8 +23,8 @@
 			}
 			//check if the username is taken			
 			else {
-			
-				$statement=$connection->prepare("insert into customer values(?, ?, ?, ?, ?)");
+				$statement1=$connection->prepare("insert into users values (?,?,?)");
+				$statement2=$connection->prepare("insert into customer values(?, ?, ?)");
 				$username=$_POST['username'];
 				$password=$_POST['password'];
 				$cname=$_POST['cname'];
@@ -42,11 +42,11 @@
 				$phone = mysql_real_escape_string($phone);
 				$address = mysql_real_escape_string($address);
 				
-				$result = $connection->query("select cid from customer where cid='$username'");
+				$result = $connection->query("select uid from users where uid='$username'");
 				$rows = $result->num_rows;
 				//check if the username has been taken
-				
-				$statement->bind_param("sssss",$username,$password,$cname,$address,$phone);	
+				$statement1->bind_param("sss", $username, $password, $cname);
+				$statement2->bind_param("sss",$username,$address,$phone);	
 				if($rows != 0){
 					$error = "The username $username has been taken, please try another name";
 					session_write_close();
@@ -54,10 +54,12 @@
 				//register the customer
 				
 				else {
-					$statement->execute();
+					$statement1->execute();
+					$statement2->execute();
 					header("location: custRegisterThankYou.php");
 				}
-				$statement->close();
+				$statement1->close();
+				$statement2->close();
 			}
     	}
     }

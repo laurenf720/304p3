@@ -2,14 +2,18 @@
 	<head>
 		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 		<meta content="utf-8" http-equiv="encoding">
-		<title>AMS Return</title>
+		<title>AMS Store</title>
 	    <link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>
-		<?php include 'emplogin.php';?>
+		<?php include 'userlogin.php';?>
 		<?php include 'navbar.php';?>
-
+		<?php
+			if (!isset($_SESSION['logged'])){
+				header("location: userloginpage.php");
+			}
+		?>
 
 		<div id="wrap">
 			<h1 style="text-align:center">Returning Items</h1>
@@ -204,7 +208,7 @@
 					PurchaseItem Quantity should decrease
 					*/
 					$diff_quant = $pQuantity - $des_quant;
-					$currDate = date('Y-m-d H:i:s');
+					$currDate = date('Y-m-d');
 					$result = $connection->query("INSERT INTO `ams`.`returns` (`retid`, `rdate`, `receiptid`) VALUES (NULL, '$currDate', '$receipt_id')");
 					
 					// need the retID of returns so I can add the associated values into ReturnItem table

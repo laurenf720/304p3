@@ -9,7 +9,7 @@
 
 		<div id="wrap">
 			<h1 style="text-align:center">Welcome to AMS, Thank you for Registering</h1>
-			<h2 style="text-align:center">Please click <a href="/../304p3/custloginpage.php">here</a> to log in</h2>
+			<h2 style="text-align:center">Please click <a href="/../304p3/userloginpage.php">here</a> to log in</h2>
 			<p></p>
 		</div>
 		<div align="center">

@@ -138,7 +138,52 @@ h2 {
 	padding:15px;
 }
 
+.searchbar{
+	border-spacing: 5px;
+	border: 1px solid;
+	border-radius:5px;
+	margin-bottom: 20px;
+	background-color: white;
+	width:900px;
+	height:60px;
+}
 
+.itemdetail {
+	border-spacing: 0px;
+	border: 1px solid;
+	border-radius:5px;
+	padding:15px;
+	background-color: white;
+}
+
+.itemdetail td{
+	border-right: 1px black solid;
+	border-bottom: 1px black solid;
+}
+
+.itemlist {
+	border-spacing: 0px;
+	border: 1px solid;
+	border-radius:5px;
+	padding:15px;
+	margin-bottom: 20px;
+}
+.itemlist td{
+	border-left: 1px black solid;
+	border-bottom: 1px black solid;
+}
+
+.itemlist th {
+	border-bottom: 1px black solid;
+	background-color:#EAF9FF;
+}
+.itemlist tr:nth-child(even) {
+    background-color:white;
+}
+
+.itemlist tr:nth-child(odd) {
+    background-color:#ABE2FF;
+}
 
 th.purchaseheader {
 	border-bottom:1px solid black;
@@ -177,6 +222,50 @@ input[type=submit]:hover {
 	border:2px solid #0066FF;
 }
 
+input[class=detailsbutton] {
+	background-color:#FF8D00;
+	color:#fff;
+	border:2px solid #FFB65C;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[class=detailsbutton]:hover {
+	background-color:#FFB65C;
+	border:2px solid #FF8D00;
+}
+
+input[class=cartbutton] {
+	background-color:#00C80D;
+	color:#fff;
+	border:2px solid #85E28B;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[class=cartbutton]:hover {
+	background-color:#85E28B;
+	border:2px solid #00C80D;
+}
+
+input[class=searchbutton] {
+	background-color:#0066FF;
+	color:#fff;
+	border:2px solid #4891FE;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[class=searchbutton]:hover {
+	background-color:#4891FE;
+	border:2px solid #0066FF;
+}
 
 input[type=button] {
 	background-color:#0066FF;
@@ -193,7 +282,44 @@ input[type=button]:hover {
 	border:2px solid #0066FF;
 }
 
-input[type="text"], input[type="password"] {
+input[class=togglebutton] {
+	background-color:#A200FF;
+	color:#fff;
+	border:2px solid #D997FF;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[class=togglebutton]:hover {
+	background-color:#D997FF;
+	border:2px solid #A200FF;
+}
+
+input[class=usertypebutton] {
+	background-color:#0066FF;
+	color:#fff;
+	border:2px solid #4891FE;
+	padding:5px;
+	font-size:14px;
+	cursor:pointer;
+	border-radius:5px;
+	width:130px;
+	height:50px;
+}
+
+input[class=usertypebutton]:hover {
+	background-color:#4891FE;
+	border:2px solid #0066FF;
+}
+
+input[type=search]{
+	-webkit-appearance: textfield;
+	height:25px;
+}
+
+input[type="text"], input[type="password"]{
 	height:23px;
 }
 
