@@ -208,7 +208,7 @@
 					PurchaseItem Quantity should decrease
 					*/
 					$diff_quant = $pQuantity - $des_quant;
-					$currDate = date('Y-m-d H:i:s');
+					$currDate = date('Y-m-d');
 					$result = $connection->query("INSERT INTO `ams`.`returns` (`retid`, `rdate`, `receiptid`) VALUES (NULL, '$currDate', '$receipt_id')");
 					
 					// need the retID of returns so I can add the associated values into ReturnItem table

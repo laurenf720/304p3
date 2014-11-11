@@ -58,12 +58,12 @@ CREATE TABLE customer
 
 CREATE TABLE purchase
 	(receiptid		CHAR(11) NOT NULL,
-    pdate 			CHAR(20) NOT NULL,
+    pdate 			DATE NOT NULL,
     cid 			CHAR(11) NOT NULL,
     cardnumber		CHAR(16) NULL,
     expirydate		CHAR(20) NULL,
-    expecteddate 	CHAR(20) NULL,
-    delivereddate	CHAR(20) NULL,
+    expecteddate 	DATE NULL,
+    delivereddate	DATE NULL,
     PRIMARY KEY (receiptid),
     FOREIGN KEY (cid) REFERENCES customer (cid));
 
@@ -77,7 +77,7 @@ CREATE TABLE purchaseitem
 
 CREATE TABLE returns
 	(retid		INT NOT NULL AUTO_INCREMENT,
-    rdate 		CHAR(20) NOT NULL,
+    rdate 		DATE NOT NULL,
     receiptid 	CHAR(11) NOT NULL,
     PRIMARY KEY (retid),
     FOREIGN KEY (receiptid) REFERENCES purchase (receiptid));
@@ -193,12 +193,12 @@ INSERT INTO users
 VALUES ('employee1', 'password', 'clerk1');
 
 INSERT INTO purchase
-VALUES ('1', '2014-11-3', 'cust1','123','456','789','1234');
+VALUES ('1', '2014-11-03', 'cust1','123','456','2014-12-03',null);
 INSERT INTO purchaseitem
 VALUES ('1','1','4');
 
 INSERT INTO purchase
-VALUES ('2', '2014-10-3', 'cust1','123','456','789','1234');
+VALUES ('2', '2014-10-03', 'cust1','123','456','2014-11-03',null);
 INSERT INTO purchaseitem
 VALUES ('2','1','4');
 INSERT INTO purchaseitem
