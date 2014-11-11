@@ -76,7 +76,7 @@
 						echo "<tr><td>Category:</td><td style=\"border-right: 0px\">".$row['category']."</td></tr>";
 						echo "<tr><td>Company:</td><td style=\"border-right: 0px\">".$row['company']."</td></tr>";
 						echo "<tr><td>Year:</td><td style=\"border-right: 0px\">".$row['iyear']."</td></tr>";
-						echo "<tr><td>Price:</td><td style=\"border-right: 0px\">".$row['price']."</td></tr>";
+						echo "<tr><td>Price:</td><td style=\"border-right: 0px\">$ ".$row['price']."</td></tr>";
 						echo "<tr><td style=\"border-bottom: 0px\">Stock:</td><td style=\"border-bottom: 0px; border-right: 0px\">".$row['stock']."</td></tr>";
 						echo "<tr><td colspan=2 style=\"text-align:right; border-bottom: 0px; border-right: 0px\"><input type=\"submit\" name=\"submit\" class=\"button\" value=\"Back to Search\"></td></tr>";
 						
