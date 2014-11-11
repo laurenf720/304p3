@@ -216,7 +216,7 @@ div.error{
 }
 
 div.warning{
-	color:yellow;
+	color:orange;
 	font-style: italic;
 	font-size: 12px;
 	white-space: pre-wrap;

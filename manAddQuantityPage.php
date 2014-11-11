@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>AMS Store</title>
+	<title>Update Item Stock</title>
 	<link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>

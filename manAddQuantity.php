@@ -60,7 +60,7 @@
 					}
 					//UPC does not exist in database warn the user and redirect them to the correct form
 					if($result->num_rows == 0){
-						$warning .= "Warning $errorCount: Item with UPC $tempUpc was not found in the database, use <a href=\"../304p3/manProcessShipment.php\">Process Shipment</a> instead to add new items\r\n";
+						$warning .= "Warning $warningCount: Item with UPC $tempUpc was not found in the database, use <a href=\"../304p3/manProcessShipment.php\">Process Shipment</a> instead to add new items\r\n";
 						$warningCount += 1;
 					}
 					//Check Quantity for invalid values
