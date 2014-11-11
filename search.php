@@ -20,9 +20,16 @@ function addToCart(upc, title) {
     form.submit();
 }
 
-function getDetails(upc, title, type, category, company, year, price, stock){
-	alert("UPC: "+ upc+"\nTitle: "+ title + "\nType: " + type + "\nCategory: " + category + "\nCompany: " + company + "\nYear: "+ year + "\nPrice: $" + price + "\nStock: " + stock);
+function viewDetails(upc){
+	var form = document.getElementById('itemaction');
+	form.upc.value = upc;
+	form.submitAction.value="ViewDetails";
+	form.submit();
 }
+
+// function getDetails(upc, title, type, category, company, year, price, stock){
+// 	alert("UPC: "+ upc+"\nTitle: "+ title + "\nType: " + type + "\nCategory: " + category + "\nCompany: " + company + "\nYear: "+ year + "\nPrice: $" + price + "\nStock: " + stock);
+// }
 
 function toggle_visibility(id) {
        var e = document.getElementById(id);
@@ -156,7 +163,7 @@ function toggle_visibility(id) {
 					    	echo "<td>$ ".$row['price']."</td>";
 
 					    	echo "<td style=\"border-right: 1px black solid;\">
-					    			<input type=\"button\" name=\"submit\" class=\"detailsbutton\" onClick=\"getDetails('".$row['upc']."','".$row['title']."','".$row['itype']."','".$row['category']."','".$row['company']."','".$row['iyear']."','".$row['price']."','".$row['stock']."'); \"border=0 value=\"View Details\" >";
+					    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:viewDetails('".$row['upc']."');\" border=0 value=\"View Details\" >";
 					    	if (isset($_SESSION['type']) and  $_SESSION['type']== "customer"){
 					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
 					    	}
@@ -227,7 +234,7 @@ function toggle_visibility(id) {
 					    	echo "<td>$ ".$row['price']."</td>";
 
 					    	echo "<td style=\"border-right: 1px black solid;\">
-					    			<input type=\"button\" name=\"submit\" class=\"detailsbutton\" onClick=\"getDetails('".$row['upc']."','".$row['title']."','".$row['itype']."','".$row['category']."','".$row['company']."','".$row['iyear']."','".$row['price']."','".$row['stock']."'); \"border=0 value=\"View Details\" >";
+					    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:viewDetails('".$row['upc']."');\" border=0 value=\"View Details\" >";
 					    	if (isset($_SESSION['type']) and  $_SESSION['type']== "customer"){
 					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
 					    	}
@@ -353,6 +360,12 @@ function toggle_visibility(id) {
 						}
 						else{
 							$_SESSION['searchtoggle'] = "advanced";
+						}
+					}
+					elseif(isset($_POST["submit"]) and $_POST["submit"] == "View Details"){
+						if(isset($_POST["submitAction"]) and $_POST["submitAction"] == "ViewDetails"){
+							$_SESSION['itemdetails']=$_POST['upc'];
+							header("location: viewDetails.php");
 						}
 					}
 			   	}

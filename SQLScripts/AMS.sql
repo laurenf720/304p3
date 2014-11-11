@@ -224,6 +224,15 @@ VALUES ('3', 'Imagine Dragons');
 INSERT INTO leadsinger
 VALUES ('2', 'Random People');
 
+INSERT INTO hassong
+VALUES ('5', 'blank');
+
+INSERT INTO hassong
+VALUES ('5', 'NYC');
+
+INSERT INTO hassong
+VALUES ('5', 'Style');
+
 COMMIT;
     
     

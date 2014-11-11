@@ -154,9 +154,11 @@ h2 {
 	border-radius:5px;
 	padding:15px;
 	background-color: white;
-	right:50%;
-	top:50%;
-	position: absolute;
+}
+
+.itemdetail td{
+	border-right: 1px black solid;
+	border-bottom: 1px black solid;
 }
 
 .itemlist {
