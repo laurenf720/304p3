@@ -271,8 +271,14 @@ function toggle_visibility(id) {
 						    if (isset($_POST["submitAction"]) && $_POST["submitAction"] == "AddToCart") {
 						    	$result=$connection->query("SELECT * FROM customer WHERE cid='$cid'");
 						    	$rows=$result->num_rows;
+
+						    	$result=$connection->query("SELECT stock FROM item WHERE upc='$upc'");
+						    	$row=$result->fetch_assoc();
 						    	if ($rows == 0){
 						    		echo "<span class=\"error\"><b>*Oops! Looks like your account is not a customer account! Please register as a customer</b></span>";
+						    	}
+						    	elseif($row['stock']<$quantity){
+						    		echo "<span class=\"error\">*Oops! We don't have enough for your order. Please verify the amount we have in stock</span>";
 						    	}
 						    	else {
 						    		$result = $connection->query("SELECT * FROM cart WHERE cid='$cid' and upc='$upc'");

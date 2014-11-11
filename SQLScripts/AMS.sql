@@ -169,6 +169,9 @@ INSERT INTO item
 VALUES ('5', '1989 (Deluxe Edition)', 'CD', 'country', 'Big Machine Records, LLC.', 2014, 14.99, 35);
 
 INSERT INTO item
+VALUES ('10', 'Red', 'CD', 'country', 'Big Machine Records, LLC.', 2012, 14.99, 35);
+
+INSERT INTO item
 VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics', 2009, 9.99, 14);
 
 INSERT INTO item
@@ -213,6 +216,8 @@ INSERT INTO leadsinger
 VALUES ('7', 'test multiple');
 INSERT INTO leadsinger
 VALUES ('5', 'Taylor Swift');
+INSERT INTO leadsinger
+VALUES ('10', 'Taylor Swift');
 INSERT INTO leadsinger
 VALUES ('3', 'Imagine Dragons');
 
