@@ -207,6 +207,24 @@ td.addItemData{
 	text-align:center;
 }
 
+.dailyreport {
+	border-spacing: 0px;
+	background-color:white;
+	border:1px solid black;
+	border-radius: 5px;
+	width:700px;
+}
+
+.dailyreport th, .dailyreport td {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.dailyreportfoot td{
+	border-bottom: 0px;
+	border-right:0px;
+}
+
 input[type=submit] {
 	background-color:#0066FF;
 	color:#fff;

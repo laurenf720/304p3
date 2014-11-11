@@ -42,14 +42,29 @@
 							exit();
 						}
 						$day = $_POST['dailyreportday'];
-						$result=$connection->query("SELECT * FROM purchase where pdate='$day'");
+						$result=$connection->query("SELECT upc, title, category, price, SUM(quantity) as units, (price*SUM(quantity)) as total FROM purchase NATURAL JOIN purchaseitem NATURAL JOIN item where pdate='$day' GROUP BY upc, category order by category");
 						if($result->num_rows == 0) {
 							echo "<span class=\"error\">* Sorry! No purchases were made on that day</span>";
 						}
 						else {
+							echo "<table cellpadding=5 class=\"dailyreport\"><thead><tr><th>UPC</th><th>Title</th><th>Category</th><th>Unit Price</th><th>Units</th><th style=\"border-right:0px\">Total Price</th></tr></thead>";
+							$totalsales=0.00;
+							$totalunits=0;
 							while ($row=$result->fetch_assoc()){
-								echo $row['delivereddate'];
+								$totalsales+=floatval($row['total']);
+								$totalunits+=intval($row['units']);
+								echo "<tr>";
+								echo "<td>".$row['upc']."</td>";
+								echo "<td>".$row['title']."</td>";
+								echo "<td>".$row['category']."</td>";
+								echo "<td>$ ".$row['price']."</td>";
+								echo "<td>".$row['units']."</td>";
+								echo "<td style=\"border-right:0px\">".$row['total']."</td>";
+								echo "</tr>";
+
 							}
+							echo "<tfoot><tbody><tr class=\"dailyreportfoot\"><td colspan=4 style=\"text-align:right\"><b>Total Daily Sales:</b></td><td><b>".$totalunits."</b></td><td><b> $".$totalsales."</b></td></tr></tbody></tfoot>";
+							echo "</table>";
 						}
 
 						mysqli_close($connection);
