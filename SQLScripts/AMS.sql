@@ -174,6 +174,9 @@ VALUES ('6', '111 Classical Masterpieces', 'CD', 'classical', 'Menuetto Classics
 INSERT INTO item
 VALUES ('8', '9.99 test', 'CD', 'classical', 'Menuetto Classics', 2009, 19.99, 14);
     
+INSERT INTO item
+VALUES ('9', 'Recovery', 'CD', 'rap', 'Aftermath Records', 2009, 9.99, 10);
+
 INSERT INTO users
 VALUES ('manager1', 'password', 'man1');
 
