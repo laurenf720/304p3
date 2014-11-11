@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title> AMS Website Logout Page </title>
+		<title>AMS Store</title>
 		<link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 

@@ -42,7 +42,7 @@ function toggle_visibility(id) {
 </script>
 
 	<head>
-		<title> AMS Website Search Page </title>
+		<title>AMS Store</title>
 		<link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 

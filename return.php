@@ -2,7 +2,7 @@
 	<head>
 		<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 		<meta content="utf-8" http-equiv="encoding">
-		<title>AMS Return</title>
+		<title>AMS Store</title>
 	    <link href="AMS.css" rel="stylesheet" type="text/css">
 	</head>
 
