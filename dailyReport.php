@@ -58,7 +58,7 @@
 								$totalunits+=intval($row['units']);
 								$new_category=$row['category'];
 								if ($new_category!=$curr_category and $curr_category!= ""){
-									echo "<tr><td colspan=4 style=\"color:blue;font-style: italic; text-align:right\">Total: </td><td style=\"font-style: italic; color:blue\">".$categoryunits."<td style=\"color:blue; font-style: italic; border-right:0px; color:blue\">$ ".number_format((float)$categorysales, 2, '.', '')."</td></tr>";
+									echo "<tr><td colspan=4 style=\"color:blue;font-style: italic; text-align:right\">Category Total: </td><td style=\"font-style: italic; color:blue\">".$categoryunits."<td style=\"color:blue; font-style: italic; border-right:0px; color:blue\">$ ".number_format((float)$categorysales, 2, '.', '')."</td></tr>";
 									$categorysales=0.00;
 									$categoryunits=0;
 								}
@@ -75,7 +75,7 @@
 								echo "</tr>";
 
 							}
-							echo "<tr><td colspan=4 style=\"color:blue;font-style: italic; text-align:right\">Total: </td><td style=\"font-style: italic; color:blue\">".$categoryunits."<td style=\"color:blue; font-style: italic; border-right:0px; color:blue\">$ ".number_format((float)$categorysales, 2, '.', '')."</td></tr>";
+							echo "<tr><td colspan=4 style=\"color:blue;font-style: italic; text-align:right\">Category Total: </td><td style=\"font-style: italic; color:blue\">".$categoryunits."<td style=\"color:blue; font-style: italic; border-right:0px; color:blue\">$ ".number_format((float)$categorysales, 2, '.', '')."</td></tr>";
 							echo "<tfoot><tbody><tr class=\"dailyreportfoot\"><td colspan=4 style=\"text-align:right\"><b>Total Daily Sales:</b></td><td><b>".$totalunits."</b></td><td><b> $".number_format((float)$totalsales, 2, '.', '')."</b></td></tr></tbody></tfoot>";
 							echo "</table>";
 						}
@@ -85,8 +85,6 @@
 				}
 			?>
 		</div>
-		
-		
 	</body>
 	<script src="ams.js"></script>
 </html>
