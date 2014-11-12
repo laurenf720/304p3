@@ -41,6 +41,9 @@
 							exit();
 						}
 						$day = $_POST['dailyreportday'];
+						$day=stripslashes($day);
+						$day=mysql_real_escape_string($day);
+						
 						$result=$connection->query("SELECT upc, title, category, price, SUM(quantity) as units, (price*SUM(quantity)) as total FROM purchase NATURAL JOIN purchaseitem NATURAL JOIN item where pdate='$day' GROUP BY upc, category order by category");
 						
 						if($result->num_rows == 0) {
