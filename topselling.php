@@ -56,6 +56,7 @@
 
 						$topcount=stripslashes($topcount);
 						$topcount=mysql_real_escape_string($topcount);
+						$count=0;
 						if (empty($topcount)){
 							$topcount=10;
 						}
@@ -83,23 +84,19 @@
 							}
 							else{
 								echo "<table cellpadding=5 class=\"dailyreport\"><thead><tr><th>UPC</th><th>Title</th><th>Company</th><th>Unit Price</th><th>Stock</th><th style=\"border-right:0px\">Units Sold</th></tr></thead>";
-								while($row=$result->fetch_assoc()){
+								while($row=$result->fetch_assoc() and $count < $topcount){
 									echo "<tr>";
 									echo "<td>".$row['upc']."</td>";
 									echo "<td>".$row['title']."</td>";
 									echo "<td>".$row['company']."</td>";
 									echo "<td>".$row['price']."</td>";
 									echo "<td>".$row['stock']."</td>";
-									echo "<td>".$row['units']."</td>";
+									echo "<td style=\"border-right:0px\">".$row['units']."</td>";
 									echo "</tr>";
+									$count +=1;
 								}
 								echo "</table>";
 							}
-
-						
-
-						
-						
 
 							mysqli_close($connection);
 						}
