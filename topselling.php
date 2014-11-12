@@ -83,7 +83,10 @@
 								echo "<span class=\"error\">* Sorry! No purchases were made during that date range</span>"; 
 							}
 							else{
-								echo "<table cellpadding=5 class=\"dailyreport\"><thead><tr><th>UPC</th><th>Title</th><th>Company</th><th>Unit Price</th><th>Stock</th><th style=\"border-right:0px\">Units Sold</th></tr></thead>";
+								echo "<table cellpadding=5 class=\"dailyreport\"><thead>
+									<tr><th colspan=6 style=\"border-right:0px\">Top ".$topcount." Selling Item(s) From ".$day1." to ".$day2."</th></tr>
+									<tr><th>UPC</th><th>Title</th><th>Company</th><th>Unit Price</th><th>Stock</th><th style=\"border-right:0px\">Units Sold</th></tr>
+								</thead>";
 								while($row=$result->fetch_assoc() and $count < $topcount){
 									echo "<tr>";
 									echo "<td>".$row['upc']."</td>";

@@ -237,7 +237,7 @@ INSERT INTO purchaseitem
 VALUES ('5','11','10');
 
 INSERT INTO purchase
-VALUES ('6', '2014-11-11', 'cust1','123','456','2014-11-15',null);
+VALUES ('6', '2014-11-13', 'cust1','123','456','2014-11-15',null);
 INSERT INTO purchaseitem
 VALUES ('6','1','1');
 INSERT INTO purchaseitem
