@@ -9,17 +9,15 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		if (!isset($_SESSION['logged'])){
+				header("location: userloginpage.php");
+			}
 		?>
 
 		<div id="wrap">
 			<h1 style="text-align:center">Create a Daily Report</h1>
 			<p></p>
 		</div>
-		<?php
-			if (!isset($_SESSION['logged'])){
-				header("location: userloginpage.php");
-			}
-		?>
 
 		<form id="dailyreportform" name="dailyreportform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
 			<table align="center" class="login" style="background-color:white">
@@ -32,6 +30,7 @@
 			    </tr>
 			</table>
 		</form>
+
 		<div align="center">
 			<?php
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -43,6 +42,7 @@
 						}
 						$day = $_POST['dailyreportday'];
 						$result=$connection->query("SELECT upc, title, category, price, SUM(quantity) as units, (price*SUM(quantity)) as total FROM purchase NATURAL JOIN purchaseitem NATURAL JOIN item where pdate='$day' GROUP BY upc, category order by category");
+						
 						if($result->num_rows == 0) {
 							echo "<span class=\"error\">* Sorry! No purchases were made on that day</span>";
 						}
@@ -73,7 +73,6 @@
 								echo "<td>".$row['units']."</td>";
 								echo "<td style=\"border-right:0px\">$ ".$row['total']."</td>";
 								echo "</tr>";
-
 
 							}
 							echo "<tr><td colspan=4 style=\"color:blue;font-style: italic; text-align:right\">Total: </td><td style=\"font-style: italic; color:blue\">".$categoryunits."<td style=\"color:blue; font-style: italic; border-right:0px; color:blue\">$ ".number_format((float)$categorysales, 2, '.', '')."</td></tr>";
