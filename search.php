@@ -395,7 +395,6 @@ function toggle_visibility(id) {
 				}
 			   	mysqli_close($connection);
 			?>
-			</table>
 		</div>
 
 	</body>

@@ -56,26 +56,53 @@
 
 						$topcount=stripslashes($topcount);
 						$topcount=mysql_real_escape_string($topcount);
-
-						if ($day2<$day1){
+						if (empty($topcount)){
+							$topcount=10;
+						}
+						if (empty($day2) or empty($day1)){
+							echo "<span class=\"error\">* Please pick a date range</span>"; 
+						}
+						elseif ($day2<$day1){
 							echo "<span class=\"error\">* Oops! The end day cannot be before the start day!</span>"; 
 						}
-						if(!is_numeric($topcount) or $topcount<=0){
+						elseif(!is_numeric($topcount) or $topcount<=0){
 							echo "<span class=\"error\">* 'Show top' field must be an integer greater than 0</span>"; 
 						}
+						else {
+							$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+							if (mysqli_connect_errno()) {
+								printf("Connect failed: %s\n", mysqli_connect_error());
+								exit();
+							}
 
-						$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-						if (mysqli_connect_errno()) {
-							printf("Connect failed: %s\n", mysqli_connect_error());
-							exit();
+							$query="select upc, title, price, company, stock, SUM(quantity) as units from item natural join purchase natural join purchaseitem where pdate<='$day2' and pdate>='$day1' group by upc order by SUM(quantity) DESC";
+							$result=$connection->query($query);
+
+							if ($result->num_rows == 0){
+								echo "<span class=\"error\">* Sorry! No purchases were made during that date range</span>"; 
+							}
+							else{
+								echo "<table cellpadding=5 class=\"dailyreport\"><thead><tr><th>UPC</th><th>Title</th><th>Company</th><th>Unit Price</th><th>Stock</th><th style=\"border-right:0px\">Units Sold</th></tr></thead>";
+								while($row=$result->fetch_assoc()){
+									echo "<tr>";
+									echo "<td>".$row['upc']."</td>";
+									echo "<td>".$row['title']."</td>";
+									echo "<td>".$row['company']."</td>";
+									echo "<td>".$row['price']."</td>";
+									echo "<td>".$row['stock']."</td>";
+									echo "<td>".$row['units']."</td>";
+									echo "</tr>";
+								}
+								echo "</table>";
+							}
+
+						
+
+						
+						
+
+							mysqli_close($connection);
 						}
-
-						
-
-						
-						
-
-						mysqli_close($connection);
 					}
 				}
 			?>
