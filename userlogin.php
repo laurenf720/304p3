@@ -26,16 +26,18 @@
 				$password = mysql_real_escape_string($password);
 
 				$result = $connection->query("select * from users where uid='$username' AND upassword='$password'");
-				if(empty($result)){
-					$error = $error = "* Username or Password is invalid";
-				}
-				else{
+				$rows = $result->num_rows;
+				if ($rows == 1){
 					$row=$result->fetch_assoc();
 					$_SESSION['login_user']=$username; 
 					//$_SESSION['type']="customer";
 					$_SESSION['logged']=true;
 					header("location: index.php");
 				}
+				else {
+					$error = "* Username or Password is invalid";
+				}
+
 			}
     	}
     }
