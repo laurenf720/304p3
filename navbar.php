@@ -17,13 +17,14 @@
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
 						echo "<li><a href=\"../304p3/search.php\">Search</a></li>";
 						if ($_SESSION['type'] == 'manager'){
-							echo "<li><a id=\"button\" href=\"../304p3/manAddQuantityPage.php\">Update Stock</a></li>";
+							echo "<li><a href=\"../304p3/manAddQuantityPage.php\">Update Stock</a></li>";
+							echo "<li><a href=\"../304p3/manAddItem.php\">Add New Item</a></li>";
 							echo "<li><a href=\"../304p3/dailyReport.php\">Daily Report</a></li>";
 							echo "<li><a href=\"../304p3/topselling.php\">Top Items Report</a></li>";
+
 						}
 						if ($_SESSION['type'] == 'clerk' or $_SESSION['type'] == 'manager'){
 							echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
-							echo "<li><a id=\"button\">Clerk Action 2</a></li>";
 						}
 						else {
 							echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
