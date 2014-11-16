@@ -19,6 +19,7 @@
 						if ($_SESSION['type'] == 'manager'){
 							echo "<li><a id=\"button\" href=\"../304p3/manAddQuantityPage.php\">Update Stock</a></li>";
 							echo "<li><a href=\"../304p3/dailyReport.php\">Daily Report</a></li>";
+							echo "<li><a href=\"../304p3/topselling.php\">Top Items Report</a></li>";
 						}
 						if ($_SESSION['type'] == 'clerk' or $_SESSION['type'] == 'manager'){
 							echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";

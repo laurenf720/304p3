@@ -163,6 +163,9 @@ INSERT INTO item
 VALUES ('3', 'Night Visions', 'CD', 'rock', 'Interscope Records', 2012, 9.99, 30);
 
 INSERT INTO item
+VALUES ('11', 'Only by the Night', 'CD', 'rock', 'Sony Big Music Records', 2008, 9.99, 30);
+
+INSERT INTO item
 VALUES ('4', 'Recovery (Deluxe Edition)', 'CD', 'rap', 'Aftermath Records', 2010, 14.99, 15);
 
 INSERT INTO item
@@ -195,7 +198,9 @@ VALUES ('employee1', 'password', 'clerk1');
 INSERT INTO purchase
 VALUES ('1', '2014-11-03', 'cust1','123','456','2014-12-03',null);
 INSERT INTO purchaseitem
-VALUES ('1','1','4');
+VALUES ('1','1','1');
+INSERT INTO purchaseitem
+VALUES ('1','8','2');
 
 INSERT INTO purchase
 VALUES ('2', '2014-10-03', 'cust1','123','456','2014-11-03',null);
@@ -203,6 +208,46 @@ INSERT INTO purchaseitem
 VALUES ('2','1','4');
 INSERT INTO purchaseitem
 VALUES ('2','2','3');
+
+INSERT INTO purchase
+VALUES ('3', '2014-11-03', 'cust1','123','456','2014-12-03',null);
+INSERT INTO purchaseitem
+VALUES ('3','7','5');
+INSERT INTO purchaseitem
+VALUES ('3','8','6');
+
+INSERT INTO purchase
+VALUES ('4', '2014-10-03', 'cust1','123','456','2014-11-03',null);
+INSERT INTO purchaseitem
+VALUES ('4','9','4');
+INSERT INTO purchaseitem
+VALUES ('4','10','3');
+
+INSERT INTO purchase
+VALUES ('5', '2014-11-11', 'cust1','123','456','2014-11-15',null);
+INSERT INTO purchaseitem
+VALUES ('5','1','1');
+INSERT INTO purchaseitem
+VALUES ('5','2','1');
+INSERT INTO purchaseitem
+VALUES ('5','3','3');
+INSERT INTO purchaseitem
+VALUES ('5','7','10');
+INSERT INTO purchaseitem
+VALUES ('5','11','10');
+
+INSERT INTO purchase
+VALUES ('6', '2014-11-13', 'cust1','123','456','2014-11-15',null);
+INSERT INTO purchaseitem
+VALUES ('6','1','1');
+INSERT INTO purchaseitem
+VALUES ('6','2','1');
+INSERT INTO purchaseitem
+VALUES ('6','3','2');
+INSERT INTO purchaseitem
+VALUES ('6','7','1');
+INSERT INTO purchaseitem
+VALUES ('6','11','11');
 
 INSERT INTO leadsinger
 VALUES ('4', 'Eminem');
