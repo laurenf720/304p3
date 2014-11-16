@@ -81,8 +81,9 @@
 				</table>
 
 				<?php
+				$error='';
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
-					$error='';
+					
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add Item"){
 						if (empty($_POST['upc']) or empty($_POST['title']) or empty($_POST['company']) or empty($_POST['year']) or empty($_POST['price']) or empty($_POST['stock']) or $_POST['type'] == "-- SELECT ONE --" or $_POST['category'] == "-- SELECT ONE --"){
 							$error = "* Please fill in all fields" ;
