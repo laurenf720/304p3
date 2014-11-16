@@ -61,6 +61,10 @@
 					    <td><input id="company" type="text" size=30 name="company" placeholder="Enter the company for the new item"></td>
 					</tr>
 					<tr>
+						<td><label>Artist (Optional): </label></td>
+					    <td><input id="artist" type="text" size=30 name="artist" placeholder="Enter the lead singer"></td>
+					</tr>
+					<tr>
 						<td><label>Year: </label></td>
 					    <td><input id="year" type="number" name="year" placeholder=<?php echo date("Y");?>></td>
 					</tr>
@@ -142,6 +146,10 @@
 							$category=stripslashes($category);
 							$category=mysql_real_escape_string($category);
 
+							$artist = $_POST['artist'];
+							$artist=stripslashes($artist);
+							$artist=mysql_real_escape_string($artist);
+
 							$result=$connection->query("select * from item where upc='$upc'");
 							if ($result->num_rows != 0){
 								$error = "* Sorry! That UPC already exists in the system";
@@ -154,6 +162,15 @@
 									    printf("<b>Error: %s.</b>\n", $stmt->error);
 								} else {
 								    echo "<b>Successfully added new item: ".$upc." - ".$title."</b>";
+
+								    if (!empty($artist)){
+									$stmt=$connection->prepare("INSERT INTO leadsinger (upc, lsname) VALUES (?,?)");
+									$stmt->bind_param("ss", $upc, $artist);
+									$stmt->execute();
+									}
+									if($stmt->error) {
+										    printf("<b>Error: %s.</b>\n", $stmt->error);
+									}
 								}
 							}
 
