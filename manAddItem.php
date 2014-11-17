@@ -89,7 +89,7 @@
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add Item"){
-						if (empty($_POST['upc']) or empty($_POST['title']) or empty($_POST['company']) or empty($_POST['year']) or empty($_POST['price']) or empty($_POST['stock']) or $_POST['type'] == "-- SELECT ONE --" or $_POST['category'] == "-- SELECT ONE --"){
+						if (empty(trim($_POST['upc'])) or empty(trim($_POST['title'])) or empty(trim($_POST['company'])) or empty($_POST['year']) or empty($_POST['price']) or empty($_POST['stock']) or $_POST['type'] == "-- SELECT ONE --" or $_POST['category'] == "-- SELECT ONE --"){
 							$error = "* Please fill in all fields" ;
 						}
 						elseif(!is_numeric($_POST['year']) or !is_numeric($_POST['price']) or !is_numeric($_POST['stock'])){
@@ -163,7 +163,7 @@
 								} else {
 								    echo "<b>Successfully added new item: ".$upc." - ".$title."</b>";
 
-								    if (!empty($artist)){
+								    if (!empty(trim($artist))){
 									$stmt=$connection->prepare("INSERT INTO leadsinger (upc, lsname) VALUES (?,?)");
 									$stmt->bind_param("ss", $upc, $artist);
 									$stmt->execute();
