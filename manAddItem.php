@@ -65,10 +65,6 @@
 					    <td><input id="company" type="text" size=30 name="company" placeholder="Enter the company for the new item"></td>
 					</tr>
 					<tr>
-						<td><label>Artist (Optional): </label></td>
-					    <td><input id="artist" type="text" size=30 name="artist" placeholder="Enter the lead singer"></td>
-					</tr>
-					<tr>
 						<td><label>Year: </label></td>
 					    <td><input id="year" type="number" name="year" placeholder=<?php echo date("Y");?>></td>
 					</tr>
@@ -80,6 +76,24 @@
 						<td><label>Stock: </label></td>
 					    <td><input id="stock" type="number" name="stock" placeholder="0"></td>
 					</tr>
+					<tr>
+						<td><label>Artist (Optional): </label></td>
+					    <td><input id="artist" type="text" size=30 name="artist" placeholder="Enter the lead singer"></td>
+					</tr>
+					<tr>
+						<td><label>Tracks (Optional): </label></td>
+						<td>
+							<table id="tracklist" name="tracklist">
+								<tr>
+									<td><input id="track" type="text" size=30 name="track[]" placeholder="Enter a track name"></td>
+								</tr>
+								<tr>
+									<td><input class="detailsbutton" style="width:70px" onClick="javascript:addTrack('tracklist');" value="+ Track"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+
 					<tr>
 						<td colspan=2 style="text-align:right">
 							<input type="reset" name="cancelbutton" border=0 value="Cancel">
@@ -157,6 +171,8 @@
 							$artist=stripslashes($artist);
 							$artist=mysql_real_escape_string($artist);
 
+							$track=$_POST['track'];
+
 							$result=$connection->query("select * from item where upc='$upc'");
 							if ($result->num_rows != 0){
 								$error = "* Sorry! That UPC already exists in the system";
@@ -178,6 +194,21 @@
 									if($stmt->error) {
 										    printf("<b>Error: %s.</b>\n", $stmt->error);
 									}
+
+									if (!empty($track)){
+										foreach ($track as $a => $t) {
+											if (!empty(trim($t))){
+												$result=$connection->query("SELECT * FROM hassong WHERE upc='$upc' AND songtitle='$t'");
+												if ($result->num_rows == 0){
+													$t=stripslashes($t);
+													$t=mysql_real_escape_string($t);
+													$stmt=$connection->prepare("INSERT INTO hassong (upc, songtitle) VALUES (?,?)");
+													$stmt->bind_param("ss", $upc, $t);
+													$stmt->execute();
+												}
+											}
+										}
+									}
 								}
 							}
 
@@ -191,6 +222,15 @@
 			</form>
 			
 		</div>
+		<script>						
+			function addTrack(tableID) {
+				var table = document.getElementById(tableID);
+				var rowCount = table.rows.length;
+				var row = table.insertRow(rowCount-1);
+				var cell1 = row.insertCell(0);
+				cell1.innerHTML = "<input id=\"track\" type=\"text\" size=30 name=\"track[]\" placeholder=\"Enter a track name\">";
+			}
+		</script>
 		<script src="ams.js"></script>
 	</body>
 </html>
