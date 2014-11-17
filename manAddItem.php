@@ -8,6 +8,10 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+
+		if (!isset($_SESSION['logged'])){
+				header("location: userloginpage.php");
+			}
 		?>
 
 		<div id="wrap">
@@ -187,7 +191,7 @@
 			</form>
 			
 		</div>
-		
+		<script src="ams.js"></script>
 	</body>
 </html>
 		
