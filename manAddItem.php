@@ -92,6 +92,9 @@
 						if (empty(trim($_POST['upc'])) or empty(trim($_POST['title'])) or empty(trim($_POST['company'])) or empty($_POST['year']) or empty($_POST['price']) or empty($_POST['stock']) or $_POST['type'] == "-- SELECT ONE --" or $_POST['category'] == "-- SELECT ONE --"){
 							$error = "* Please fill in all fields" ;
 						}
+						elseif(!ctype_alnum($_POST['upc'])){
+							$error = "* UPC must contain only alphanumeric characters";
+						}
 						elseif(!is_numeric($_POST['year']) or !is_numeric($_POST['price']) or !is_numeric($_POST['stock'])){
 							$error = "* Year, Price and Stock fields must be numbers";
 						}
