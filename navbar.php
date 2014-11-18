@@ -22,7 +22,7 @@
 						}
 						if ($_SESSION['type'] == 'clerk' or $_SESSION['type'] == 'manager'){
 							echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
-							echo "<li><a id=\"button\">Clerk Action 2</a></li>";
+							echo "<li><a href=\"../304p3/addDeliveryDatePage.php\">Process Delivery Date</a></li>";
 						}
 						else {
 							echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
