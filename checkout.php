@@ -54,11 +54,10 @@
 			</form>
 
 
-			<b>In Your Cart:<b>
+			<b>Your Bill:<b>
 			<table cellpadding=5 class='itemdetail'>
 				<thead>
-					<!--<tr><th colspan=6 style="border-bottom: 1px solid black">In Your Cart</th></tr>-->
-					<tr><th style="border-bottom:1px solid black">UPC</th><th style="border-bottom:1px solid black">Name</th><th style="border-bottom:1px solid black">Type</th><th style="border-bottom:1px solid black">Artist</th><th style="border-bottom:1px solid black">Company</th><th style="border-bottom:1px solid black">Quantity</th></tr>
+					<tr><th style="border-bottom:1px solid black">UPC</th><th style="border-bottom:1px solid black">Name</th><th style="border-bottom:1px solid black">Type</th><th style="border-bottom:1px solid black">Artist</th><th style="border-bottom:1px solid black">Company</th><th style="border-bottom:1px solid black">Quantity</th><th style="border-bottom:1px solid black">Price</th></tr>
 				</thead>
 				<?php
 				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
@@ -73,8 +72,9 @@
 				if ($result->num_rows == 0){
 					header("location: cart.php");
 				}
-
+				$total=0.00;
 				while($row=$result->fetch_assoc()){
+					$total+=$row['price']*$row['quantity'];
 					$upc = $row['upc'];
 					echo "<tr>";
 					echo "<td style=\"border-left:1px solid black\">".$row['upc']."</td>";
@@ -90,10 +90,18 @@
 					echo "</td>";
 					echo "<td>".$row['company']."</td>";
 					echo "<td>".$row['quantity']."</td>";
+					echo "<td>".$row['price']."</td>";
 				}
 
 				mysqli_close($connection);
 
+				
+				echo "<tfoot>
+					<tbody>
+						<tr class=\"dailyreportfoot\"><td colspan=6 style=\"text-align:right\"><b>Total:</b></td><td><b> $".number_format((float)$total, 2, '.', '')."</b></td>
+						</tr>
+					</tbody>
+				</tfoot>";
 				?>
 			</table>
 		</div>
