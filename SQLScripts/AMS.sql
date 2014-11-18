@@ -60,9 +60,9 @@ CREATE TABLE purchase
 	(receiptid		CHAR(11) NOT NULL,
     pdate 			DATE NOT NULL,
     cid 			CHAR(11) NOT NULL,
-    cardnumber		CHAR(16) NULL,
-    expirydate		CHAR(20) NULL,
-    expecteddate 	DATE NULL,
+    cardnumber		CHAR(16) NOT NULL,
+    expirydate		CHAR(5) NOT NULL,
+    expecteddate 	DATE NOT NULL,
     delivereddate	DATE NULL,
     PRIMARY KEY (receiptid),
     FOREIGN KEY (cid) REFERENCES customer (cid));
