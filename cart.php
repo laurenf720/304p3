@@ -83,13 +83,13 @@ function updateQuantity(upc) {
 
 					echo "</table>";
 					echo "</form>";
+					echo "<form id=\"checkoutform\" name=\"checkoutform\" action=\"";
+					echo htmlspecialchars($_SERVER["PHP_SELF"]);
+					echo "\" method=\"POST\">"; 
+					echo "<input type=\"submit\" name=\"submit\" border=0 value=\"Proceed to Checkout\">";
+					echo "</form>";
 				}
-				echo "<form id=\"checkoutform\" name=\"checkoutform\" action=\"";
-				echo htmlspecialchars($_SERVER["PHP_SELF"]);
-				echo "\" method=\"POST\">"; 
-				echo "<input type=\"submit\" name=\"submit\" border=0 value=\"Proceed to Checkout\">";
-
-				echo "</form>";
+				
 				mysqli_close($connection);
 			}
 

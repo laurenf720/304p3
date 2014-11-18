@@ -70,6 +70,9 @@
 
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
+				if ($result->num_rows == 0){
+					header("location: cart.php");
+				}
 
 				while($row=$result->fetch_assoc()){
 					$upc = $row['upc'];
