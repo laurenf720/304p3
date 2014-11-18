@@ -84,13 +84,25 @@ function updateQuantity(upc) {
 					echo "</table>";
 					echo "</form>";
 				}
+				echo "<form id=\"checkoutform\" name=\"checkoutform\" action=\"";
+				echo htmlspecialchars($_SERVER["PHP_SELF"]);
+				echo "\" method=\"POST\">"; 
+				echo "<input type=\"submit\" name=\"submit\" border=0 value=\"Proceed to Checkout\">";
 
+				echo "</form>";
 				mysqli_close($connection);
 			}
 
 			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
+				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+				// Check that the connection was successful, otherwise exit
+				if (mysqli_connect_errno()) {
+				    printf("Connect failed: %s\n", mysqli_connect_error());
+				    exit();
+				}
+
 				if (isset($_POST["submit"]) and $_POST["submit"] == "Update Quantity") {
 					
 					$cid=$_SESSION['login_user'];
@@ -101,13 +113,7 @@ function updateQuantity(upc) {
 					$quantity=stripslashes($quantity);
 					$quantity=mysql_real_escape_string($quantity);
 
-					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
-					// Check that the connection was successful, otherwise exit
-					if (mysqli_connect_errno()) {
-					    printf("Connect failed: %s\n", mysqli_connect_error());
-					    exit();
-					}
+					
 
 					if ($quantity == 0){
 						$result=$connection->query("DELETE FROM cart WHERE cid='$cid' AND upc='$upc'");
@@ -123,8 +129,11 @@ function updateQuantity(upc) {
 							$result=$connection->query("UPDATE cart SET quantity='$quantity' WHERE cid='$cid' AND upc='$upc'");
 						}
 					}
-					mysqli_close($connection);
 				}
+				elseif(isset($_POST["submit"]) and $_POST["submit"] == "Proceed to Checkout"){
+					header("location: checkout.php");
+				}
+				mysqli_close($connection);
 			}
 
 			// end of logic - printing cart
