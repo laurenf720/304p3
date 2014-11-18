@@ -113,7 +113,15 @@ function updateQuantity(upc) {
 						$result=$connection->query("DELETE FROM cart WHERE cid='$cid' AND upc='$upc'");
 					}
 					else{
-						$result=$connection->query("UPDATE cart SET quantity='$quantity' WHERE cid='$cid' AND upc='$upc'");
+						$result=$connection->query("SELECT * FROM item WHERE upc='$upc'");
+						$stock=$result->fetch_assoc()['stock'];
+						if ($quantity > $stock){
+							echo "<span class=\"error\">*Oops! We don't have enough in stock to update order.<br>
+							There is currently only ".$stock." of item ".$upc." in stock.</span>";
+						}
+						else{
+							$result=$connection->query("UPDATE cart SET quantity='$quantity' WHERE cid='$cid' AND upc='$upc'");
+						}
 					}
 					mysqli_close($connection);
 				}
