@@ -57,7 +57,7 @@
 			<b>Your Bill:<b>
 			<table cellpadding=5 class='itemdetail'>
 				<thead>
-					<tr><th style="border-bottom:1px solid black">UPC</th><th style="border-bottom:1px solid black">Name</th><th style="border-bottom:1px solid black">Type</th><th style="border-bottom:1px solid black">Artist</th><th style="border-bottom:1px solid black">Company</th><th style="border-bottom:1px solid black">Quantity</th><th style="border-bottom:1px solid black">Price</th></tr>
+					<tr><th style="border-bottom:1px solid black">UPC</th><th style="border-bottom:1px solid black">Name</th><th style="border-bottom:1px solid black">Type</th><th style="border-bottom:1px solid black">Artist</th><th style="border-bottom:1px solid black">Company</th><th style="border-bottom:1px solid black">Quantity</th><th style="border-bottom:1px solid black">Unit Price</th></tr>
 				</thead>
 				<?php
 				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
@@ -90,7 +90,7 @@
 					echo "</td>";
 					echo "<td>".$row['company']."</td>";
 					echo "<td>".$row['quantity']."</td>";
-					echo "<td>".$row['price']."</td>";
+					echo "<td>$ ".$row['price']."</td>";
 				}
 
 				mysqli_close($connection);
