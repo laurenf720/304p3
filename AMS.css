@@ -125,7 +125,7 @@ h2 {
   border-left: 1px solid #818181;
 }
 
-.login { 
+.login, .additem{ 
 	border-spacing: 10px;
 	border: 1px solid;
 	border-radius:5px;
@@ -239,6 +239,21 @@ input[type=submit] {
 input[type=submit]:hover {
 	background-color:#4891FE;
 	border:2px solid #0066FF;
+}
+
+input[type=reset] {
+	background-color:#E91B1B;
+	color:#fff;
+	border:2px solid #FF6E6E;
+	padding:10px;
+	font-size:16px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[type=reset]:hover {
+	background-color:#FF6E6E;
+	border:2px solid #E91B1B;
 }
 
 input[class=detailsbutton] {

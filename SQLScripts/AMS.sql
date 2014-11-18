@@ -32,7 +32,7 @@ CREATE TABLE item
     
 CREATE TABLE leadsinger
 	(upc 	CHAR(11) NOT NULL,
-    lsname 	VARCHAR(50) NOT NULL,
+    lsname 	VARCHAR(255) NOT NULL,
     PRIMARY KEY (upc, lsname),
     FOREIGN KEY (upc) REFERENCES item (upc));
 
