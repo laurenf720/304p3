@@ -26,7 +26,7 @@
 			       	</tr>
 			       	<tr>
 			       		<td><input id="receiptid" type="text" size=30 name="receiptIDOrder[]" placeholder="Enter Receipt ID"></td>
-						<td><input id="delivereddate" type="date" size=30 name="deliveredDate[]" placeholder="Enter Delivered Date"></td>
+						<td><input id="delivereddate" type="date" size=30 name="deliveredDate[]" placeholder="YYYY-MM-DD"></td>
 			       	</tr>	
 					
 					
@@ -34,7 +34,7 @@
 				<table>
 				<tr>
 					<td colspan=2 style="text-align:right"><input type="button" value="Add Row" onClick="addRow('addItemQuantity')"/>
-					<td><input type="submit" border=0 name="submit" value="Add Items"/>
+					<td><input type="submit" border=0 name="submit" value="Update Delivered Date"/>
 				</tr>
 				</table>
     			<div class="error"><?php echo $error; ?></div>
@@ -62,9 +62,6 @@
 					   
 			}
 		}
-	</script>
-
-	<script>
 		function confOverWrite(){
 			var form = document.createElement("form");
 			var element1 = document.createElement("input");
@@ -82,14 +79,7 @@
 			document.body.appendChild(form);
 			form.submit();
 		}
-	</script>	
-	
-<script> function confirm123(){
-  if(confirm("Overwrite existing delivered date12345612312312312")){
-  confirm("HELLO");
-  };
-}
-</script>	
+	</script>		
 	
 </html>
 		

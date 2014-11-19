@@ -6,19 +6,12 @@
 
 	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 
-
-/*
-
-*/	
 function validateDate($date)
 {
     $d = DateTime::createFromFormat('Y-m-d', $date);
     return $d && $d->format('Y-m-d') == $date;
 }
-	
-	
-	
-	
+
     // Check that the connection was successful, otherwise exit
     if (mysqli_connect_errno()) {
         printf("Connect failed: %s\n", mysqli_connect_error());
@@ -26,7 +19,7 @@ function validateDate($date)
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    	if (isset($_POST["submit"]) && $_POST["submit"] == "Add Items") {
+    	if (isset($_POST["submit"]) && $_POST["submit"] == "Update Delivered Date") {
 			$updateOrder = $connection->prepare("UPDATE purchase SET delivereddate =? WHERE receiptid=?");
 			$checkReceipt = $connection->prepare("select * FROM purchase WHERE receiptid=?");
 			$checkDelivered = $connection->prepare("select delivereddate FROM purchase WHERE receiptid=?");
@@ -38,20 +31,7 @@ function validateDate($date)
 			$checkReceipt->bind_param("s",$tempReceipt);
 			$checkDelivered->bind_param("s",$tempReceipt);
 			$updateOrder->bind_param("ss", $tempDeliverDate, $tempReceipt);
-    		/*		
-			$stockUpdate=$connection->prepare("update item set stock=? where upc=?");
-			$stockPriceUpdate=$connection->prepare("update item set stock=?, price=? where upc=?");
-			$checkUpc=$connection->prepare("select upc, stock, price from item where upc=?");
-			$upc=$_POST['UPC'];
-			$quantity=$_POST['Quantity'];
-			$price=$_POST['Price'];
-			$errorCount=0;
-			$warningCount=0;
-			$updatedRows=0;
-			$checkUpc->bind_param("s",$tempUpc);
-			$stockPriceUpdate->bind_param("sss",$tempStock,$tempPrice,$tempUpc);
-			$stockUpdate->bind_param("ss",$tempStock,$tempUpc);
-			*/
+
 			foreach($receiptid as $a => $b) {
 				if(!ctype_alnum($b)){
 					//If blank skip it
@@ -94,8 +74,6 @@ function validateDate($date)
 							if(!is_null($delivDate)){
 									$warning .= "Warning $warningCount: Receipt ID with $tempReceipt already had a delivery date of $delivDate and was overwritten.\r\n";
 									$warningCount += 1;
-									echo "<script type=\"text/javascript\">confirm123();</script>";
-									echo "<b>HELLO</b>";
 							}
 							
 							if(!$updateOrder->execute()){
@@ -122,10 +100,3 @@ function validateDate($date)
     }
     mysqli_close($connection);
 ?>
-
-<script> function confirm123(){
-  if(confirm("Overwrite existing delivered date12345612312312312")){
-  confirm("HELLO");
-  };
-}
-</script>
