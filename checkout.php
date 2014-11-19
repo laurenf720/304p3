@@ -30,7 +30,7 @@
 								<?php
 									$count=1;
 									while ($count <=12){
-										echo "<option>".$count."</option>";
+										echo "<option>".str_pad($count, 2, "0", STR_PAD_LEFT)."</option>";
 										$count ++;
 									}
 								?>
