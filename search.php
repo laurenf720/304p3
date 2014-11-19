@@ -11,7 +11,7 @@ function addToCart(upc, title, stock) {
 	    	return;
 	    }
 	} while ( parseInt(quantity, 10) < 1 || isNaN(parseInt(quantity, 10)));
-	if (quantity > stock){
+	if (parseInt(quantity) > parseInt(stock)){
 		if(confirm("We only have "+stock+" in stock. Would you like to change your order to this amount?")){
 			quantity=stock;
 		}

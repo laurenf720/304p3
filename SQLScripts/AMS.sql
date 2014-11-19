@@ -152,7 +152,7 @@ END $$
 DELIMITER ; 
 
 INSERT INTO item
-VALUES ('1', 'Spice', 'CD', 'pop', 'Virgin', 1996, 10.00, 26);
+VALUES ('1', 'Spice', 'CD', 'pop', 'Virgin', 1996, 10.00, 2);
 INSERT INTO item
 VALUES ('7', 'Spice World', 'CD', 'pop', 'Virgin', 1997, 9.00, 26);
 
