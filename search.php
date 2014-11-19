@@ -1,23 +1,30 @@
 <html>
 
 <script>
-function addToCart(upc, title) {
+function addToCart(upc, title, stock) {
     'use strict';
     do{
 	    var quantity = window.prompt("How much would you like to add to cart?", "Enter a positive integer");
 	    // if user presses cancel then break
 	    if (quantity == null || quantity ==""){
 	    	quantity=0;
-	    	break;
+	    	return;
 	    }
 	} while ( parseInt(quantity, 10) < 1 || isNaN(parseInt(quantity, 10)));
-    // Set the value of a hidden HTML element in this form
-    var form = document.getElementById('itemaction');
-    form.upc.value = upc;
-    form.submitAction.value="AddToCart"
-    form.quantity.value = parseInt(quantity, 10);
-    form.title.value= title;
-    form.submit();
+	if (quantity > stock){
+		if(confirm("We only have "+stock+" in stock. Would you like to change your order to this amount?")){
+			quantity=stock;
+		}
+		else{
+			quantity=0;
+		}
+	}
+	var form = document.getElementById('itemaction');
+	form.upc.value = upc;
+	form.submitAction.value="AddToCart"
+	form.quantity.value = parseInt(quantity, 10);
+	form.title.value= title;
+	form.submit();
 }
 
 function viewDetails(upc){
@@ -136,7 +143,7 @@ function toggle_visibility(id) {
 					
 					$result = $connection->query($query);
 					if (!$result->num_rows == 0){
-					   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
+					   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th>Stock</th><th colspan=2>Actions</th></thead>";
 					    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
 						echo htmlspecialchars($_SERVER["PHP_SELF"]);
 						echo "\" method=\"POST\">";
@@ -161,11 +168,11 @@ function toggle_visibility(id) {
 					    	echo "</td>";
 					    	echo "<td>".$row['company']."</td>";
 					    	echo "<td>$ ".$row['price']."</td>";
-
+					    	echo "<td>".$row['stock']."</td>";
 					    	echo "<td style=\"border-right: 1px black solid;\">
 					    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:viewDetails('".$row['upc']."');\" border=0 value=\"View Details\" >";
 					    	if (isset($_SESSION['type']) and  $_SESSION['type']== "customer"){
-					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
+					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."','".$row['stock']."');\"border=0 value=\"Add to Cart\"></td>";
 					    	}
 					    	echo "</tr>";
 					    }
@@ -213,7 +220,7 @@ function toggle_visibility(id) {
 					$result=$connection->query($query);
 
 					if (!$result->num_rows == 0){
-					   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th colspan=2>Actions</th></thead>";
+					   	echo "<table cellpadding=5 class=\"itemlist\"><thead><th>UPC</th><th>Name</th><th>Type</th><th>Artist</th><th>Company</th><th>Price</th><th>Stock</th><th colspan=2>Actions</th></thead>";
 					    echo "<form id=\"itemaction\" name=\"itemaction\" action=\"";
 						echo htmlspecialchars($_SERVER["PHP_SELF"]);
 						echo "\" method=\"POST\">";
@@ -238,11 +245,12 @@ function toggle_visibility(id) {
 					    	echo "</td>";
 					    	echo "<td>".$row['company']."</td>";
 					    	echo "<td>$ ".$row['price']."</td>";
+					    	echo "<td>".$row['stock']."</td>";
 
 					    	echo "<td style=\"border-right: 1px black solid;\">
 					    			<input type=\"submit\" name=\"submit\" class=\"detailsbutton\" onClick=\"javascript:viewDetails('".$row['upc']."');\" border=0 value=\"View Details\" >";
 					    	if (isset($_SESSION['type']) and  $_SESSION['type']== "customer"){
-					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."');\"border=0 value=\"Add to Cart\"></td>";
+					    		echo "<input type=\"submit\" name=\"submit\" class=\"cartbutton\" onClick=\"javascript:addToCart('".$row['upc']."','".$row['title']."','".$row['stock']."');\"border=0 value=\"Add to Cart\"></td>";
 					    	}
 					    	echo "</tr>";
 					    }
