@@ -5,7 +5,10 @@
 
 	</head>
 	<body>
-		<?php include 'navbar.php';?>
+		<?php 
+		session_start();
+		include 'navbar.php';
+		?>
 
 		<div id="wrap">
 			<h1 style="text-align:center">You have completed your purchase! Thank you for shopping with AMS</h1>

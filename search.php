@@ -296,8 +296,9 @@ function toggle_visibility(id) {
 						    	else {
 						    		$result = $connection->query("SELECT * FROM cart WHERE cid='$cid' and upc='$upc'");
 							    	if ($result->num_rows == 1){
-							    		if ($result->fetch_assoc()['quantity']+$quantity>$row['stock']){
-							    			echo "<span class=\"error\">*Oops! We don't have enough for your order. Please verify the amount we have in stock</span>";
+							    		$row2=$result->fetch_assoc();
+							    		if ($row2['quantity']+$quantity>$row['stock']){
+							    			echo "<span class=\"error\">*Oops! We don't have enough for your order. You already have ".$row2['quantity']." in your cart</span>";
 							    		}
 							    		else{
 							    			$stmt = $connection->prepare("UPDATE cart SET quantity=quantity+(?) where cid=? and upc=?");

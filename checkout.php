@@ -109,6 +109,7 @@
 						    else{
 						    	$receiptid = intval($connection->insert_id);
 						    	$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid'");
+								// make sure all quantities are within stock amount before you do anything
 								while($row=$result->fetch_assoc()){	
 									if ($row['quantity']>$row['stock']){
 										$error=$error."Please update the quantity for item '".$row['upc']."'<br>";
