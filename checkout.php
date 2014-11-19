@@ -84,6 +84,9 @@
 						if (empty(trim($_POST['creditcard'])) or !is_numeric(trim($_POST['creditcard']))){
 							echo "<span class=\"error\">* Oops! You did not enter a valid credit card number</span>";
 						}
+						elseif(strlen($_POST['creditcard'])>16){
+							echo "<span class=\"error\">* Credit Cards cannot have more than 16 digits</span>";
+						}
 						elseif($_POST['expyear']."-".$_POST['expmonth']<$currdate){
 							echo "<span class=\"error\">* Oops! Looks like your credit card is expired!</span>";
 						}
