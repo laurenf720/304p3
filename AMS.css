@@ -125,7 +125,7 @@ h2 {
   border-left: 1px solid #818181;
 }
 
-.login { 
+.login, .additem{ 
 	border-spacing: 10px;
 	border: 1px solid;
 	border-radius:5px;
@@ -207,6 +207,25 @@ td.addItemData{
 	text-align:center;
 }
 
+.dailyreport {
+	border-spacing: 0px;
+	background-color:white;
+	border:1px solid black;
+	border-radius: 5px;
+	width:700px;
+	padding:15px;
+}
+
+.dailyreport th, .dailyreport td {
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+.dailyreportfoot td{
+	border-bottom: 0px;
+	border-right:0px;
+}
+
 input[type=submit] {
 	background-color:#0066FF;
 	color:#fff;
@@ -220,6 +239,21 @@ input[type=submit] {
 input[type=submit]:hover {
 	background-color:#4891FE;
 	border:2px solid #0066FF;
+}
+
+input[type=reset] {
+	background-color:#E91B1B;
+	color:#fff;
+	border:2px solid #FF6E6E;
+	padding:10px;
+	font-size:16px;
+	cursor:pointer;
+	border-radius:5px;
+}
+
+input[type=reset]:hover {
+	background-color:#FF6E6E;
+	border:2px solid #E91B1B;
 }
 
 input[class=detailsbutton] {
