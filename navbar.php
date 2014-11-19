@@ -21,14 +21,13 @@
 							echo "<li><a href=\"../304p3/manAddItem.php\">Add New Item</a></li>";
 							echo "<li><a href=\"../304p3/dailyReport.php\">Daily Report</a></li>";
 							echo "<li><a href=\"../304p3/topselling.php\">Top Items Report</a></li>";
-
+							echo "<li><a href=\"../304p3/addDeliveryDatePage.php\">Process Delivery Date</a></li>";
 						}
 						if ($_SESSION['type'] == 'clerk' or $_SESSION['type'] == 'manager'){
 							echo "<li><a href=\"../304p3/return.php\">Returns</a></li>";
 						}
 						else {
 							echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
-							echo "<li><a id=\"button\">Customer Action 2</a></li>";
 						}
 						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION["login_user"]."!</a></div> </li>"; 
 					}
