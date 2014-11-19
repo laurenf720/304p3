@@ -7,6 +7,9 @@
 	<body>
 		<?php include 'userlogin.php';?>
 		<?php include 'navbar.php';
+		if (!isset($_SESSION['login_user'])){
+			header("location: userloginpage.php");
+		}
 		?>
 
 		<div id="wrap">
