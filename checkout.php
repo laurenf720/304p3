@@ -9,6 +9,20 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+
+		// Check that the connection was successful, otherwise exit
+		if (mysqli_connect_errno()) {
+			printf("Connect failed: %s\n", mysqli_connect_error());
+			exit();
+		}
+		$cid=$_SESSION['login_user'];
+		$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
+		if ($result->num_rows == 0){
+			header("location: cart.php");
+		}
+		mysqli_close($connection);
+
 		?>
 
 		<div id="wrap">
@@ -94,18 +108,13 @@
 						    }
 						    else{
 						    	$receiptid = intval($connection->insert_id);
-						    	$query="SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid'";
-						    	echo $query;
-						    	$result = $connection->query($query);
-						    	// check to make sure all items have enough stock
-						    	while($row=$result->fetch_assoc()){	
-						    		if ($row['stock']<$row['quantity']){
-						    			$error=$error."Please update your order quantity for item with upc '".$row['upc']."'<br>";
-						    		}
-						    		else{
-						    			$result=$connection->query("DELETE FROM purchase WHERE receiptid='$receiptid'");
-						    		}
-						    	}
+						    	$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid'");
+								while($row=$result->fetch_assoc()){	
+									if ($row['quantity']>$row['stock']){
+										$error=$error."Please update the quantity for item '".$row['upc']."'<br>";
+									}
+								}
+						    	
 						    	if ($error == ''){
 						    		$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid'");
 									while($row=$result->fetch_assoc()){	
@@ -126,6 +135,7 @@
 						    		}
 								}
 								else {
+									$deleterow=$connection->query("DELETE FROM purchase WHERE receiptid='$receiptid'");
 									echo "<span class=\"error\">* Sorry! There is not enough stock to complete your order<br>".$error."</span>";
 								}
 						    }
@@ -151,9 +161,6 @@
 
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
-				if ($result->num_rows == 0){
-					header("location: cart.php");
-				}
 				$total=0.00;
 				while($row=$result->fetch_assoc()){
 					$total+=$row['price']*$row['quantity'];
