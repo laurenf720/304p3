@@ -57,18 +57,18 @@ CREATE TABLE customer
     FOREIGN KEY (cid) REFERENCES users (uid));
 
 CREATE TABLE purchase
-	(receiptid		CHAR(11) NOT NULL,
+	(receiptid		INT NOT NULL AUTO_INCREMENT,
     pdate 			DATE NOT NULL,
     cid 			CHAR(11) NOT NULL,
-    cardnumber		CHAR(16) NULL,
-    expirydate		CHAR(20) NULL,
-    expecteddate 	DATE NULL,
+    cardnumber		CHAR(16) NOT NULL,
+    expirydate		CHAR(7) NOT NULL,
+    expecteddate 	DATE NOT NULL,
     delivereddate	DATE NULL,
     PRIMARY KEY (receiptid),
     FOREIGN KEY (cid) REFERENCES customer (cid));
 
 CREATE TABLE purchaseitem
-	(receiptid 		CHAR(11) NOT NULL,
+	(receiptid 		INT NOT NULL,
     upc				CHAR(11) NOT NULL,
     quantity 		SMALLINT NOT NULL,
     PRIMARY KEY (receiptid, upc),
@@ -78,7 +78,7 @@ CREATE TABLE purchaseitem
 CREATE TABLE returns
 	(retid		INT NOT NULL AUTO_INCREMENT,
     rdate 		DATE NOT NULL,
-    receiptid 	CHAR(11) NOT NULL,
+    receiptid 	INT NOT NULL,
     PRIMARY KEY (retid),
     FOREIGN KEY (receiptid) REFERENCES purchase (receiptid));
 
@@ -152,7 +152,7 @@ END $$
 DELIMITER ; 
 
 INSERT INTO item
-VALUES ('1', 'Spice', 'CD', 'pop', 'Virgin', 1996, 10.00, 26);
+VALUES ('1', 'Spice', 'CD', 'pop', 'Virgin', 1996, 10.00, 2);
 INSERT INTO item
 VALUES ('7', 'Spice World', 'CD', 'pop', 'Virgin', 1997, 9.00, 26);
 
@@ -193,6 +193,12 @@ INSERT INTO customer
 VALUES ('cust1', '123 vancouver', '123 456');
 
 INSERT INTO users
+VALUES ('cust2', 'password', 'lauren test');
+
+INSERT INTO customer
+VALUES ('cust2', '123 vancouver', '123 456');
+
+INSERT INTO users
 VALUES ('employee1', 'password', 'clerk1');
 
 INSERT INTO purchase
@@ -201,7 +207,7 @@ INSERT INTO purchaseitem
 VALUES ('1','1','1');
 INSERT INTO purchaseitem
 VALUES ('1','8','2');
-
+-- 
 INSERT INTO purchase
 VALUES ('2', '2014-10-03', 'cust1','123','456','2014-11-03',null);
 INSERT INTO purchaseitem
@@ -210,7 +216,7 @@ INSERT INTO purchaseitem
 VALUES ('2','2','3');
 
 INSERT INTO purchase
-VALUES ('3', '2014-11-03', 'cust1','123','456','2014-12-03',null);
+VALUES ('3', '2014-11-10', 'cust1','123','456','2014-12-03',null);
 INSERT INTO purchaseitem
 VALUES ('3','7','5');
 INSERT INTO purchaseitem
@@ -235,7 +241,7 @@ INSERT INTO purchaseitem
 VALUES ('5','7','10');
 INSERT INTO purchaseitem
 VALUES ('5','11','10');
-
+-- 
 INSERT INTO purchase
 VALUES ('6', '2014-11-13', 'cust1','123','456','2014-11-15',null);
 INSERT INTO purchaseitem
