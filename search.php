@@ -296,19 +296,30 @@ function toggle_visibility(id) {
 						    	else {
 						    		$result = $connection->query("SELECT * FROM cart WHERE cid='$cid' and upc='$upc'");
 							    	if ($result->num_rows == 1){
-							    		$stmt = $connection->prepare("UPDATE cart SET quantity=quantity+(?) where cid=? and upc=?");
-							    		$stmt->bind_param("iss", $quantity, $cid, $upc);
-							    		$stmt->execute();
+							    		if ($result->fetch_assoc()['quantity']+$quantity>$row['stock']){
+							    			echo "<span class=\"error\">*Oops! We don't have enough for your order. Please verify the amount we have in stock</span>";
+							    		}
+							    		else{
+							    			$stmt = $connection->prepare("UPDATE cart SET quantity=quantity+(?) where cid=? and upc=?");
+							    			$stmt->bind_param("iss", $quantity, $cid, $upc);
+							    			$stmt->execute();
+
+							    			if($stmt->error) {
+											    printf("<b>Error: %s.</b>\n", $stmt->error);
+											} else {
+											    echo "<b>Successfully added to cart: '".$title."' x ".$quantity."</b>";
+											}
+							    		}
 							    	}
 							    	else{
 									    $stmt = $connection->prepare("INSERT INTO cart (cid, upc, quantity) VALUES (?,?,?)");
 									    $stmt->bind_param("ssi", $cid, $upc, $quantity);
 									    $stmt->execute();
-									}
-									if($stmt->error) {
-									    printf("<b>Error: %s.</b>\n", $stmt->error);
-									} else {
-									    echo "<b>Successfully added to cart: '".$title."' x ".$quantity."</b>";
+									    if($stmt->error) {
+										    printf("<b>Error: %s.</b>\n", $stmt->error);
+										} else {
+										    echo "<b>Successfully added to cart: '".$title."' x ".$quantity."</b>";
+										}
 									}
 								}
 							}

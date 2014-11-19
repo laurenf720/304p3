@@ -54,15 +54,18 @@
 				</table>
 			</form>
 			<?php
+
 				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
 				if (mysqli_connect_errno()) {
-					   printf("Connect failed: %s\n", mysqli_connect_error());
-						exit();
+					printf("Connect failed: %s\n", mysqli_connect_error());
+					exit();
 				}
 
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 					$currdate=date("Y-m-d");
 					$cid=$_SESSION['login_user'];
+					$error ='';
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Complete Order"){
 						if (empty(trim($_POST['creditcard'])) or !is_numeric(trim($_POST['creditcard']))){
 							echo "<span class=\"error\">* Oops! You did not enter a valid credit card number</span>";
@@ -83,15 +86,49 @@
 							$result=$connection->query("SELECT * FROM purchase WHERE delivereddate IS NULL");
 							$daycount=round($result->num_rows/10)+1; // plus one because we don't do same-day delivery
 							$expecteddate=date('Y-m-d', strtotime($currdate. ' + '.$daycount.' days'));
-							echo $expecteddate;
 							$stmt=$connection->prepare("INSERT INTO purchase(pdate, cid, cardnumber, expirydate, expecteddate) VALUES (?,?,?,?,?)");
-							//$stmt->bind_param("sssss", $currdate, $cid, $creditcard, $expirydate, $expecteddate);
-							
-							$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
-							// while($row=$result->fetch_assoc()){
-								
-							// }
-							
+							$stmt->bind_param("sssss", $currdate, $cid, $creditcard, $expdate, $expecteddate);
+							$stmt->execute();
+							if($stmt->error) {       
+						        printf("<span class=\"error\"><b>Error: %s.</b></span>\n", $stmt->error);
+						    }
+						    else{
+						    	$receiptid = intval($connection->insert_id);
+						    	$query="SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid'";
+						    	echo $query;
+						    	$result = $connection->query($query);
+						    	// check to make sure all items have enough stock
+						    	while($row=$result->fetch_assoc()){	
+						    		if ($row['stock']<$row['quantity']){
+						    			$error=$error."Please update your order quantity for item with upc '".$row['upc']."'<br>";
+						    		}
+						    		else{
+						    			$result=$connection->query("DELETE FROM purchase WHERE receiptid='$receiptid'");
+						    		}
+						    	}
+						    	if ($error == ''){
+						    		$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid'");
+									while($row=$result->fetch_assoc()){	
+										$stmt=$connection->prepare("INSERT INTO purchaseitem(receiptid, upc, quantity) VALUES (?,?,?)");
+										$stmt->bind_param("isi", $receiptid, $row['upc'], $row['quantity']);
+										$stmt->execute();
+										if($stmt->error) {       
+										   printf("<span class=\"error\"><b>Error: %s.</b></span>\n", $stmt->error);
+									    }
+										else{
+										    // update the item's stock
+										    $newstock=$row['stock']-$row['quantity'];
+										    $result2=$connection->query("UPDATE item SET stock=$newstock WHERE upc='".$row['upc']."'");
+										    // empty the customer's cart
+										    $result2=$connection->query("DELETE FROM cart WHERE cid='$cid'");
+										    header("location: checkoutsuccess.php");
+										}
+						    		}
+								}
+								else {
+									echo "<span class=\"error\">* Sorry! There is not enough stock to complete your order<br>".$error."</span>";
+								}
+						    }
 						}
 					}
 				}
