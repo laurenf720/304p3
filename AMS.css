@@ -221,7 +221,7 @@ td.addItemData{
 	border-right: 1px solid black;
 }
 
-.dailyreportfoot td{
+.dailyreportfoot td, .checkoutfoot td{
 	border-bottom: 0px;
 	border-right:0px;
 }

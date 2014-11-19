@@ -15,13 +15,14 @@
 			<h1 style="text-align:center">Complete Your Purchase</h1>
 			<p></p>
 		</div>
+
 		<div align="center">
 			<form id="checkoutform" name="checkoutform" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
 				<table class="login" style="background-color:white">
 					<thead><tr><th colspan=2 style="border-bottom:1px solid black;">Fill in your credit card information:</th></tr></thead>
 					<tr>
 						<td><label>Credit Card Number: </label></td>
-						<td><input type="text" size=20 placeholder="1234***********9"></td>
+						<td><input name="creditcard" type="text" size=20 placeholder="1234***********9"></td>
 					</tr>
 					<tr>
 						<td><label>Credit Card Expiry Date: </label></td>
@@ -52,9 +53,53 @@
 					</tr>
 				</table>
 			</form>
+			<?php
+				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+				if (mysqli_connect_errno()) {
+					   printf("Connect failed: %s\n", mysqli_connect_error());
+						exit();
+				}
 
+				if ($_SERVER["REQUEST_METHOD"] == "POST") {
+					$currdate=date("Y-m-d");
+					$cid=$_SESSION['login_user'];
+					if (isset($_POST["submit"]) and $_POST["submit"] == "Complete Order"){
+						if (empty(trim($_POST['creditcard'])) or !is_numeric(trim($_POST['creditcard']))){
+							echo "<span class=\"error\">* Oops! You did not enter a valid credit card number</span>";
+						}
+						elseif($_POST['expyear']."-".$_POST['expmonth']<$currdate){
+							echo "<span class=\"error\">* Oops! Looks like your credit card is expired!</span>";
+						}
+						else{
+							$creditcard=trim($_POST['creditcard']);
+							$creditcard=stripslashes($creditcard);
+							$creditcard=mysql_real_escape_string($creditcard);
 
-			<b>Your Bill:<b>
+							$expdate=$_POST['expmonth']."/".$_POST['expyear'];
+							$expdate=stripslashes($expdate);
+							$expdate=mysql_real_escape_string($expdate);
+
+							// calculate when expected delivery is - shop can handle 10 deliveries in one day
+							$result=$connection->query("SELECT * FROM purchase WHERE delivereddate IS NULL");
+							$daycount=round($result->num_rows/10)+1; // plus one because we don't do same-day delivery
+							$expecteddate=date('Y-m-d', strtotime($currdate. ' + '.$daycount.' days'));
+							echo $expecteddate;
+							$stmt=$connection->prepare("INSERT INTO purchase(pdate, cid, cardnumber, expirydate, expecteddate) VALUES (?,?,?,?,?)");
+							//$stmt->bind_param("sssss", $currdate, $cid, $creditcard, $expirydate, $expecteddate);
+							
+							$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
+							// while($row=$result->fetch_assoc()){
+								
+							// }
+							
+						}
+					}
+				}
+
+				mysqli_close($connection);
+			?>
+
+			<h3>Your Bill:</h3>
 			<table cellpadding=5 class='itemdetail'>
 				<thead>
 					<tr><th style="border-bottom:1px solid black">UPC</th><th style="border-bottom:1px solid black">Name</th><th style="border-bottom:1px solid black">Type</th><th style="border-bottom:1px solid black">Artist</th><th style="border-bottom:1px solid black">Company</th><th style="border-bottom:1px solid black">Quantity</th><th style="border-bottom:1px solid black">Unit Price</th></tr>
@@ -98,7 +143,7 @@
 				
 				echo "<tfoot>
 					<tbody>
-						<tr class=\"dailyreportfoot\"><td colspan=6 style=\"text-align:right\"><b>Total:</b></td><td><b> $".number_format((float)$total, 2, '.', '')."</b></td>
+						<tr class=\"checkoutfoot\"><td colspan=6 style=\"text-align:right\"><b>Total:</b></td><td><b> $".number_format((float)$total, 2, '.', '')."</b></td>
 						</tr>
 					</tbody>
 				</tfoot>";
