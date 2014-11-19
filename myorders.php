@@ -9,7 +9,7 @@
 		<?php include 'navbar.php';?>
 
 		<div id="wrap">
-			<h1 align="center">Settings</h1>
+			<h1 align="center">My Orders</h1>
 		</div>
 	</body>
 	<script src="ams.js"></script>

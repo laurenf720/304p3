@@ -15,5 +15,7 @@
 			<p></p>
 		</div>
 		<div align="center">
+			<p>To review your purchases. Please go to <a href="../304p3/myorders.php">My Orders</a></p>
+		</div>
 	</body>
 </html>

@@ -38,7 +38,7 @@
 
 		<div id="dropdown_menu" class="hidden_menu"> 
 			<table id="container">
-				<tr><td><a class="sub-menu" href="/../304p3/settings.php">SETTINGS</a></td></tr>
+				<tr><td><a class="sub-menu" href="/../304p3/myorders.php">My Orders</a></td></tr>
 				<tr><td><a class="sub-menu" href="/../304p3/logout.php">LOGOUT</a></td></tr>
 			</table>					
 		</div>
