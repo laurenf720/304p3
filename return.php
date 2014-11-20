@@ -140,8 +140,8 @@
 					}
 					else{
 						$p_date = $result->fetch_assoc()['pdate'];
-						$current_Date = date ( "d-m-Y", time());
-						$last_return_date = date('d-m-Y', strtotime($p_date. ' + 15 days'));
+						$current_Date = date ( "Y-m-d", time());
+						$last_return_date = date('Y-m-d', strtotime($p_date. ' + 15 days'));
 						
 						if(strtotime($current_Date) > strtotime($last_return_date)){
 							echo "<div align=\"center\"><span class=\"error\"><b>* Sorry. It has been over 15 days since your purchase!</b></span></div>";
