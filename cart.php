@@ -6,7 +6,7 @@ function updateQuantity(upc) {
 	    var quantity = window.prompt("How much would you like in your cart?", "Enter a positive integer");
 	    // if user presses cancel then break
 	    if (quantity == null || quantity ==""){
-	    	quantity="cancel";
+	    	form.quantity.value=-1;
 	    	return;
 	    }
 	} while ( parseInt(quantity, 10) < 0 || isNaN(parseInt(quantity, 10)));
@@ -117,6 +117,9 @@ function updateQuantity(upc) {
 
 					if ($quantity == 0){
 						$result=$connection->query("DELETE FROM cart WHERE cid='$cid' AND upc='$upc'");
+					}
+					elseif($quantity == -1){
+						// do nothing
 					}
 					else{
 						$result=$connection->query("SELECT * FROM item WHERE upc='$upc'");
