@@ -50,6 +50,7 @@
 							echo "<span class=\"error\">* Sorry! No purchases were made on that day</span>";
 						}
 						else {
+							echo "<h3>Daily sales for: ".$_POST['dailyreportday']."</h3>";
 							echo "<table cellpadding=5 class=\"dailyreport\"><thead><tr><th>UPC</th><th>Title</th><th>Category</th><th>Unit Price</th><th>Units</th><th style=\"border-right:0px\">Total Price</th></tr></thead>";
 							$totalsales=0.00;
 							$totalunits=0;
