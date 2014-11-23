@@ -9,6 +9,7 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		?>
 
 		<div id="wrap">
@@ -28,12 +29,7 @@
 					echo "<span class=\"error\"><b>* You have not selected an item</b></span>";
 				}
 				else{
-					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
-				    if (mysqli_connect_errno()) {
-				        printf("Connect failed: %s\n", mysqli_connect_error());
-				        exit();
-				    }	
+					$connection = getconnection();
 				    $upc = $_SESSION['itemdetails'];
 				    $query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock, lsname FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE item.upc='$upc')";
 					$result=$connection->query($query);

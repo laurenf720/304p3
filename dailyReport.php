@@ -9,6 +9,7 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		if (!isset($_SESSION['logged'])){
 				header("location: userloginpage.php");
 			}
@@ -35,11 +36,7 @@
 			<?php
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Report"){
-						$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-						if (mysqli_connect_errno()) {
-							printf("Connect failed: %s\n", mysqli_connect_error());
-							exit();
-						}
+						$connection = getconnection();
 						$day = $_POST['dailyreportday'];
 						$day=stripslashes($day);
 						$day=mysql_real_escape_string($day);

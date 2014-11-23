@@ -58,6 +58,7 @@ function toggle_visibility(id) {
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		?>
 		
 		<div id="wrap">
@@ -130,13 +131,7 @@ function toggle_visibility(id) {
 					if ($searchfield == "All"){
 						$searchfield='CONCAT (item.upc, title, itype, category, company, iyear)';
 					}
-					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
-				    // Check that the connection was successful, otherwise exit
-				    if (mysqli_connect_errno()) {
-				        printf("Connect failed: %s\n", mysqli_connect_error());
-				        exit();
-				    }
+					$connection = getconnection();
 				    $query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE 
 						$searchfield LIKE '%$searchtext%') 
 						UNION (SELECT item.upc,title, itype, category, company, iyear,price, stock FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE lsname LIKE '%$searchtext%') ORDER BY $searchorder";
@@ -211,11 +206,7 @@ function toggle_visibility(id) {
 					}
 					
 
-					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-					if (mysqli_connect_errno()) {
-					    printf("Connect failed: %s\n", mysqli_connect_error());
-					    exit();
-					}
+					$connection = getconnection();
 
 					$result=$connection->query($query);
 
@@ -264,13 +255,7 @@ function toggle_visibility(id) {
 				}
 
 				$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
-				// Check that the connection was successful, otherwise exit
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
   
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					if (isset($_POST["submit"]) and $_POST["submit"] == "Add to Cart"){

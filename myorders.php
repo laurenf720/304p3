@@ -19,11 +19,7 @@
 
 		<div align="center">
 			<?php
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
 
 				$result=$connection->query("SELECT * FROM purchase WHERE cid='".$_SESSION['login_user']."' ORDER BY pdate DESC");
 				if ($result->num_rows == 0){

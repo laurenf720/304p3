@@ -9,6 +9,7 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		if (!isset($_SESSION['logged'])){
 				header("location: userloginpage.php");
 			}
@@ -70,11 +71,7 @@
 							echo "<span class=\"error\">* 'Show top' field must be an integer greater than 0</span>"; 
 						}
 						else {
-							$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-							if (mysqli_connect_errno()) {
-								printf("Connect failed: %s\n", mysqli_connect_error());
-								exit();
-							}
+							$connection = getconnection();
 
 							$query="select upc, title, price, company, stock, SUM(quantity) as units from item natural join purchase natural join purchaseitem where pdate<='$day2' and pdate>='$day1' group by upc order by SUM(quantity) DESC";
 							$result=$connection->query($query);

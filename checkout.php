@@ -9,13 +9,8 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
-		$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
-		// Check that the connection was successful, otherwise exit
-		if (mysqli_connect_errno()) {
-			printf("Connect failed: %s\n", mysqli_connect_error());
-			exit();
-		}
+		include 'databaseconnection.php';
+		$connection = getconnection();
 		$cid=$_SESSION['login_user'];
 		$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
 		if ($result->num_rows == 0){
@@ -69,11 +64,7 @@
 			</form>
 			<?php
 
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				if (mysqli_connect_errno()) {
-					printf("Connect failed: %s\n", mysqli_connect_error());
-					exit();
-				}
+				$connection = getconnection();
 
 				if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -153,12 +144,7 @@
 				<tr><td><h3>Your Bill:</h3></td>
 				<td style="text-align:right"><h4> Expected Delivery: 
 				<?php
-					$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-					// Check that the connection was successful, otherwise exit
-					if (mysqli_connect_errno()) {
-					    printf("Connect failed: %s\n", mysqli_connect_error());
-					    exit();
-					}
+					$connection = getconnection();
 					// calculate when expected delivery is - shop can handle 10 deliveries in one day
 					$result=$connection->query("SELECT * FROM purchase WHERE delivereddate IS NULL");
 					$daycount=round($result->num_rows/10)+1; // plus one because we don't do same-day delivery
@@ -172,12 +158,7 @@
 					<tr><th style="border-bottom:1px solid black">UPC</th><th style="border-bottom:1px solid black">Name</th><th style="border-bottom:1px solid black">Type</th><th style="border-bottom:1px solid black">Artist</th><th style="border-bottom:1px solid black">Company</th><th style="border-bottom:1px solid black">Quantity</th><th style="border-bottom:1px solid black">Unit Price</th></tr>
 				</thead>
 				<?php
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				// Check that the connection was successful, otherwise exit
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
 
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");

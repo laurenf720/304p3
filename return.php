@@ -30,21 +30,13 @@
 		
 
 		<?php 
-			$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-		    if (mysqli_connect_errno()) {
-		        printf("Connect failed: %s\n", mysqli_connect_error());
-		        exit();
-		    }
+			$connection = getconnection();
 			mysql_select_db("AMS");
 			$receipt_id=''; // to allow it to exist out of scope
 			$p_date='';
 			
 			function printpurchases($receipt_id){
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-		    	if (mysqli_connect_errno()) {
-		        	printf("Connect failed: %s\n", mysqli_connect_error());
-		        	exit();
-		   		}
+				$connection = getconnection();
 				$result = $connection->query("select pdate from purchase where receiptid='$receipt_id'");
 				$p_date = $result->fetch_assoc()['pdate'];
 				echo "<div align=\"center\">
@@ -86,11 +78,7 @@
 			}
 
 			function printreturns($receipt_id){
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-		    	if (mysqli_connect_errno()) {
-		        	printf("Connect failed: %s\n", mysqli_connect_error());
-		        	exit();
-		   		}
+				$connection = getconnection();
 
 				$card_num = $connection->query("SELECT cardnumber FROM purchase WHERE receiptid = '$receipt_id'");
 				$card_num = $card_num->fetch_object()->cardnumber;

@@ -3,20 +3,15 @@
 	$error='';
 	$message='';
 	$warning='';
+	include 'databaseconnection.php';
 
-	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
+	function validateDate($date)
+	{
+	    $d = DateTime::createFromFormat('Y-m-d', $date);
+	    return $d && $d->format('Y-m-d') == $date;
+	}
 
-function validateDate($date)
-{
-    $d = DateTime::createFromFormat('Y-m-d', $date);
-    return $d && $d->format('Y-m-d') == $date;
-}
-
-    // Check that the connection was successful, otherwise exit
-    if (mysqli_connect_errno()) {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
-    }
+	$connection = getconnection();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
     	if (isset($_POST["submit"]) && $_POST["submit"] == "Update Delivered Date") {

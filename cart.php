@@ -29,6 +29,7 @@ function updateQuantity(upc) {
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		?>
 
 		<div id="wrap">
@@ -38,12 +39,7 @@ function updateQuantity(upc) {
 		<div align="center">
 		<?php
 			function printcart(){
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				// Check that the connection was successful, otherwise exit
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
 
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
@@ -96,12 +92,7 @@ function updateQuantity(upc) {
 			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				// Check that the connection was successful, otherwise exit
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
 
 				if (isset($_POST["submit"]) and $_POST["submit"] == "Update Quantity") {
 					

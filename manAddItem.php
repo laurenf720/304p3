@@ -8,6 +8,7 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 
 		if (!isset($_SESSION['logged'])){
 				header("location: userloginpage.php");
@@ -43,13 +44,7 @@
 							$error = "* Year, Price and Stock fields must by positive numbers";
 						}
 						else{
-							$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-
-							// Check that the connection was successful, otherwise exit
-							if (mysqli_connect_errno()) {
-							    printf("Connect failed: %s\n", mysqli_connect_error());
-							    exit();
-							}
+							$connection = getconnection();
 
 							$upc = $_POST['upc'];
 							$upc=stripslashes($upc);
