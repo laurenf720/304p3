@@ -28,6 +28,7 @@
 						}
 						else {
 							echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
+							echo "<li><a href=\"../304p3/myorders.php\">Order History</a></li>";
 						}
 						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION['user_name']."!</a></div> </li>"; 
 					}
