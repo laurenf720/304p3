@@ -196,14 +196,22 @@
 					PurchaseItem Quantity should decrease
 					*/
 					$diff_quant = $pQuantity - $des_quant;
-					$currDate = date('Y-m-d');
-					$result = $connection->query("INSERT INTO `ams`.`returns` (`retid`, `rdate`, `receiptid`) VALUES (NULL, '$currDate', '$receipt_id')");
+					$currDate=date("Y-m-d");
+					$stmt=$connection->prepare("INSERT INTO returns (rdate, receiptid) VALUES (?,?)");
+					$stmt->bind_param("si",$currDate, $receipt_id );
+					$stmt->execute();
 					
-					// need the retID of returns so I can add the associated values into ReturnItem table
-					$val = $connection->query("SELECT retid FROM returns WHERE rdate = '$currDate'");
-					$val = $val->fetch_object()->retid;
-					$result = $connection->query("INSERT INTO `ams`.`returnitem` (`retid`, `upc`, `quantity`) VALUES ('$val', $des_upc, '$des_quant')");
+					$retid= intval($connection->insert_id);
+					
+					$stmt=$connection->prepare("INSERT INTO returnitem(retid, upc, quantity) VALUES (?,?,?)");
+					$stmt->bind_param("isi", $retid, $des_upc, $des_quant);
+					$stmt->execute();
+					if($stmt->error) {       
+						printf("<span class=\"error\"><b>Error: %s.</b></span>\n", $stmt->error);
+					}
+					
 					$stmt = $connection->query("UPDATE purchaseitem SET quantity = $diff_quant WHERE receiptid = '$receipt_id' AND upc = '$des_upc'");
+					$result=$connection->query("UPDATE item SET stock=stock+$des_quant WHERE upc='$des_upc'");
 
 				}
 				printpurchases($_SESSION['receiptid']);
