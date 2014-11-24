@@ -31,7 +31,7 @@
 				else{
 					$connection = getconnection();
 				    $upc = $_SESSION['itemdetails'];
-				    $query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock, lsname FROM item LEFT JOIN leadsinger ON item.upc=leadsinger.upc WHERE item.upc='$upc')";
+				    $query = "(SELECT item.upc,title, itype, category, company, iyear,price, stock FROM item WHERE item.upc='$upc')";
 					$result=$connection->query($query);
 					echo "<form id=\"itemdetails\" name=\"itemdetails\" action=\"";
 					echo htmlspecialchars($_SERVER["PHP_SELF"]);

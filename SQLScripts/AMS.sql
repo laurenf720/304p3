@@ -175,6 +175,30 @@ VALUES ('8VKFHIIVCQV', 'Welcome To New York'),
 ('8VKFHIIVCQV', 'Wonderland'),
 ('8VKFHIIVCQV', 'New Romantics');
 
+INSERT INTO item
+VALUES ('O8TA2SKT0S2', 'V (Deluxe Version)', 'CD', 'pop', 'Interscope Records', 2014, 6.99, 25);
+
+INSERT INTO leadsinger
+VALUES ('O8TA2SKT0S2', 'Maroon 5'),
+('O8TA2SKT0S2', 'Adam Levine');
+
+INSERT INTO hassong
+VALUES ('O8TA2SKT0S2',''),
+('O8TA2SKT0S2','Maps'),
+('O8TA2SKT0S2','Animals'),
+('O8TA2SKT0S2','It Was Always You'),
+('O8TA2SKT0S2','Unkiss Me'),
+('O8TA2SKT0S2','Sugar'),
+('O8TA2SKT0S2','Leaving California'),
+('O8TA2SKT0S2','In Your Pocket'),
+('O8TA2SKT0S2','New Love'),
+('O8TA2SKT0S2','Coming Back For You'),
+('O8TA2SKT0S2','Feelings'),
+('O8TA2SKT0S2','My Heart Is Open [Feat. Gwen Stefani]'),
+('O8TA2SKT0S2','Shoot Love'),
+('O8TA2SKT0S2','Sex and Candy'),
+('O8TA2SKT0S2','Lost Stars');
+
 -- ------------------------------------------------------------------------------------
 -- User Definitions
 -- ------------------------------------------------------------------------------------
