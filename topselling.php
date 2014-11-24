@@ -85,15 +85,20 @@
 									<tr><th>UPC</th><th>Title</th><th>Company</th><th>Unit Price</th><th>Stock</th><th style=\"border-right:0px\">Units Sold</th></tr>
 								</thead>";
 								while($row=$result->fetch_assoc() and $count < $topcount){
-									echo "<tr>";
-									echo "<td>".$row['upc']."</td>";
-									echo "<td>".$row['title']."</td>";
-									echo "<td>".$row['company']."</td>";
-									echo "<td>".$row['price']."</td>";
-									echo "<td>".$row['stock']."</td>";
-									echo "<td style=\"border-right:0px\">".$row['units']."</td>";
-									echo "</tr>";
-									$count +=1;
+									if ($row['units']==0){
+										// do nothing - item was returned and does not count
+									}
+									else{
+										echo "<tr>";
+										echo "<td>".$row['upc']."</td>";
+										echo "<td>".$row['title']."</td>";
+										echo "<td>".$row['company']."</td>";
+										echo "<td>".$row['price']."</td>";
+										echo "<td>".$row['stock']."</td>";
+										echo "<td style=\"border-right:0px\">".$row['units']."</td>";
+										echo "</tr>";
+										$count +=1;
+									}
 								}
 								echo "</table>";
 							}
