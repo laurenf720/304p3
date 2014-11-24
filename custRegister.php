@@ -1,19 +1,13 @@
 <?php
+	include 'databaseconnection.php';
 	session_start();
 	$error='';
 
-	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-	
-
-    // Check that the connection was successful, otherwise exit
-    if (mysqli_connect_errno()) {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
-    }
+	$connection = getconnection();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
     	if (isset($_POST["submit"]) && $_POST["submit"] == "REGISTER") {
-    		if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['password2']) || empty($_POST['cname']) || empty($_POST['phone']) || empty($_POST['address'])) {
+    		if (empty(trim($_POST['username'])) || empty(trim($_POST['password'])) || empty(trim($_POST['password2'])) || empty(trim($_POST['cname'])) || empty(trim($_POST['phone'])) || empty(trim($_POST['address']))) {
 				$error = "Please fill in all fields";
 				session_write_close ();
 			}

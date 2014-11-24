@@ -11,7 +11,7 @@
 					}
 					elseif(!isset($_SESSION['type'])){
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
-						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION["login_user"]."!</a></div> </li>"; 
+						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION['user_name']."!</a></div> </li>"; 
 					}
 					elseif (isset($_SESSION['logged']) and $_SESSION['logged']== true) {
 						echo "<li><a href=\"../304p3/index.php\">Home</a></li>";
@@ -29,7 +29,7 @@
 						else {
 							echo "<li><a href=\"../304p3/cart.php\">Shopping Cart</a></li>";
 						}
-						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION["login_user"]."!</a></div> </li>"; 
+						echo "<li><div class=\"rightpos\" style=\"cursor: pointer;\"><a id=\"welcomebutton\">Welcome ".$_SESSION['user_name']."!</a></div> </li>"; 
 					}
 				?>
 			</ul>

@@ -6,7 +6,7 @@ function updateQuantity(upc) {
 	    var quantity = window.prompt("How much would you like in your cart?", "Enter a positive integer");
 	    // if user presses cancel then break
 	    if (quantity == null || quantity ==""){
-	    	quantity="cancel";
+	    	form.quantity.value=-1;
 	    	return;
 	    }
 	} while ( parseInt(quantity, 10) < 0 || isNaN(parseInt(quantity, 10)));
@@ -29,6 +29,7 @@ function updateQuantity(upc) {
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		?>
 
 		<div id="wrap">
@@ -38,12 +39,7 @@ function updateQuantity(upc) {
 		<div align="center">
 		<?php
 			function printcart(){
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				// Check that the connection was successful, otherwise exit
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
 
 				$cid=$_SESSION['login_user'];
 				$result = $connection->query("SELECT * FROM cart NATURAL JOIN item WHERE cid='$cid' ORDER BY upc");
@@ -96,12 +92,7 @@ function updateQuantity(upc) {
 			$pageWasRefreshed = isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === 'max-age=0';
 			
 			if ($_SERVER["REQUEST_METHOD"] == "POST") {
-				$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-				// Check that the connection was successful, otherwise exit
-				if (mysqli_connect_errno()) {
-				    printf("Connect failed: %s\n", mysqli_connect_error());
-				    exit();
-				}
+				$connection = getconnection();
 
 				if (isset($_POST["submit"]) and $_POST["submit"] == "Update Quantity") {
 					
@@ -117,6 +108,9 @@ function updateQuantity(upc) {
 
 					if ($quantity == 0){
 						$result=$connection->query("DELETE FROM cart WHERE cid='$cid' AND upc='$upc'");
+					}
+					elseif($quantity == -1){
+						// do nothing
 					}
 					else{
 						$result=$connection->query("SELECT * FROM item WHERE upc='$upc'");

@@ -1,17 +1,11 @@
 <?php
+	include 'databaseconnection.php';
 	session_start();
 	$error='';
 	$message='';
 	$warning='';
 
-	$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-	
-
-    // Check that the connection was successful, otherwise exit
-    if (mysqli_connect_errno()) {
-        printf("Connect failed: %s\n", mysqli_connect_error());
-        exit();
-    }
+	$connection = getconnection();
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
     	if (isset($_POST["submit"]) && $_POST["submit"] == "Add Items") {

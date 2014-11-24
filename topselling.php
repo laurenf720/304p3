@@ -9,6 +9,7 @@
 		<?php 
 		session_start();
 		include 'navbar.php';
+		include 'databaseconnection.php';
 		if (!isset($_SESSION['logged'])){
 				header("location: userloginpage.php");
 			}
@@ -70,11 +71,7 @@
 							echo "<span class=\"error\">* 'Show top' field must be an integer greater than 0</span>"; 
 						}
 						else {
-							$connection = new mysqli("127.0.0.1", "root", "photon", "AMS");
-							if (mysqli_connect_errno()) {
-								printf("Connect failed: %s\n", mysqli_connect_error());
-								exit();
-							}
+							$connection = getconnection();
 
 							$query="select upc, title, price, company, stock, SUM(quantity) as units from item natural join purchase natural join purchaseitem where pdate<='$day2' and pdate>='$day1' group by upc order by SUM(quantity) DESC";
 							$result=$connection->query($query);
@@ -88,15 +85,20 @@
 									<tr><th>UPC</th><th>Title</th><th>Company</th><th>Unit Price</th><th>Stock</th><th style=\"border-right:0px\">Units Sold</th></tr>
 								</thead>";
 								while($row=$result->fetch_assoc() and $count < $topcount){
-									echo "<tr>";
-									echo "<td>".$row['upc']."</td>";
-									echo "<td>".$row['title']."</td>";
-									echo "<td>".$row['company']."</td>";
-									echo "<td>".$row['price']."</td>";
-									echo "<td>".$row['stock']."</td>";
-									echo "<td style=\"border-right:0px\">".$row['units']."</td>";
-									echo "</tr>";
-									$count +=1;
+									if ($row['units']==0){
+										// do nothing - item was returned and does not count
+									}
+									else{
+										echo "<tr>";
+										echo "<td>".$row['upc']."</td>";
+										echo "<td>".$row['title']."</td>";
+										echo "<td>".$row['company']."</td>";
+										echo "<td>".$row['price']."</td>";
+										echo "<td>".$row['stock']."</td>";
+										echo "<td style=\"border-right:0px\">".$row['units']."</td>";
+										echo "</tr>";
+										$count +=1;
+									}
 								}
 								echo "</table>";
 							}
