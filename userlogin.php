@@ -25,7 +25,7 @@
 				if ($rows == 1){
 					$row=$result->fetch_assoc();
 					$_SESSION['login_user']=$username; 
-					//$_SESSION['type']="customer";
+					$_SESSION['user_name']=$row['uname'];
 					$_SESSION['logged']=true;
 					header("location: index.php");
 				}

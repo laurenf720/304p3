@@ -21,7 +21,7 @@
 		    	elseif(isset($_POST["submit"]) && $_POST["submit"] == "Manager"){
 		    		$_SESSION['type']='manager';
 		    	}
-		    }
+		    } 
 		    include 'navbar.php';
 		?>
 		
